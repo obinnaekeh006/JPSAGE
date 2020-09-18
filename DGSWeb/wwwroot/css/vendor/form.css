@@ -1,0 +1,322 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Montserrat);
+/*************************/
+/*************************/
+/*************************/
+/* reset *****************/
+/**,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}*/
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    box-sizing: border-box;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.7;
+    color: #193446;
+    padding: 3rem;
+}
+
+html {
+    height: 100vh;
+    /*background = gradient + image pattern combo*/
+    background: linear-gradient(to bottom, rgba(196, 212, 224, 0.6), rgba(25, 52, 70, 0.6) 10%, rgba(25, 52, 70, 0.6) 75%, rgba(196, 212, 224, 0.6) 100%);
+}
+
+body {
+    font-family: montserrat, arial, verdana;
+}
+
+/* END Reset __________________*/
+/*******************************/
+/*******************************/
+/*******************************/
+/* Layout **********************/
+/*******************************/
+
+.validation-error {
+    color: red !important;
+    font-size: small !important;
+    text-align: start !important;
+    content: string('This field is required') !important;
+}
+
+.department-input {
+    padding: 1rem;
+    border: 1px solid #777;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.3rem;
+    transition: all .3s;
+}
+
+.my-5{
+    margin-bottom:25px;
+    margin-top:25px;
+    color:firebrick;
+}
+
+
+.fin-turnover {
+    padding: 1rem;
+    border: 1px solid #777;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.3rem;
+    transition: all .3s;
+}
+
+.text-danger {
+    color: red !important;
+    font-size: small !important;
+    text-align: start !important;
+}
+
+#validation {
+    color: red;
+    font-size: small;
+    text-align: start !important;
+}
+
+.row-form {
+    max-width: 114rem;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+
+    .row-form:not(:last-child) {
+        margin-bottom: 0.5rem;
+    }
+
+    .row-form::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .row-form [class^="col-"] {
+        float: left;
+    }
+
+        .row-form [class^="col-"]:not(:last-child) {
+            margin-right: 6rem;
+        }
+
+    .row-form .col-1-of-2 {
+        width: calc((100% - 6rem) / 2);
+    }
+
+    .row-form .col-1-of-4 {
+        width: calc((100% - 3 * 6rem) /4);
+    }
+
+    .row-form .col-2-of-4 {
+        width: calc(2 * ((100% - 3 * 6rem) /4) + 6rem);
+    }
+
+/* END Layout _________________*/
+/*******************************/
+/*******************************/
+/*******************************/
+/* Multi Step Form *************/
+/*******************************/
+.multistep-form {
+    width: 114rem;
+    margin: 5rem auto;
+    text-align: center;
+    position: relative;
+}
+
+    .multistep-form fieldset {
+        background: white;
+        border: 0 none;
+        border-radius: 3px;
+        box-shadow: 0 0 1.5rem 1px rgba(0, 0, 0, 0.4);
+        padding: 2rem 2rem;
+        box-sizing: border-box;
+        width: 80%;
+        margin: 0 auto;
+        position: relative;
+    }
+
+        .multistep-form fieldset:not(:first-of-type) {
+            display: none;
+        }
+
+    .multistep-form .form-radio {
+        font-family: inherit;
+        color: #193446;
+        font-size: 1.3rem;
+        cursor: pointer;
+        line-height: 4rem;
+        padding-left: 1.2rem;
+        text-align: left;
+    }
+
+        .multistep-form .form-radio .form-radio-label {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .multistep-form .form-radio .form-input-radio:checked + .form-radio-label {
+            color: green;
+            font-weight: 700;
+        }
+
+        .multistep-form .form-radio span {
+            font-weight: 700;
+        }
+
+    .multistep-form input[type="radio"] {
+        margin-right: 3px;
+    }
+
+    .multistep-form .form-radio-label:not(:last-child) {
+        margin-right: 2rem;
+    }
+
+    .multistep-form input[type="text"], .multistep-form textarea, .multistep-form input[type="email"] {
+        padding: 1rem;
+        border: 1px solid #777;
+        border-radius: 3px;
+        margin-bottom: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: inherit;
+        color: inherit;
+        font-size: 1.3rem;
+        transition: all .3s;
+    }
+
+        .multistep-form input[type="text"]:focus, .multistep-form textarea:focus, .multistep-form input[type="email"]:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #27AE60;
+        }
+
+            .multistep-form input[type="text"]:focus:invalid, .multistep-form textarea:focus:invalid, .multistep-form input[type="email"]:focus:invalid {
+                border-bottom: 2px solid #ff7730;
+            }
+
+    .multistep-form .action-button {
+        width: 30rem;
+        background: #27AE60;
+        font-weight: 700;
+        color: #fff;
+        border: 0 none;
+        border-radius: 2px;
+        cursor: pointer;
+        padding: 1rem .5rem;
+        margin: 1rem .5rem;
+        text-transform: uppercase;
+    }
+
+        .multistep-form .action-button:hover, .multistep-form .action-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+        }
+
+    .multistep-form .form-label {
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: left;
+        margin-left: 1.2rem;
+        display: block;
+        transition: all .3s;
+        margin-top: -5px;
+    }
+
+    .multistep-form .form-input:placeholder-shown + .form-label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-3.8rem);
+    }
+
+/* END Multi Step __________*/
+.fs-title {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #2C3E50;
+    margin-bottom: 10px;
+}
+
+.fs-subtitle {
+    font-weight: normal;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.progressbar {
+    margin-bottom: 3rem;
+    overflow: hidden;
+    /*CSS counters to number the steps*/
+    counter-reset: step;
+}
+
+    .progressbar li {
+        list-style-type: none;
+        color: #193446;
+        text-transform: uppercase;
+        font-size: .9rem;
+        width: 20%;
+        float: left;
+        position: relative;
+    }
+
+        .progressbar li:before {
+            content: counter(step);
+            counter-increment: step;
+            width: 20px;
+            line-height: 20px;
+            display: block;
+            font-size: 10px;
+            color: #333;
+            background: white;
+            border-radius: 3px;
+            margin: 0 auto 5px auto;
+        }
+
+        /*progressbar connectors*/
+        .progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: white;
+            position: absolute;
+            left: -50%;
+            top: 9px;
+            z-index: -1;
+            /*put it behind the numbers*/
+        }
+
+        .progressbar li:first-child:after {
+            /*connector not needed before the first step*/
+            content: none;
+        }
+        .progressbar li:nth-child(6):after {
+            /*connector not needed before the sixth step*/
+            content: none;
+        }
+
+        /*marking active/completed steps green*/
+        /*The number of the step and the connector before it = green*/
+        .progressbar li.active:before, .progressbar li.active:after {
+            background: #27AE60;
+            color: white;
+        }

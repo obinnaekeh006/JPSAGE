@@ -1,0 +1,44 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 30px 0;
+    background-color: #f2f2f2;
+}
+
+.full-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.login-page .logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+    .login-page .logo span {
+        border: 1px solid #ccc;
+        padding: 1em;
+        border-radius: 100%;
+        background-color: #f2f2f2;
+        font-size: 2em;
+    }
+
+.login-page {
+    max-width: 360px;
+    padding: 3rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+    .login-page h2 {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .login-page .row:last-child {
+        margin-top: 1em;
+    }

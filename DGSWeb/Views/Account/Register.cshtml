@@ -1,0 +1,115 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using Generic.Data.Models
+@using DGSWeb.ViewModels
+@model RegisterViewModel
+@inject SignInManager<ApplicationUser> signInManager
+
+@{
+    ViewBag.Title = "Register Page";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="~/css/Account/register.css">
+
+    <title>Admin</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row main">
+            <div class="panel-heading">
+                <div class="panel-title text-center">
+                    <h1 class="title ">DGS</h1>
+                    <hr />
+                </div>
+            </div>
+            <div class="main-login main-center">
+                <form class="form-horizontal" method="post" action="#">
+                    <div asp-validation-summary="All" class="text-danger mt-4"></div>
+
+                    <div class="form-group">
+                        <label for="name" class="cols-sm-2 control-label">Company Name</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                <input asp-for="CompanyName" class="form-control" id="name" placeholder="Enter Company Name" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="username" class="cols-sm-2 control-label"> Phone Number</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-mobile-alt fa" aria-hidden="true"></i></span>
+                                <input asp-for="PhoneNumber" class="form-control" id="phonenumber" placeholder="Enter Company Phone Number" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                <input asp-for="Email" class="form-control" id="email" placeholder="Enter Company Email" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="password" class="cols-sm-2 control-label">Password</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                <input asp-for="Password" class="form-control" id="password" placeholder="Enter your Password" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                <input asp-for="ConfirmPassword" class="form-control" id="confirm" placeholder="Confirm your Password" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="TermsAndConditions" id="agree-term" class="agree-term" />
+                        <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                        <span asp-validation-for="TermsAndConditions" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                    </div>
+                    <div class="login-register">
+                        <a href="/Account/Login">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

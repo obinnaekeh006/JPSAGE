@@ -1,0 +1,2544 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Generic.Data.Models
+@using DGSWeb.ViewModels
+@model VendorFormViewModel
+
+@{
+    ViewBag.Title = "Vendor Registration Page";
+    Layout = "";
+}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/form.css">
+    <link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+    <link rel="shortcut icon" type="image/x-icon" href="~/images/devops.jpg">
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+    <title>DGS - Vendor Registration Form</title>
+
+
+    <style>
+    </style>
+    <script>
+        window.console = window.console || function (t) { };
+    </script>
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+</head>
+<body translate="no">
+
+
+    <form asp-controller="Vendor" asp-action="Form"  class="multistep-form"  enctype="multipart/form-data">
+        <ul class="progressbar">
+            <li class="active">Form Identification</li>
+            <li class="">Supplier Identification</li>
+            <li>Supplier Profile</li>
+            <li>Business Experience</li>
+            <li>Staff Strength & Competences</li>
+            <li>Financials</li>
+            <li>Quality Management</li>
+            <li>HSE</li>
+            <li>Additional Information</li>
+        </ul>
+        <!--===================================================Form Identification=============================================================-->
+        <fieldset style="transform: scale(1) translateX(-50%); position: absolute; opacity: 1; left: 50%;">
+            <h2 class="fs-title">Form Identification (Information of individual Registering the enterprise)</h2>
+            <h3 class="fs-subtitle">This is step 1 of 10</h3>
+            @*<div asp-validation-summary="" class="text-danger mt-4">
+                
+            </div>*@
+            @if(Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:20px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="FormIdentificationName">Name</label>
+                    </div>
+                    <input asp-for="FormIdentificationName" class="form-input" id="" placeholder="Enter Name...">
+                    <div id="validation" style="text-align: start;">
+                        <span asp-validation-for="FormIdentificationName" class="text-danger"></span>
+                    </div>    
+                </div>
+                
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="FormIdentificationPosition">Position</label>
+                    </div>
+                    <input asp-for="FormIdentificationPosition" class="form-input" id="" placeholder="Position">
+                    <div id="validation" >
+                        <span asp-validation-for="FormIdentificationPosition" class="text-danger" ></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="FormIdentificationPhoneNumber">Phone Number</label>
+                    </div>
+                    <input asp-for="FormIdentificationPhoneNumber" class="form-input" id="" placeholder="Enter Phone Number...">
+                    <div id="validation" >
+                        <span asp-validation-for="FormIdentificationPhoneNumber" class="text-danger" ></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="FormIdentificationWorkPhoneNumber">Work Phone Number</label>
+                    </div>
+                    <input asp-for="FormIdentificationWorkPhoneNumber" class="form-input" id="" placeholder="Enter Work Phone Number...">
+                    <div id="validation" >
+                        <span asp-validation-for="FormIdentificationWorkPhoneNumber" class="text-danger" style="color:red; font-size:small;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="FormIdentificationEmailAddress">Email (Important for status notification) *</label>
+                    </div>
+                    <input asp-for="FormIdentificationEmailAddress" class="form-input" id="" placeholder="Enter Email...">
+                    <div id="validation" >
+                        <span asp-validation-for="FormIdentificationEmailAddress" class="text-danger" ></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+
+                    <div style="text-align:start !important;">
+                        <label asp-for="FormIdentificationDate">Date</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="FormIdentificationDate" class="form-input" id="" placeholder="Date">
+                    </div>
+                    <div id="validation" >
+                        <span asp-validation-for="FormIdentificationDate" class="text-danger"></span>
+                    </div>
+                    
+                </div>
+            </div>
+            <input type="button" name="next" class="next action-button" value="Continue to Step 2">
+        </fieldset>
+        <!--===================================================Form Identification(end)=============================================================-->
+        <!--===================================================Supplier Identification=============================================================-->
+        <fieldset style="display: none; left: 50%; opacity: 0;">
+            <h2 class="fs-title">Supplier Identification</h2>
+            <h3 class="fs-subtitle">This is step 2 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="SupplierIdentificationCompanyName">Supplier Company Name</label>
+                    </div>
+                    <input asp-for="SupplierIdentificationCompanyName" class="form-input" id="" placeholder="Enter Company Name...">
+                    @*<label for="applicationEmail" class="form-label">Email</label>*@
+                    <div id="validation">
+                        <span asp-validation-for="SupplierIdentificationCompanyName" class="text-danger" style="color:red; font-size:small;"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="SupplierIdentificationCompanyRegNumber">Supplier Company Registration Number</label>
+                    </div>
+                    <input asp-for="SupplierIdentificationCompanyRegNumber" class="form-input" id="" placeholder="Enter Registration Number...">
+                    @*<label for="applicationMobilePhone" class="form-label">Mobile Phone</label>*@
+                    <div id="validation">
+                        <span asp-validation-for="SupplierIdentificationCompanyRegNumber" class="text-danger" style="color:red; font-size:small;"></span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="CompanyIsForeign">Is it a foreign Company ?(Check for companies outside Nigeria)*</label>
+                    </div>
+                    <div style="text-align:start;">
+                        <input asp-for="CompanyIsForeign" class="form-input" style="height:25px;width:25px;" id="" placeholder="">
+                    </div>
+                    @*<label for="applicationEmail" class="form-label">Email</label>*@
+                    <div id="validation">
+                        <span asp-validation-for="CompanyIsForeign" class="text-danger" style="color:red; font-size:small;"></span>
+                    </div>
+                </div>
+                <div class=" col-1-of-2 custom-file">
+                    <!--asp-for tag helper is set to "SupplierIdentificationTaxClearanceCertificate" property.
+                   "SupplierIdentificationTaxClearanceCertificate" property type is IFormFile
+                   so at runtime asp.net core generates file upload control (input type=file). To
+                   support multiple files upload include multiple attribute on the input element
+            -->
+                    <div>
+                        <div style="text-align:start !important;">
+                            <label class="custom-file-label" style="">Tax Clearance Certificate</label>
+                        </div>
+                        <input asp-for="SupplierIdentificationTaxClearanceCertificate" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation">
+                        <span asp-validation-for="SupplierIdentificationTaxClearanceCertificate" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="">Company Profile</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="SupplierIdentificationCompanyProfile" id="file" class="custom-file-input form-control" placeholder="Click here to upload Company Profile">
+                    </div>
+                    <div id="validation"> <span asp-validation-for="SupplierIdentificationCompanyProfile" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="">Corporate Affairs Commission</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="SupplierIdentificationCAC" id="file" class="custom-file-input form-control" placeholder="Click here to upload CAC">
+                    </div>
+                    <div id="validation"> <span asp-validation-for="SupplierIdentificationCAC" class="text-danger"></span></div>
+                </div>
+
+
+            </div>
+            <div>
+                <div style="text-align:start !important;">
+                    <label asp-for="SupplierIdentificationCompanyWebsiteUrl">Supplier Company Website URL</label>
+                </div>
+                <input asp-for="SupplierIdentificationCompanyWebsiteUrl" class="form-input" id="" placeholder="Company Website URL">
+                <div><span asp-validation-for="SupplierIdentificationCompanyWebsiteUrl" class="text-danger"></span></div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0">Bank Reference Letter</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="SupplierIdentificationBankReference" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="SupplierIdentificationBankReference" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0">Supplier Identification Third Party Reference</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="SupplierIdentificationThirdPartyReference" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="SupplierIdentificationThirdPartyReference" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="SupplierIdentificationCompanyName">Supplier Subsidiary Company Name 1</label>
+                    </div>
+                    <input asp-for="SupplierIdentificationSubsidiaryCompanyName1" class="form-input" id="" placeholder="Subsidiary Company Name 1">
+                    @*<label for="applicationMobilePhone" class="form-label">Mobile Phone</label>*@
+                    <div id="validation">
+                        <span asp-validation-for="SupplierIdentificationSubsidiaryCompanyName1" class="text-danger" style="color:red; font-size:small;"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="SupplierIdentificationSubsidiaryCompanyName2">Supplier Subsidiary Company Name 2</label>
+                    </div>
+                    <input asp-for="SupplierIdentificationSubsidiaryCompanyName2" class="form-input" id="" placeholder="Subsidiary Company Name 2">
+                    @*<label for="applicationEmail" class="form-label">Email</label>*@
+                    <div id="validation">
+                        <span asp-validation-for="SupplierIdentificationSubsidiaryCompanyName2" class="text-danger" style="color:red; font-size:small;"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="SupplierIdentificationSubsidiaryCompanyName3">Supplier Subsidiary Company Name 3</label>
+                    </div>
+                    <input asp-for="SupplierIdentificationSubsidiaryCompanyName3" class="form-input" id="" placeholder="Subsidiary Company Name 3">
+                    @*<label for="applicationMobilePhone" class="form-label">Mobile Phone</label>*@
+                    <div id="validation">
+                        <span asp-validation-for="SupplierIdentificationSubsidiaryCompanyName3" class="text-danger" style="color:red; font-size:small;"></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style="text-align:start !important;">
+                    <label asp-for="SupplierIdentificationHeadOfficeAddress">Supplier Company Head Office Address</label>
+                </div>
+                <input asp-for="SupplierIdentificationHeadOfficeAddress" class="form-input" id="" placeholder="Head Office Address...">
+                <div>
+                    <span asp-validation-for="SupplierIdentificationHeadOfficeAddress" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="my-5"></div>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="MainContactPersonName">Main Contact Person</label>
+                    </div>
+                    <input asp-for="MainContactPersonName" class="form-input" id="applicationFirstName" placeholder="Enter Main Contact Name">
+                    <div id="validation">
+                        <span asp-validation-for="MainContactPersonName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="MainContactPosition">Main Contact Position</label>
+                    </div>
+                    <input asp-for="MainContactPosition" class="form-input" id="" placeholder="Enter Main Contact Position...">
+                    <div id="validation">
+                        <span asp-validation-for="MainContactPosition" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="MainContactPhoneNumber">Main Contact Phone Number</label>
+                    </div>
+                    <input asp-for="MainContactPhoneNumber" class="form-input" id="" placeholder="Enter Main Contact Phone Number">
+                    <div id="validation"><span asp-validation-for="MainContactPhoneNumber" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="MainContactWorkPhoneNumber">Main Contact Work Phone Number</label>
+                    </div>
+                    <input asp-for="MainContactWorkPhoneNumber" class="form-input" id="" placeholder="Enter Main Contact Work Phone Number">
+                    <div id="validation"><span asp-validation-for="MainContactWorkPhoneNumber" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label asp-for="MainContactEmailAddress">Main Contact Email</label>
+                    </div>
+                    <input asp-for="MainContactEmailAddress" class="form-input" id="" placeholder="Main Contact Email">
+                    <div id="validation"><span asp-validation-for="MainContactEmailAddress" class="text-danger"></span></div>
+                </div>
+            </div>
+
+
+            <div class="my-5"></div>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0">Third Party Reference Name</label>
+                    </div>
+                    <input asp-for="TprName" class="form-input" id="" placeholder=" Name">
+                    <div id="validation"><span asp-validation-for="TprName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0">Third Party Reference Email</label>
+                    </div>
+                    <input asp-for="TprEmailAddress" class="form-input" id="" placeholder=" Email">
+                    <div id="validation"><span asp-validation-for="TprEmailAddress" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0">Third Party Reference Phone Number</label>
+                    </div>
+                    <input asp-for="TprPhoneNumber" class="form-input" id="" placeholder="Enter Phone Number">
+                    <div id="validation">
+                        <span asp-validation-for="TprPhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0">Third Party Reference Work Phone Number</label>
+                    </div>
+                    <input asp-for="TprWorkPhoneNumber" class="form-input" id="" placeholder="Enter Work Phone Number">
+                    <div id="validation"><span asp-validation-for="TprWorkPhoneNumber" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div>
+                <div style="text-align:start !important;">
+                    <label class="custom-file-label m-0 p-0">Third Party Reference Organization</label>
+                </div>
+                <input asp-for="TprOrganization" class="form-input" id="" placeholder="TPR Organization">
+                <div><span asp-validation-for="TprOrganization" class="text-danger"></span></div>
+            </div>
+            <div style="text-align:start !important;">
+                <label class="custom-file-label m-0 p-0">Third Party Reference Address</label>
+            </div>
+            <input asp-for="TprAddress" class="form-input" id="" placeholder="TPR Address">
+            <div><span asp-validation-for="TprAddress" class="text-danger"></span></div>
+
+            <input type="button" name="previous" class="previous action-button" value="Form Identification - Step 1">
+            <input type="button" name="next" class="next action-button" value="Continue to step 3">
+        </fieldset>
+        <!--===================================================Supplier Identification(END)=============================================================-->
+        <!--===================================================Supplier Profile=============================================================-->
+        <fieldset>
+            <h2 class="fs-title">Supplier Profile</h2>
+            <h3 class="fs-subtitle">This is step 3 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+            <div style="text-align:start !important;">
+                <label class="custom-file-label m-0 p-0" style="font-size:small;">Nature of Business</label>
+            </div>
+            <textarea asp-for="NatureOfBusiness" class="form-input" placeholder="Nature of business..."></textarea>
+            <div><span asp-validation-for="NatureOfBusiness" class="text-danger"></span></div>
+            <div class="row-form">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Date of Creation</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="DateofCreation" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="DateofCreation" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Code of Conduct</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="CodeOfConduct" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div><span asp-validation-for="CodeOfConduct" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Organization Charts</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="SupplierProfileOrganizationCharts" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="SupplierProfileOrganizationCharts" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Mission And Vision Statement</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="SupplierProfileMissionVisionStatement" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="SupplierProfileMissionVisionStatement" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-2-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Main Share Holder 1</label>
+                    </div>
+                    <input asp-for="MainShareholder1" class="form-input" placeholder="Main Share Holder 1">
+                    <div id="validation"><span asp-validation-for="MainShareholder1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Share Holding 1</label>
+                    </div>
+                    <input asp-for="Shareholding1" class="form-input" placeholder="Share Holding 1">
+                    <div id="validation"><span asp-validation-for="Shareholding1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SupplierOwnershipCountryId1">Ownership Nationality 1</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="SupplierOwnershipCountryId1" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="SupplierOwnershipCountryId1" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-2-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Main Share Holder 2</label>
+                    </div>
+                    <input asp-for="MainShareholder2" class="form-input" placeholder="Main Share Holder 2">
+                    <div id="validation"><span asp-validation-for="MainShareholder2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Share Holding 2</label>
+                    </div>
+                    <input asp-for="Shareholding2" class="form-input" placeholder="Share Holding 2">
+                    <div id="validation"><span asp-validation-for="Shareholding2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SupplierOwnershipCountryId2">Ownership Nationality 2</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="SupplierOwnershipCountryId2" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="SupplierOwnershipCountryId2" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-2-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Main Share Holder 3</label>
+                    </div>
+                    <input asp-for="MainShareholder3" class="form-input" placeholder="Main Share Holder 3">
+                    <div id="validation"><span asp-validation-for="MainShareholder3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Share Holding 3</label>
+                    </div>
+                    <input asp-for="Shareholding3" class="form-input" placeholder="Share Holding 3">
+                    <div id="validation"><span asp-validation-for="Shareholding3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SupplierOwnershipCountryId3">Ownership Nationality 3</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="SupplierOwnershipCountryId3" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="SupplierOwnershipCountryId3" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-2-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Main Share Holder 4</label>
+                    </div>
+                    <input asp-for="MainShareholder4" class="form-input" placeholder="Main Share Holder 4">
+                </div>
+                <div class="col-1-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Share Holding 4</label>
+                    </div>
+                    <input asp-for="Shareholding4" class="form-input" placeholder="Share Holding 4">
+                    <div id="validation"><span asp-validation-for="Shareholding4" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SupplierOwnershipCountryId4">Ownership Nationality 4</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="SupplierOwnershipCountryId4" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="SupplierOwnershipCountryId4" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-2-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Main Share Holder 5</label>
+                    </div>
+                    <input asp-for="MainShareholder5" class="form-input" placeholder="Main Share Holder 5">
+                    <div id="validation"><span asp-validation-for="MainShareholder5" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Share Holding 5</label>
+                    </div>
+                    <input asp-for="Shareholding5" class="form-input" placeholder="Share Holding 5">
+                    <div id="validation"><span asp-validation-for="Shareholding5" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SupplierOwnershipCountryId5">Ownership Nationality 5</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="SupplierOwnershipCountryId5" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="SupplierOwnershipCountryId5" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-2-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Main Share Holder 6</label>
+                    </div>
+                    <input asp-for="MainShareholder6" class="form-input" placeholder="Main Share Holder 6">
+                    <div id="validation"><span asp-validation-for="MainShareholder6" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Ownership Share Holding 6</label>
+                    </div>
+                    <input asp-for="Shareholding6" class="form-input" placeholder="Share Holding 6">
+                    <div id="validation"><span asp-validation-for="Shareholding6" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-4">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SupplierOwnershipCountryId6">Ownership Nationality 6</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="SupplierOwnershipCountryId6" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="SupplierOwnershipCountryId6" class="text-danger"></span></div>
+                </div>
+
+            </div>
+
+            <div class="my-5 " style="background-color:black">
+                <label style="font-size:medium; color:white;">SECTION 3.1 -This Section is to be filled by Fabricators/Manufacturers/Construction Contractors</label>
+            </div>
+
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Materials 1</label>
+                    </div>
+                    <input asp-for="MaterialsName1" class="form-input" placeholder="Materials Name 1">
+                    <div id="validation"><span asp-validation-for="MaterialsName1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId1">Direct service Scope SubCategory 1</label>
+                    </div>
+
+                    <input asp-for="SubCategoryId1" class="form-input" placeholder="">
+                    <div id="validation"><span asp-validation-for="SubCategoryId1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Materials 2</label>
+                    </div>
+                    <input asp-for="MaterialsName2" class="form-input" placeholder="Materials Name 2">
+                    <div id="validation"><span asp-validation-for="MaterialsName2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId2">Direct service Scope SubCategory 2</label>
+                    </div>
+
+                    <input asp-for="SubCategoryId2" class="form-input" placeholder="">
+                    <div id="validation"><span asp-validation-for="SubCategoryId2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Materials 3</label>
+                    </div>
+                    <input asp-for="MaterialsName3" class="form-input" placeholder="Materials Name 3">
+                    <div id="validation"><span asp-validation-for="MaterialsName3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId3">Direct service Scope SubCategory 3</label>
+                    </div>
+
+                    <input asp-for="SubCategoryId3" class="form-input" placeholder="">
+                    <div id="validation"><span asp-validation-for="SubCategoryId3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Materials 4</label>
+                    </div>
+                    <input asp-for="MaterialsName4" class="form-input" placeholder="Materials Name 4">
+                    <div id="validation"><span asp-validation-for="MaterialsName4" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId4">Direct service Scope SubCategory 4</label>
+                    </div>
+
+                    <input asp-for="SubCategoryId4" class="form-input" placeholder="">
+                    <div id="validation"><span asp-validation-for="SubCategoryId4" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Materials 5</label>
+                    </div>
+                    <input asp-for="MaterialsName5" class="form-input" placeholder="Materials Name 5">
+                    <div id="validation"><span asp-validation-for="MaterialsName5" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId5">Direct service Scope SubCategory 5</label>
+                    </div>
+
+                    <input asp-for="SubCategoryId5" class="form-input" placeholder="">
+                    <div id="validation"><span asp-validation-for="SubCategoryId5" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Materials 6</label>
+                    </div>
+                    <input asp-for="MaterialsName6" class="form-input" placeholder="Materials Name 6">
+                    <div id="validation"><span asp-validation-for="MaterialsName6" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId6">Direct service Scope SubCategory 6</label>
+                    </div>
+
+                    <input asp-for="SubCategoryId6" class="form-input" placeholder="">
+                    <div id="validation"><span asp-validation-for="SubCategoryId6" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Materials 7</label>
+                    </div>
+                    <input asp-for="MaterialsName7" class="form-input" placeholder="Materials Name 7">
+                    <div id="validation"><span asp-validation-for="MaterialsName7" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId7">Direct service Scope SubCategory 7</label>
+                    </div>
+
+                    <input asp-for="SubCategoryId7" class="form-input" placeholder="">
+                    <div id="validation"><span asp-validation-for="SubCategoryId7" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubCategoryId7">Typical Subcontractor Name 1</label>
+                    </div>
+                    <input asp-for="TypicalSubConName1" class="form-input" id="" placeholder="Typical SubContractor Name 1">
+                    <div id="validation"><span asp-validation-for="TypicalSubConName1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="TypicalSubConAddress1">Typical SubContractor Address 1</label>
+                    </div>
+                    <input asp-for="TypicalSubConAddress1" class="form-input" placeholder=" Typical SubContractor Address 1">
+                    <div id="validation"><span asp-validation-for="TypicalSubConAddress1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="ProductName1">Typical Subcontracted Scope Products</label>
+                    </div>
+
+                    <div class="col-1-of-2">
+                        <input asp-for="ProductName1" class="form-input" id="" placeholder="Product Name 1">
+                    </div>
+                    <div id="validation"><span asp-validation-for="ProductName1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="TypicalSubConCountryId1">Typical Subcontracted Scope Country 1</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="TypicalSubConCountryId1" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="TypicalSubConCountryId1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2">
+
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label asp-for="TypicalSubConIsLocal1" class="form-label">Typical Subcontracted Scope is Local?</label>
+                    </div>
+                    <div class="" style="text-align:start !important; margin-left:15px;">
+                        <input asp-for="TypicalSubConIsLocal1" class="form-input" style="height:25px;width:25px;" id="" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="TypicalSubConIsLocal1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="TypicalSubConName2">Typical Subcontractor Name 2</label>
+                    </div>
+                    <input asp-for="TypicalSubConName2" class="form-input" id="" placeholder="Typical SubContractor Name 2">
+                    <div id="validation"><span asp-validation-for="TypicalSubConName2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="TypicalSubConAddress2">Typical SubContractor Address 2</label>
+                    </div>
+                    <input asp-for="TypicalSubConAddress2" class="form-input" placeholder=" Typical SubContractor Address 2">
+                    <div id="validation"><span asp-validation-for="TypicalSubConAddress2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="ProductName2">Typical Subcontracted Scope Products</label>
+                    </div>
+
+                    <div class="col-1-of-2">
+                        <input asp-for="ProductName2" class="form-input" id="" placeholder="Product Name 2">
+                    </div>
+                    <div id="validation"><span asp-validation-for="ProductName2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="TypicalSubConCountryId2">Typical Subcontracted Scope Country 2</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="TypicalSubConCountryId2" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="TypicalSubConCountryId2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2">
+
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label asp-for="TypicalSubConIsLocal2" class="form-label">Typical Subcontractor is Local?</label>
+                    </div>
+                    <div class="" style="text-align:start !important; margin-left:15px;">
+                        <input asp-for="TypicalSubConIsLocal2" class="form-input" style="height:25px;width:25px;" id="" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="TypicalSubConIsLocal2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label asp-for="TypicalSubConName3" class="form-label">Typical Subcontractor Name 3</label>
+                    </div>
+                    <input asp-for="TypicalSubConName3" class="form-input" id="" placeholder="Typical SubContractor Name 3">
+                    <div id="validation"><span asp-validation-for="TypicalSubConName3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label asp-for="TypicalSubConAddress3" class="form-label">Typical Subcontractor Address 3</label>
+                    </div>
+                    <input asp-for="TypicalSubConAddress3" class="form-input" placeholder=" Typical SubContractor Address 3">
+                    <div id="validation"><span asp-validation-for="TypicalSubConAddress3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="ProductName3">Typical Subcontracted Scope Product Name 3</label>
+                    </div>
+
+                    <div class="col-1-of-2">
+                        <input asp-for="ProductName3" class="form-input" id="" placeholder="Product Name 3">
+                    </div>
+                    <div id="validation"><span asp-validation-for="ProductName3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="TypicalSubConCountryId3">Typical Subcontracted Scope Country 3</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="TypicalSubConCountryId3" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="TypicalSubConCountryId3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2">
+
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label asp-for="TypicalSubConIsLocal3" class="form-label">Typical Subcontractor 3 is Local? </label>
+                    </div>
+                    <div class="" style="text-align:start !important; margin-left:15px;">
+                        <input asp-for="TypicalSubConIsLocal3" class="form-input" style="height:25px;width:25px;" id="" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="TypicalSubConIsLocal3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label"> Construction Yard 1 Location </label>
+                    </div>
+                    <input asp-for="CyMfgFfLocation1" class="form-input" id="" placeholder="Location 1">
+                    <div id="validation"><span asp-validation-for="CyMfgFfLocation1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="CyMfgFfCityId1"> Construction Yard 1 City </label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="CyMfgFfCityId1" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="CyMfgFfCityId1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Construction Yard 1 Equipment Type </label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentType1" class="form-input" id="" placeholder="Equipment Type 1">
+                    <div id="validation"><span asp-validation-for="CyMfgFfPlantsEquipmentType1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="form-label">Construction Yard Equipment Number 1</label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentNumber1" style="width:406px; height:38px; padding:2px;font: 400 13.3333px Arial" class="form-input" placeholder="Equipment Number">
+                    <div id="validation"><span asp-validation-for="CyMfgFfPlantsEquipmentNumber1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Construction Yard 1 Utilization </label>
+                    </div>
+                    <input asp-for="CyMfgFfUtilization1" class="form-input" id="" placeholder="Utilization 1">
+                    <div id="validation"><span asp-validation-for="CyMfgFfUtilization1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label">Construction Yard 1 Factory Area </label>
+                    </div>
+                    <input asp-for="CyMfgFfFactoryArea1" class="form-input" id="" placeholder="Factory Area 1">
+                    <div id="validation"><span asp-validation-for="CyMfgFfFactoryArea1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Construction Yard 2 Location</label>
+                    </div>
+                    <input asp-for="CyMfgFfLocation2" class="form-input" id="" placeholder="Location 2">
+                    <div id="validation"><span asp-validation-for="CyMfgFfLocation2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="CyMfgFfCityId2"> Construction Yard 2 City </label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="CyMfgFfCityId2" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="CyMfgFfCityId2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Construction Yard 2 Equipment Type </label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentType2" class="form-input" id="" placeholder="Equipment Type 2">
+                    <div id="validation"><span asp-validation-for="CyMfgFfPlantsEquipmentType2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="form-label">Construction Yard 2 Equipment Number </label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentNumber2" style="width:406px; height:38px; padding:2px;font: 400 13.3333px Arial" class="form-input" placeholder="Equipment Number">
+                    <div id="validation"><span asp-validation-for="CyMfgFfPlantsEquipmentNumber2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Construction Yard 2 Utilization </label>
+                    </div>
+                    <input asp-for="CyMfgFfUtilization2" class="form-input" id="" placeholder="Utilization 2">
+                    <div id="validation"><span asp-validation-for="CyMfgFfUtilization2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label">Construction Yard 2 Factory Area </label>
+                    </div>
+                    <input asp-for="CyMfgFfFactoryArea2" class="form-input" id="" placeholder="Factory Area 2">
+                    <div id="validation"><span asp-validation-for="CyMfgFfFactoryArea2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Construction Yard 3 Location </label>
+                    </div>
+                    <input asp-for="CyMfgFfLocation3" class="form-input" id="" placeholder="Location 3">
+                    <div id="validation"><span asp-validation-for="CyMfgFfLocation3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="CyMfgFfCityId3"> Construction Yard 3 City</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="CyMfgFfCityId3" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="CyMfgFfCityId3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label class="form-label">Construction Yard 3 Equipment Type </label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentType3" class="form-input" id="" placeholder="Equipment Type 3">
+                    <div id="validation"><span asp-validation-for="CyMfgFfPlantsEquipmentType3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="form-label">Construction Yard 3 Equipment Number </label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentNumber3" style="width:406px; height:38px; padding:2px;font: 400 13.3333px Arial" class="form-input" placeholder="Equipment Number">
+                    <div id="validation"><span asp-validation-for="CyMfgFfPlantsEquipmentNumber3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Construction Yard 3 Utilization </label>
+                    </div>
+                    <input asp-for="CyMfgFfUtilization3" class="form-input" id="" placeholder="Utilization 3">
+                    <div id="validation"><span asp-validation-for="CyMfgFfUtilization3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label">Construction Yard 3 Factory Area </label>
+                    </div>
+                    <input asp-for="CyMfgFfFactoryArea3" class="form-input" id="" placeholder="Factory Area 3">
+                    <div id="validation"><span asp-validation-for="CyMfgFfFactoryArea3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label"> Construction Yard 4 Location </label>
+                    </div>
+                    <input asp-for="CyMfgFfLocation4" class="form-input" id="" placeholder="Location 4">
+                    <div id="validation"><span asp-validation-for="CyMfgFfLocation4" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="CyMfgFfCityId4"> Construction Yard 4 City </label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="CyMfgFfCityId4" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div><span asp-validation-for="CyMfgFfCityId4" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Construction Yard 4 Equipment Type </label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentType4" class="form-input" id="" placeholder="Equipment Type 4">
+                    <div><span asp-validation-for="CyMfgFfPlantsEquipmentType4" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="form-label">Construction Yard 4 Equipment Number</label>
+                    </div>
+                    <input asp-for="CyMfgFfPlantsEquipmentNumber4" style="width:406px; height:38px; padding:2px;font: 400 13.3333px Arial" class="form-input" placeholder="Equipment Number">
+                    <div><span asp-validation-for="CyMfgFfPlantsEquipmentType4" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div>
+                        <label for="applicationAddress" class="form-label">Construction Yard 4 Utilization</label>
+                    </div>
+                    <input asp-for="CyMfgFfUtilization4" class="form-input" id="" placeholder="Utilization 4">
+                    <div><span asp-validation-for="CyMfgFfUtilization4" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label">Construction Yard 4 Factory Area </label>
+                    </div>
+                    <input asp-for="CyMfgFfFactoryArea4" class="form-input" id="" placeholder="Factory Area 4">
+                    <div><span asp-validation-for="CyMfgFfFactoryArea4" class="text-danger"></span></div>
+                </div>
+            </div>
+            <!--================================Direct Service Scope=====================================-->
+
+            <div class="my-5 text-black-50" style="background-color:black">
+                <label style="font-size:medium; color:white">SECTION 3.2 -This Section is to be filled by Service Providers</label>
+            </div>
+
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SpServices1">Direct service Scope Service 1</label>
+                    </div>
+
+                    <input asp-for="SpServices1" class="form-input" placeholder="Services 1">
+                    <span asp-validation-for="SpServices1" class="text-danger"></span>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Description 1</label>
+                    </div>
+                    <input asp-for="SpDssDescription1" class="form-input" placeholder="Description 1">
+                    <span asp-validation-for="SpDssDescription1" class="text-danger"></span>
+
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SpServices2">Direct service Scope Service 2</label>
+                    </div>
+
+                    <input asp-for="SpServices2" class="form-input" placeholder="Services 2">
+                    <span asp-validation-for="SpServices2" class="text-danger"></span>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Description 2</label>
+                    </div>
+                    <input asp-for="SpDssDescription2" class="form-input" placeholder="Description 2">
+                    <span asp-validation-for="SpDssDescription2" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SpServices3">Direct service Scope Service 3</label>
+                    </div>
+
+                    <input asp-for="SpServices3" class="form-input" placeholder="Services 3">
+                    <span asp-validation-for="SpServices3" class="text-danger"></span>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label"> Direct service Scope Description 3</label>
+                    </div>
+                    <input asp-for="SpDssDescription3" class="form-input" placeholder="Description 3">
+                    <span asp-validation-for="SpDssDescription3" class="text-danger"></span>
+                </div>
+            </div>
+            <!--================================Direct Service Scope=====================================-->
+
+
+
+            <div style="text-align:start !important;">
+                <label style="font-size:small;" asp-for="OfficeServClLocation1">Office Location 1</label>
+            </div>
+            <input asp-for="OfficeServClLocation1" class="form-input" placeholder="Office Location 1">
+            <div id=""><span asp-validation-for="OfficeServClLocation1" class="text-danger"></span></div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCityId1"> Office City 1</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCityId1" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCityId1" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCountryId1">Office4 Country 1</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCountryId1" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCountryId1" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div style="text-align:start !important;">
+                <label style="font-size:small;" asp-for="OfficeServClLocation2">Office Location 2</label>
+            </div>
+            <input asp-for="OfficeServClLocation2" class="form-input" placeholder="Office Location 2">
+            <div id=""><span asp-validation-for="OfficeServClLocation2" class="text-danger"></span></div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCityId2"> Office City 2</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCityId2" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCityId2" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCountryId2">Office Country 2</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCountryId2" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCountryId2" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div style="text-align:start !important;">
+                <label style="font-size:small;" asp-for="OfficeServClLocation3">Office Location 3</label>
+            </div>
+            <input asp-for="OfficeServClLocation3" class="form-input" placeholder="Office Location 3">
+            <div id=""><span asp-validation-for="OfficeServClLocation3" class="text-danger"></span></div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCityId3"> Office City 3</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCityId3" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCityId3" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCountryId3">Office4 Country 3</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCountryId3" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCountryId3" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div style="text-align:start !important;">
+                <label style="font-size:small;" asp-for="OfficeServClLocation4">Office Location 4</label>
+            </div>
+            <input asp-for="OfficeServClLocation4" class="form-input" placeholder="Office Location 4">
+            <div id=""><span asp-validation-for="OfficeServClLocation4" class="text-danger"></span></div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCityId4"> Office City 4</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCityId4" asp-items="Model.Cities.Select(x => new SelectListItem() { Value = x.CityId.ToString(), Text = x.CityName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCityId4" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="OfficeServClCountryId4">Office Country 4</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="OfficeServClCountryId4" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="OfficeServClCountryId4" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubConServiceName">Sub Contracted Service</label>
+                    </div>
+
+                    <input asp-for="SubConServiceName" class="form-input" placeholder="Service">
+                    <div id="validation"><span asp-validation-for="SubConServiceName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label for="applicationAddress" class="form-label">Sub Contracted Percentage Outsourced</label>
+                    </div>
+
+                    <input asp-for="SubConPercentageOutsourced" class="form-input" placeholder="Percentage Outsourced">
+                    <div id="validation"><span asp-validation-for="SubConPercentageOutsourced" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <input asp-for="SubConName" class="form-input" id="applicationFirstName" placeholder="SubContractor Name">
+                    <div id="validation"><span asp-validation-for="SubConName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <input asp-for="SubConAddress" class="form-input" placeholder=" SubContractor Address">
+                    <div id="validation"><span asp-validation-for="SubConAddress" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="SubConCountryId"> Subcontracted Scope Country</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="SubConCountryId" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="SubConCountryId" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    @*@Html.TextBoxFor(m => m.IsLocal)*@
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label asp-for="IsLocal" class="form-label"></label>
+                    </div>
+                    <div class="" style="text-align:start !important; margin-left:15px;">
+                        <input asp-for="IsLocal" class="form-input" style="height:25px;width:25px;" id="" placeholder="">
+                    </div>
+                    @*<input asp-for="IsLocal.GetValueOrDefault()" class="form-input"   >*@
+
+                </div>
+            </div>
+
+            <div class="my-5" style="background-color:black">
+                <label style="font-size:medium;color:white">SECTION 3.3 -This Section is to be filled by Agents/Distributors</label>
+            </div>
+
+
+            <div class="row-form text-black-50" style="margin-top:10px;">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="ForeignCompanyName"> Foreign Company Name</label>
+                    </div>
+                    <input asp-for="ForeignCompanyName" class="form-input" id="applicationFirstName" placeholder="Foreign Company Name">
+                    <div id="validation"><span asp-validation-for="ForeignCompanyName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="ProductSupplied"> Product Supplied</label>
+                    </div>
+                    <input asp-for="ProductSupplied" class="form-input" placeholder=" Product Supplied">
+                    <div id="validation"><span asp-validation-for="ProductSupplied" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="Status">Status</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="Status" asp-items="Model.StatusList.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="Status" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div style="text-align:start !important;">
+                <label style="font-size:small;" asp-for="Others">Other Foreign Companies</label>
+            </div>
+            <textarea asp-for="Others" placeholder="Other Foreign Companies"></textarea>
+
+            <input type="button" name="previous" class="previous action-button" value="Supplier Identification - Step 2">
+            <input type="button" name="next" class="next action-button" value="Continue to step 4">
+        </fieldset>
+        <!--===================================================Supplier Profile(END)=============================================================-->
+        <!--===================================================Business Experience=============================================================-->
+        <fieldset>
+            <h2 class="fs-title">Business Experience</h2>
+            <h3 class="fs-subtitle">This is step 4 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+        <div class="row-form " style="margin-top:10px;">
+            <div class="col-1-of-2 ">
+                <div style="text-align:start !important;">
+                    <label class="custom-file-label m-0 p-0" style="font-size:small;">Registration Date</label>
+                </div>
+                <div style="text-align:start !important;">
+                    <input asp-for="KDGSStartDate" placeholder="">
+                </div>
+                <div id="validation"><span asp-validation-for="KDGSStartDate" class="text-danger"></span></div>
+            </div>
+
+            <div class="col-1-of-2">
+                <div class="" style="text-align:start !important;margin-bottom:5px;">
+                    <label class="custom-file-label" asp-for="HasBusinessConPolicy">Has Business Continuity Policy?</label>
+                </div>
+
+                <div class="row-form" style="text-align:start !important;margin-bottom:5px;">
+
+                    <div class="col-1-of-2">
+                        <input type="radio" value="True" asp-for="HasBusinessConPolicy">Yes<br>
+                    </div>
+                    <div class="col-1-of-2">
+                        <input type="radio" value="False" asp-for="HasBusinessConPolicy">No<br>
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+        <div class="row-form">
+            <div class="col-1-of-2 custom-file">
+                <div style="text-align:start !important;">
+                    <label class="custom-file-label m-0 p-0" style="font-size:small;">Business Continuity Policy</label>
+                </div>
+                <div style="text-align:start !important;">
+                    <input asp-for="BizConPolicy" id="file" class="custom-file-input form-control" placeholder="Click here to upload Business Continuity Policy">
+                </div>
+                <div id="validation"><span asp-validation-for="BizConPolicy" class="text-danger"></span></div>
+            </div>
+
+            @*<div class="col-1-of-2">
+            <div class="" style="text-align:start !important;margin-bottom:5px;">
+                <label asp-for="KDGSContractNumber" class="form-label">Contract Number</label>
+            </div>
+            <input asp-for="KDGSContractNumber" class="form-input" placeholder=" Contract Number">
+            <div id="validation"><span asp-validation-for="KDGSContractNumber" class="text-danger"></span></div>
+        </div>*@
+            <div class="col-1-of-2">
+                <div style="text-align:start !important;">
+                    <label style="font-size:small;" asp-for="FinancialTurnOver">Financial Turnover</label>
+                </div>
+
+                @if (Model != null)
+                {
+                    <div style="text-align:start !important;">
+                        <select asp-for="FinancialTurnOver" asp-items="Model.FinancialTurnOvers.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                            <option value="">-Select-</option>
+                        </select>
+                    </div>
+
+                }
+                <div id="validation"><span asp-validation-for="FinancialTurnOver" class="text-danger"></span></div>
+            </div>
+        </div>
+            <div class="row-form">
+                
+
+                @*<div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:medium;" asp-for="ProdEquSerType">Product/Equipment/Service</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="ProdEquSerType" asp-items="Model.KDGSSType.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                    <div id="validation"><span asp-validation-for="ProdEquSerType" class="text-danger"></span></div>
+                </div>*@
+
+            </div>
+            <div id="genericBusinessExperience">
+
+                <div>
+                    <div class="row-form">
+                        <div class="col-1-of-2">
+                            <div style="text-align:start !important;">
+                                <label class="custom-file-label m-0 p-0" style="font-size:small;">Company Worked with </label>
+                            </div>
+                            <input asp-for="CompanyWorkedWith1" class="form-input" placeholder="Company Worked With">
+                            <div id="validation"><span asp-validation-for="CompanyWorkedWith1" class="text-danger"></span></div>
+                        </div>
+                        <div class="col-1-of-2">
+                            <div style="text-align:start !important;">
+                                <label class="custom-file-label m-0 p-0" style="font-size:small;">Time Frame</label>
+                            </div>
+                            <input asp-for="TimeFrame1" class="form-input" placeholder="Time Frame ">
+                            <div id="validation"><span asp-validation-for="TimeFrame1" class="text-danger"></span></div>
+                        </div>
+
+                    </div>
+                    <div class="row-form">
+                        <div class="col-1-of-2">
+                            <div style="text-align:start !important;">
+                                <label class="custom-file-label m-0 p-0" style="font-size:small;">Transaction Reference </label>
+                            </div>
+                            <div style="text-align:start !important;">
+                                <input asp-for="TransactionReference1" class="form-input" placeholder="Transaction Reference">
+                            </div>
+                            <div id="validation"><span asp-validation-for="TransactionReference1" class="text-danger"></span></div>
+                        </div>
+                        <div class="col-1-of-2">
+                            <div style="text-align:start !important;">
+                                <label class="custom-file-label m-0 p-0" style="font-size:small;">Scope Covered </label>
+                            </div>
+                            <input asp-for="ScopeCovered1" class="form-input" placeholder="Scope Covered">
+                            <div id="validation"><span asp-validation-for="ScopeCovered1" class="text-danger"></span></div>
+                        </div>
+
+                    </div>
+                </div><br>
+
+            </div>
+            @*<div style="justify-content:end;">
+                <button class="btn-warning btn-block addExperience" style="background-color:royalblue;" >Add Experience</button><br><br>
+            </div>*@
+            @*<div style="text-align:start !important;">
+                <label class="custom-file-label m-0 p-0" style="font-size:small;">Product/Equipment/Service description</label>
+            </div>
+            <textarea asp-for="ProdEquSerDescription" placeholder="Description"></textarea>
+            <div id="validation"><span asp-validation-for="ProdEquSerDescription" class="text-danger"></span></div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Customer Name</label>
+                    </div>
+                    <input asp-for="CustomerName" class="form-input"  placeholder="Customer Name">
+                    <div id="validation"><span asp-validation-for="CustomerName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="CustomerCountryId">Customer Country</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="CustomerCountryId" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                <div id="validation"><span asp-validation-for="CustomerCountryId" class="text-danger"></span></div>
+                </div>
+
+            </div>*@
+            @*<div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="CustomerProdEquSerId">Customer Product/Service</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="CustomerProdEquSerId" asp-items="Model.MainCustomersType.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                <div id="validation"><span asp-validation-for="CustomerProdEquSerId" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label style="font-size:small;" asp-for="ValueId">Product/Equipment/Service</label>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <div style="text-align:start !important;">
+                            <select asp-for="ValueId" asp-items="Model.MainCustomersValue.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                                <option value="">-Select-</option>
+                            </select>
+                        </div>
+
+                    }
+                <div id="validation"><span asp-validation-for="ValueId" class="text-danger"></span></div>
+                </div>
+
+            </div>*@
+
+            <input type="button" name="previous" class="previous action-button" value="Supplier Profile - Step 3">
+            <input type="button" name="next" class="next action-button" value="Continue to step 5">
+        </fieldset>
+        <!--===================================================Business Experience(END)=============================================================-->
+        <!--===================================================Staff Strength & Competences=============================================================-->
+        <fieldset>
+            <h2 class="fs-title">Staff Strength & Competences</h2>
+            <h3 class="fs-subtitle">This is step 5 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+            @*@{
+            var departmentList = new List<TblDepartments>();
+            Model.Departments = departmentList;
+
+
+        }*@
+
+           
+
+        <div>
+            <label style="font-size:small;">Management</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> Management No Of Staff</label>
+                    </div>
+                    <input asp-for="NoOfEmployees1" class="department-input" >
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees1" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> Management No Of Contract Staff</label>
+                    </div>
+                    <input asp-for="NoOfContractEmp1" class="department-input">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp1" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> Management No Of Expatriates</label>
+                    </div>
+                    <input asp-for="NoOfExpatriates1" class="department-input" >
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates1" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">Engineers</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> Engineers No Of Staff</label>
+                    </div>
+                    <input asp-for="NoOfEmployees2" class="department-input">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees2" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> Engineers No Of Contract Staff</label>
+                    </div>
+                    <input asp-for="NoOfContractEmp2" class="department-input">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp2" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> Engineers No Of Expatriates</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfExpatriates2">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates2" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">Technicians</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> Technicians No Of Staff</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfEmployees3">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees3" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> Technicians No Of Contract Staff</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfContractEmp3">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp3" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> Technicians No Of Expatriates</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfExpatriates3">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates3" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">HSE</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> HSE No Of Staff</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfEmployees4">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees4" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> HSE No Of Contract Staff</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfContractEmp4">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp4" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> HSE No Of Expatriates</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfExpatriates4">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates4" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">QA/QC</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> QA/QC No Of Staff</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfEmployees5">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees5" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> QA/QC No Of Contract Staff</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfContractEmp5">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp5" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> QA/QC No Of Expatriates</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfExpatriates5">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates5" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">Finance</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> Finance No Of Staff</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfEmployees6">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees6" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> Finance No Of Contract Staff</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfContractEmp6">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp6" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> Finance No Of Expatriates</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfExpatriates6">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates6" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">Legal</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> Legal No Of Staff</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfEmployees7">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees7" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> Legal No Of Contract Staff</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfContractEmp7">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp7" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> Legal No Of Expatriates</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfExpatriates7">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates7" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">HR</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> HR No Of Staff</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfEmployees8">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees8" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> HR No Of Contract Staff</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfContractEmp8">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp8" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> HR No Of Expatriates</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfExpatriates8">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates8" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <label style="font-size:small;">IT</label>
+            <div class="row-form ">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfStaff"> IT No Of Staff</label>
+                    </div>
+                    <input class="department-input" asp-for="NoOfEmployees9">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfEmployees9" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfContractStaff"> IT No Of Contract Staff</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfContractEmp9">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfContractEmp9" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="form-label" for="noOfExpatriates"> IT No Of Expatriates</label>
+                    </div>
+                    <input  class="department-input" asp-for="NoOfExpatriates9">
+                    <div id="validation" style="text-align: start;">
+                        <span data-valmsg-replace="true" data-valmsg-for="NoOfExpatriates9" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+            <div class="row-form " style="margin-top:10px;">
+
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Staff Training Policy</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="StaffPolicy" id="file" class="custom-file-input form-control" placeholder="Click here to upload Business Continuity Policy">
+                    </div>
+                    <div id="validation">
+                        <span asp-validation-for="StaffPolicy" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Audited by 3rd Party?</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="Audit3rdParty" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="Audit3rdParty" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                
+            </div>
+            <input type="button" name="previous" class="previous action-button" value="Business Experience - Step 4">
+            <input type="button" name="next" class="next action-button" value="Continue to step 6">
+        </fieldset>
+        <!--===================================================Staff Strength & Competences(END)=============================================================-->
+        <!--================================================================Financials========================================================================-->
+        <fieldset>
+            <h2 class="fs-title">Financials</h2>
+            <h3 class="fs-subtitle">This is step 6 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+            @if(Model.FinancialStatementError != "")
+            {
+                <div style="margin-bottom:10px;color:red;">
+                    <p class="pl-3" style="color:darkred;">@Html.DisplayFor(Model => Model.FinancialStatementError)</p>
+
+                </div>
+            }
+            <label style="font-size:small;">Management</label>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Financial Statement (year 1)</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="FinancialStatement1" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="FinancialTurnOver" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Financial Statement(year 2)</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="FinancialStatement2" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="FinancialTurnOver" class="text-danger"></span></div>
+                </div>
+               
+
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Financial Statement(year 3)</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="FinancialStatement3" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="FinancialTurnOver" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Tax Identification Number</label>
+                    </div>
+                    <input asp-for="TaxIdentificationNumber" class="form-input" placeholder="Tax Identification Number">
+                    <div id="validation"><span asp-validation-for="TaxIdentificationNumber" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Auditor Name</label>
+                    </div>
+                    <input asp-for="AuditorName" class="form-input" placeholder="Auditor Name">
+                    <div id="validation"><span asp-validation-for="AuditorName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Auditor Address</label>
+                    </div>
+                    <input asp-for="AuditorAddress" class="form-input" placeholder="Auditor Address">
+                    <div id="validation"><span asp-validation-for="AuditorAddress" class="text-danger"></span></div>
+                </div>
+               
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Auditor Contact Number</label>
+                    </div>
+                    <input asp-for="AuditorContactNumber" class="form-input" placeholder="Auditor Contact Number">
+                    <div id="validation"><span asp-validation-for="AuditorContactNumber" class="text-danger"></span></div>
+                </div>
+                
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Stock Market Info</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="StockMktInfo" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="StockMktInfo" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                @*<div class="col-1-of-2">
+
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label asp-for="IsListed" class="form-label">Is the company Listed in a stock Market</label>
+                    </div>
+                    <div class="" style="text-align:start !important; margin-left:15px;">
+                        <input asp-for="IsListed" class="form-input" style="height:25px;width:25px;" id="applicationMiddleInitial" placeholder=" SubContractor Address">
+                    </div>
+
+                </div>*@
+                <div class="col-1-of-2">
+                    <div class="" style="text-align:start !important;margin-bottom:5px;">
+                        <label class="custom-file-label" asp-for="Listed">Is the company Listed in a stock Market ?</label>
+                    </div>
+
+                    <div class="row-form" style="text-align:start !important;margin-bottom:5px;">
+
+                        <div class="col-1-of-2">
+                            <input type="radio" value="True" asp-for="Listed">Yes<br>
+                        </div>
+                        <div class="col-1-of-2">
+                            <input type="radio" value="False" asp-for="Listed">No<br>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+            <input type="button" name="previous" class="previous action-button" value="SSC - Step 5">
+            <input type="button" name="next" class="next action-button" value="Continue to step 7">
+        </fieldset>
+        <!--================================================================Financials(END)========================================================================-->
+        <!--==============================================================Quality Management======================================================================-->
+        <fieldset>
+            <h2 class="fs-title">Quality Management</h2>
+            <h3 class="fs-subtitle">This is step 7 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Policy</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="QualityPolicy" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="QualityPolicy" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Product Quality Management</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="ProductQualMgt" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="ProductQualMgt" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align: start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Management</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="QualityMgt" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="QualityMgt" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Manager Name</label>
+                    </div>
+                    <input asp-for="QualManagerName" class="form-input" id="" placeholder="Quality Manager Name">
+                    <div id="validation"><span asp-validation-for="QualManagerName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Manager Email</label>
+                    </div>
+                    <input asp-for="QualManagerEmail" class="form-input" id="" placeholder="Quality Manager Email">
+                    <div id="validation"><span asp-validation-for="QualManagerEmail" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Manager Phone Number</label>
+                    </div>
+                    <input asp-for="QualManagerPhoneNumber" class="form-input" id="" placeholder="Quality Manager Phone Number">
+                    <div id="validation"><span asp-validation-for="QualManagerPhoneNumber" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Manager Work Phone Number</label>
+                    </div>
+                    <input asp-for="QualManagerWorkPhoneNumber" class="form-input" id="" placeholder="Quality Work Phone Number">
+                    <div id="validation"><span asp-validation-for="QualManagerWorkPhoneNumber" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Manager Fax</label>
+                    </div>
+                    <input asp-for="QualManagerFax" class="form-input" id="" placeholder="Quality Manager Fax">
+                    <div id="validation"><span asp-validation-for="QualManagerFax" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div style="text-align:start !important;">
+                <label class="custom-file-label m-0 p-0" style="font-size:small;">Quality Certification Details</label>
+            </div>
+            <textarea asp-for="QualCertDetails" placeholder="Quality Certification Details"></textarea>
+            <div ><span asp-validation-for="QualCertDetails" class="text-danger"></span></div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Name of Certification</label>
+                    </div>
+                    <input asp-for="NameofCertificate" class="form-input"  placeholder="Name of Certification">
+                    <div id="validation"><span asp-validation-for="NameofCertificate" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Certification Organization Name</label>
+                    </div>
+                    <input asp-for="CertOrgName" class="form-input"   placeholder="Certification Organization Name">
+                    <div id="validation"><span asp-validation-for="CertOrgName" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Validity Date</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="ValidityDate" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="ValidityDate" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Certificate Copy</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="CertificateCopy" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="CertificateCopy" class="text-danger"></span></div>
+                </div>
+            </div>
+            <input type="button" name="previous" class="previous action-button" value="Financials - Step 6">
+            <input type="button" name="next" class="next action-button" value="Continue to step 8">
+        </fieldset>
+        <!--========================================================Quality Management(END)======================================================================-->
+        <!--====================================================Health Safety Environment======================================================================-->
+        <fieldset>
+            <h2 class="fs-title">Health Safety Environment</h2>
+            <h3 class="fs-subtitle">This is step 8 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Policy</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="Hsepolicy" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="Hsepolicy" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Third Party Audit</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="HseThirdPartyAudit" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="HseThirdPartyAudit" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Manager Name</label>
+                    </div>
+                    <input asp-for="HseManagerName" class="form-input"  placeholder="HSE Manager Name">
+                    <div id="validation"><span asp-validation-for="HseManagerName" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Manager Email</label>
+                    </div>
+                    <input asp-for="HseManagerEmail" class="form-input"  placeholder="HSE Manager Email">
+                    <div id="validation"><span asp-validation-for="HseManagerEmail" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Phone Number</label>
+                    </div>
+                    <input asp-for="HsePhoneNumber" class="form-input"  placeholder="HSE Manager Phone Number">
+                    <div id="validation"><span asp-validation-for="HsePhoneNumber" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Work Phone Number</label>
+                    </div>
+                    <input asp-for="HseWorkPhoneNumber" class="form-input"  placeholder="HSE Work Phone Number">
+                    <div id="validation"><span asp-validation-for="HseWorkPhoneNumber" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Fax</label>
+                    </div>
+                    <input asp-for="HseFax" class="form-input"  placeholder="HSE Fax">
+                    <div id="validation"><span asp-validation-for="HseFax" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Company KPI</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="HseCompanyKpi" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="HseCompanyKpi" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Company results Year N-1</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="HseYearN1results" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="HseYearN1results" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Staff Training</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="HseStaffTraining" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="HseStaffTraining" class="text-danger"></span></div>
+                </div>
+
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Name of Certification</label>
+                    </div>
+                    <input asp-for="HseNameofCertificate" class="form-input"  placeholder="HSE Name of Certification">
+                    <div id="validation"><span asp-validation-for="HseNameofCertificate" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Certification Organization Name</label>
+                    </div>
+                    <input asp-for="HseCertOrgName" class="form-input"   placeholder="Certification Organization Name">
+                    <div id="validation"><span asp-validation-for="HseCertOrgName" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Validity Date</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="HseValidityDate" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="HseValidityDate" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">HSE Certificate Copy</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="HseCertificateCopy" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="HseCertificateCopy" class="text-danger"></span></div>
+                </div>
+            </div>
+            <input type="button" name="previous" class="previous action-button" value="Quality Management - Step 7">
+            <input type="button" name="next" class="next action-button" value="Continue to step 9">
+        </fieldset>
+        <!--====================================================Health Safety Environment(END)======================================================================-->
+        <!--====================================================Corporate Distinctive======================================================================-->
+        <fieldset>
+            <h2 class="fs-title">Additional Information</h2>
+            <h3 class="fs-subtitle">This is step 9 of 9</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+
+        <div class="row-form " style="margin-top:10px;">
+            <div class="col-1-of-2 custom-file">
+                <div style="text-align:start !important;">
+                    <label class="custom-file-label m-0 p-0" style="font-size:small;">Fraud and Malpractice Policy</label>
+                </div>
+                <div style="text-align:start !important;">
+                    <input asp-for="FraudMalpracticePolicy" id="file" class="custom-file-input form-control" placeholder="">
+                </div>
+                <div id="validation"><span asp-validation-for="FraudMalpracticePolicy" class="text-danger"></span></div>
+            </div>
+            
+
+        </div>
+            <div class="row-form " style="margin-top:10px;">
+                <div class="col-1-of-2 custom-file">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Third Party Social Audit</label>
+                    </div>
+                    <div style="text-align:start !important;">
+                        <input asp-for="ThirdPartySocAudit" id="file" class="custom-file-input form-control" placeholder="">
+                    </div>
+                    <div id="validation"><span asp-validation-for="ThirdPartySocAudit" class="text-danger"></span></div>
+                </div>
+                <div class="col-1-of-2">
+                    <div style="text-align:start !important;">
+                        <label class="custom-file-label m-0 p-0" style="font-size:small;">Social Responsibility, Ethics, Human and Labour Laws</label>
+                    </div>
+                    <div class="custom-file" style="text-align:start !important;">
+                        @*  asp-for tag helper is set to "Uplads" property. "Uploads" property type is IFormFile
+            so at runtime asp.net core generates file upload control (input type=file). To
+            support multiple files upload include multiple attribute on the input element
+                        *@
+                        <input asp-for="SrethHumanLaborLaws" id="file" multiple class="custom-file-input form-control">
+                        @*<label class="custom-file-label">Click here to add document file</label>*@
+                        <div id="validation"><span asp-validation-for="SrethHumanLaborLaws" class="text-danger"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:start !important;"><label style="font-size:small;">Corporate Distinctive Details </label></div>
+            <textarea asp-for="Details1" placeholder="Corporate Distinctive Details"></textarea>
+            <div id="validation"><span asp-validation-for="Details1" class="text-danger"></span></div>
+
+            <input type="button" name="previous" class="previous action-button" value="HSE - Step 8">
+            <input type="submit" class=" action-button" value="Submit">
+            @*<input type="button" name="next" class="next action-button" value="Continue to step 10">*@
+        </fieldset>
+        <!--====================================================Corporate Distinctive(END)======================================================================-->
+        <!--====================================================Corporate Social Responsibility======================================================================-->
+        @*<fieldset>
+            <h2 class="fs-title">Corporate Social Responsibility</h2>
+            <h3 class="fs-subtitle">This is step 10 of 10</h3>
+            @if (Model.ModelError != "")
+            {
+                <div class="" style="margin-bottom:10px;color:red;">
+                    @Model.ModelError
+                </div>
+            }
+           
+            <input type="button" name="previous" class="previous action-button" value="Corporate Distinctive - Step 9">
+            
+        </fieldset>*@
+        <!--====================================================Corporate Social Responsibility======================================================================-->
+    </form>
+
+
+
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="~/js/vendor/form.js"></script>
+
+
+
+</body>
+</html>

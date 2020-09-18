@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Admin Vendor List Page";
+    Layout = "_AdminLayout";
+}
+
+
+@using Generic.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<TblVendorRegFormApproval>
+
+<!DOCTYPE html>
+
+<div>
+    <div style="display:none;">
+        <div class="card-body">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myAreaChart" width="1080" height="323" style="display: block; height: 259px; width: 864px;" class="chartjs-render-monitor"></canvas>
+        </div>
+
+        <div class="col-sm-8 my-auto">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myBarChart" width="447" height="223" class="chartjs-render-monitor" style="display: block; height: 179px; width: 358px;"></canvas>
+        </div>
+        <div class="card-body">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myPieChart" width="300" height="300" class="chartjs-render-monitor" style="display: block; height: 240px; width: 240px;"></canvas>
+        </div>
+    </div>
+
+    <div class="">
+
+        @if (Model == null)
+        {
+            <!--Content-->
+            <div class="main-panel" style="padding-top:100px; padding-bottom:500px;">
+                <div class="d-flex justify-content-center ">
+
+                    <center>
+
+                        <h2>No forms available yet</h2>
+                        <a class="btn btn-secondary mt-5" asp-controller="Admin" asp-action="Index">Return </a>
+                    </center>
+                </div>
+            </div>
+        }
+        else
+        {
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Supplier Id</th>
+                        <th>Vendor Company Name</th>
+                        <th>Company Reg Number</th>
+                        <th>Contact Person Name</th>
+                        <th>Contact Person Phone</th>
+                        <th>Approval Status</th>
+                        <th><a class="btn btn-sm btn-warning text-white" asp-controller="Admin" asp-action="Index">Return </a></th>
+                        @*<th></th>
+                            <th></th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vendor in Model)
+                    {
+                        <tr>
+
+                            <td>@vendor.VendorApprovalId</td>
+                            <td>@vendor.SupplierId</td>
+                            <td>@vendor.VendorCompanyName</td>
+                            <td>@vendor.VendorCompanyRegistrationNumber</td>
+                            <td>@vendor.MainContactPersonName</td>
+                            <td>@vendor.MainContactPersonPhone</td>
+                            @if (vendor.ApprovalStatus == 0)
+                            {
+                                <td><div class="btn-outline-dark pl-3">Pending</div></td>
+                            }
+                            else if (vendor.ApprovalStatus == 1)
+                            {
+                                <td><div class="btn-success pl-3">Approved</div></td>
+                            }
+                            else if (vendor.ApprovalStatus == 2)
+                            {
+                                <td><div class="btn-danger pl-2">Disapproved</div></td>
+                            }
+                            <td><a class="btn btn-sm btn-info" asp-controller="Admin" asp-action="VendorFormView" asp-route-id="@vendor.VendorApprovalId">Details </a></td>
+                            @*<td><a class="btn btn-secondary" asp-area="" asp-controller="Admin" asp-action="Update" asp-route-id="@vendor.VendorApprovalId">Edit</a></td>
+                                <td><a id="confirm" class="text-white element btn btn-danger" data-id="@vendor.VendorApprovalId" data-target="deleteModal" data-toggle="modal"> Delete</a></td>*@
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        }
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal modal-info fade mt-5" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center><h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5></center>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <center><h6>Are you sure that you want to delete this?</h6></center>
+                </div>
+                <div class=" row p-3">
+
+                    <div class="col-md-6 d-flex justify-content-start">
+                        <button type="button" id="Delete" class=" Delete btn btn-danger ">Okay</button>
+                        @*hidden field for storing current employeeId*@
+                        <input type="hidden" id="hiddenVendorId" />
+                    </div>
+
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary " data-dismiss="modal">Cancel</button>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+

@@ -1,0 +1,146 @@
+﻿@using Generic.Data.Context;
+@using Generic.Data.Models;
+@using Microsoft.AspNetCore.Identity;
+@using System.Linq;
+@using Microsoft.EntityFrameworkCore;
+
+
+
+@inject UserManager<ApplicationUser> userManager;
+@inject SignInManager<ApplicationUser> signInManager
+@inject ApplicationDbContext  _context
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DGSWeb</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow " style="background: rgb(34, 34, 34);">
+            <div class="container-fluid">
+                <a class="navbar-brand " asp-controller="Home" asp-action="Index"> <img src="~/images/logo_transparent.png" width="60" height="60" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    @*<partial name="_LoginPartial" />*@
+                    <ul class="navbar-nav ml-auto">
+
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            var userRole = await _context.UserRoles.Where(s => s.RoleId == "1").ToListAsync();
+
+                            foreach (var user in userRole)
+                            {
+                                var admins = await _context.Users.Where(s => s.Id == user.UserId).ToListAsync();
+
+                                foreach (var admin in admins)
+                                {
+                                    if (User.Identity.Name == admin.Email)
+                                    {
+                                        <li class="nav-item">
+                                            <form method="post" asp-controller="admin" asp-action="page">
+                                                <button type="submit" class="nav-link btn btn-secondary btn-link py-0" style="width: auto;">
+                                                    Admin Page
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
+                                }
+                            }
+
+                            <li class="nav-item">
+                                <form method="post" asp-controller="account" asp-action="logout">
+                                    <button type="submit" class="nav-link btn btn-link py-0" style="width: auto;">
+                                        Logout @User.Identity.Name
+                                    </button>
+                                </form>
+                            </li>
+
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="account" asp-action="register">
+                                    Register
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="account" asp-action="login">
+                                    Login
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item dropdown text-white-50">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                PRODUCTS
+                            </a>
+
+                            @*@{
+                                var categoryList = await _context.Categories.Where(s => s.Name != null).ToListAsync();
+                            }
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                @foreach (var category in categoryList)
+                                {
+
+                                    <a class="dropdown-item" asp-controller="Techplus" asp-action="List" asp-route-categoryId="@category.CategoryId">@category.Name</a>
+
+                                }
+                            </div>*@
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ">SOFTWARE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">COMMUNITIY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Cart" asp-action="List">CART</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">SUPPORT</a>
+                        </li>
+                        @*<li>
+                                <i class="fas fa-search"></i>
+                            </li>
+                            <li>
+                                <i class="fas fa-shopping-cart"></i>
+                            </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Privacy">US</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - DGSWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
