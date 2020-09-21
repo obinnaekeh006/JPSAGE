@@ -10,7 +10,7 @@ namespace DGSWeb.Validations
     public class LocalCompanyAttribute : ValidationAttribute
     {
         public string GetErrorMessage() =>
-     "Required for Companies with Turnover of over Ten million.";
+     "Required for Nigerian Companies ";
 
         protected override ValidationResult IsValid(object value,
             ValidationContext validationContext)
@@ -26,6 +26,7 @@ namespace DGSWeb.Validations
                 && model.Hsepolicy == null
                 && model.QualityPolicy == null
                 && model.TaxIdentificationNumber == null
+                && model.IsListed == null
                 )
             {
                 return new ValidationResult(GetErrorMessage());

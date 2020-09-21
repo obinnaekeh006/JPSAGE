@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Generic.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Generic.Data.Context
 {
@@ -42,7 +42,6 @@ namespace Generic.Data.Context
         public virtual DbSet<TblFormIdentification> TblFormIdentification { get; set; }
         public virtual DbSet<TblHealthSafetyEnvironment> TblHealthSafetyEnvironment { get; set; }
         public virtual DbSet<TblHseCertification> TblHseCertification { get; set; }
-        public virtual DbSet<TblKnowledgeDgssysytems> TblKnowledgeDgssysytems { get; set; }
         public virtual DbSet<TblMainCustomers> TblMainCustomers { get; set; }
         public virtual DbSet<TblNumberofEmployees> TblNumberofEmployees { get; set; }
         public virtual DbSet<TblOfficeServiceCl> TblOfficeServiceCl { get; set; }
@@ -79,18 +78,19 @@ namespace Generic.Data.Context
         public virtual DbSet<TblValueDetails> TblValueDetails { get; set; }
         public virtual DbSet<TblVendorRegFormApproval> TblVendorRegFormApproval { get; set; }
 
-        
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<IdentityRole>().HasData(
                 new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
-                new { Id = "2", Name = "Default", NormalizedName = "DEFAULT" }
+                new { Id = "2", Name = "Default", NormalizedName = "DEFAULT" },
+                new { Id = "3", Name = "Moderator", NormalizedName = "MODERATOR" }
 
                 );
-
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
             {
@@ -225,6 +225,10 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CompanyWorkedWith).HasMaxLength(100);
 
+                entity.Property(e => e.ContinuityPolicy).HasMaxLength(100);
+
+                entity.Property(e => e.HasContinuityPolicy).HasMaxLength(10);
+
                 entity.Property(e => e.RegistrationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ScopeCovered).HasMaxLength(500);
@@ -249,9 +253,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CertOrgId).HasColumnName("CertOrgID");
 
-                entity.Property(e => e.CertOrgName)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.CertOrgName).HasMaxLength(200);
             });
 
             modelBuilder.Entity<TblCity>(entity =>
@@ -319,7 +321,6 @@ namespace Generic.Data.Context
                 entity.Property(e => e.FraudMalpracticePolicy).HasMaxLength(100);
 
                 entity.Property(e => e.SrethHumanLaborLaws)
-                    .IsRequired()
                     .HasColumnName("SREthHumanLaborLaws")
                     .HasMaxLength(100);
 
@@ -341,8 +342,6 @@ namespace Generic.Data.Context
                 entity.ToTable("tbl_CorporateDistinctives");
 
                 entity.Property(e => e.CorpDisId).HasColumnName("CorpDisID");
-
-                entity.Property(e => e.Details).IsRequired();
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
@@ -382,9 +381,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.FactoryArea).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.Location)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.Location).HasMaxLength(500);
 
                 entity.Property(e => e.PlantsEquipmentType).HasMaxLength(500);
 
@@ -395,7 +392,6 @@ namespace Generic.Data.Context
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.TblCyMfgFf)
                     .HasForeignKey(d => d.CityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_CY_MFG_FF_tbl_City");
 
                 entity.HasOne(d => d.Supplier)
@@ -450,16 +446,13 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.ServiceScopeId).HasColumnName("ServiceScopeID");
 
-                entity.Property(e => e.MaterialsName)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.MaterialsName).HasMaxLength(500);
 
                 entity.Property(e => e.SubCategoryId).HasColumnName("SubCategoryID");
 
                 entity.HasOne(d => d.SubCategory)
                     .WithMany(p => p.TblDirectServiceScope)
                     .HasForeignKey(d => d.SubCategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_DirectServiceScope_tbl_SubCategory");
             });
 
@@ -483,6 +476,8 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.FinancialStatementYear3).HasMaxLength(100);
 
+                entity.Property(e => e.IsListed).HasMaxLength(10);
+
                 entity.Property(e => e.StockMarketInfo).HasMaxLength(100);
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
@@ -504,9 +499,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.ForComId).HasColumnName("ForComID");
 
-                entity.Property(e => e.CompanyName)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.CompanyName).HasMaxLength(200);
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
@@ -569,12 +562,10 @@ namespace Generic.Data.Context
                     .HasMaxLength(100);
 
                 entity.Property(e => e.HseManagerEmail)
-                    .IsRequired()
                     .HasColumnName("HSE_ManagerEmail")
                     .HasMaxLength(100);
 
                 entity.Property(e => e.HseManagerName)
-                    .IsRequired()
                     .HasColumnName("HSE_ManagerName")
                     .HasMaxLength(200);
 
@@ -586,9 +577,7 @@ namespace Generic.Data.Context
                     .HasColumnName("HSEPolicy")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.PhoneNumber)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.PhoneNumber).HasMaxLength(20);
 
                 entity.Property(e => e.StaffTraining).HasMaxLength(100);
 
@@ -596,9 +585,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.ThirdPartyAudit).HasMaxLength(100);
 
-                entity.Property(e => e.WorkPhoneNumber)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.WorkPhoneNumber).HasMaxLength(20);
 
                 entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.TblHealthSafetyEnvironment)
@@ -617,13 +604,9 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CertOrgId).HasColumnName("CertOrgID");
 
-                entity.Property(e => e.CertificateCopy)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.CertificateCopy).HasMaxLength(100);
 
-                entity.Property(e => e.NameofCertificate)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.Property(e => e.NameofCertificate).HasMaxLength(200);
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
@@ -640,42 +623,6 @@ namespace Generic.Data.Context
                     .HasForeignKey(d => d.SupplierId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_HSE_Certification_tbl_SupplierIdentification");
-            });
-
-            modelBuilder.Entity<TblKnowledgeDgssysytems>(entity =>
-            {
-                entity.HasKey(e => e.KnowDgssysId);
-
-                entity.ToTable("tbl_KnowledgeDGSSysytems");
-
-                entity.Property(e => e.KnowDgssysId).HasColumnName("KnowDGSSysID");
-
-                entity.Property(e => e.ContractNumber)
-                    .IsRequired()
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.Dgsref)
-                    .IsRequired()
-                    .HasColumnName("DGSRef")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.ProdEquSerId).HasColumnName("ProdEquSerID");
-
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
-
-                entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
-
-                entity.HasOne(d => d.ProdEquSer)
-                    .WithMany(p => p.TblKnowledgeDgssysytems)
-                    .HasForeignKey(d => d.ProdEquSerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tbl_KnowledgeDGSSysytems_tbl_ProductEquipmentService");
-
-                entity.HasOne(d => d.Supplier)
-                    .WithMany(p => p.TblKnowledgeDgssysytems)
-                    .HasForeignKey(d => d.SupplierId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tbl_KnowledgeDGSSysytems_tbl_SupplierIdentification");
             });
 
             modelBuilder.Entity<TblMainCustomers>(entity =>
@@ -750,22 +697,18 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
-                entity.Property(e => e.Location)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.Location).HasMaxLength(500);
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.TblOfficeServiceCl)
                     .HasForeignKey(d => d.CityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_OfficeServiceCL_tbl_City");
 
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.TblOfficeServiceCl)
                     .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_OfficeServiceCL_tbl_Country");
 
                 entity.HasOne(d => d.Supplier)
@@ -931,9 +874,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
-                entity.Property(e => e.ProductName)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.Property(e => e.ProductName).HasMaxLength(200);
             });
 
             modelBuilder.Entity<TblPurchaseCondition>(entity =>
@@ -1065,15 +1006,9 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CertOrgId).HasColumnName("CertOrgID");
 
-                entity.Property(e => e.CertificateCopy)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.CertificateCopy).HasMaxLength(100);
 
-                entity.Property(e => e.Details).IsRequired();
-
-                entity.Property(e => e.NameofCertificate)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.Property(e => e.NameofCertificate).HasMaxLength(200);
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
@@ -1102,19 +1037,13 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.Fax).HasMaxLength(100);
 
-                entity.Property(e => e.PhoneNumber)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.PhoneNumber).HasMaxLength(20);
 
                 entity.Property(e => e.ProductQualMgt).HasMaxLength(100);
 
-                entity.Property(e => e.QualManagerEmail)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.QualManagerEmail).HasMaxLength(100);
 
-                entity.Property(e => e.QualManagerName)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.Property(e => e.QualManagerName).HasMaxLength(200);
 
                 entity.Property(e => e.QualityMgt).HasMaxLength(100);
 
@@ -1122,9 +1051,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
-                entity.Property(e => e.WorkPhoneNumber)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.WorkPhoneNumber).HasMaxLength(20);
 
                 entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.TblQualityManagement)
@@ -1256,9 +1183,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
 
-                entity.Property(e => e.ServiceName)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.Property(e => e.ServiceName).HasMaxLength(200);
             });
 
             modelBuilder.Entity<TblSpDirectServiceScope>(entity =>
@@ -1268,8 +1193,6 @@ namespace Generic.Data.Context
                 entity.ToTable("tbl_SP_DirectServiceScope");
 
                 entity.Property(e => e.SpDssId).HasColumnName("SP_DSS_ID");
-
-                entity.Property(e => e.Description).IsRequired();
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
@@ -1373,20 +1296,15 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
-                entity.Property(e => e.SubConAddress)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.SubConAddress).HasMaxLength(500);
 
-                entity.Property(e => e.SubConName)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.SubConName).HasMaxLength(200);
 
                 entity.Property(e => e.SubServId).HasColumnName("SubServID");
 
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.TblSubContractedDetails)
                     .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_SubContractedDetails_tbl_Country");
 
                 entity.HasOne(d => d.SubServ)
@@ -1506,9 +1424,7 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
-                entity.Property(e => e.MainShareholder)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.MainShareholder).HasMaxLength(200);
 
                 entity.Property(e => e.Shareholding).HasColumnType("decimal(18, 2)");
 
@@ -1517,7 +1433,6 @@ namespace Generic.Data.Context
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.TblSupplierOwnership)
                     .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_SupplierOwnership_tbl_Country");
 
                 entity.HasOne(d => d.Supplier)
@@ -1587,32 +1502,26 @@ namespace Generic.Data.Context
                 entity.Property(e => e.FormId).HasColumnName("FormID");
 
                 entity.Property(e => e.TprAddress)
-                    .IsRequired()
                     .HasColumnName("TPR_Address")
                     .HasMaxLength(500);
 
                 entity.Property(e => e.TprEmailAddress)
-                    .IsRequired()
                     .HasColumnName("TPR_EmailAddress")
                     .HasMaxLength(100);
 
                 entity.Property(e => e.TprName)
-                    .IsRequired()
                     .HasColumnName("TPR_Name")
-                    .HasMaxLength(500);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.TprOrganization)
-                    .IsRequired()
                     .HasColumnName("TPR_Organization")
                     .HasMaxLength(100);
 
                 entity.Property(e => e.TprPhoneNumber)
-                    .IsRequired()
                     .HasColumnName("TPR_PhoneNumber")
                     .HasMaxLength(20);
 
                 entity.Property(e => e.TprWorkPhoneNumber)
-                    .IsRequired()
                     .HasColumnName("TPR_WorkPhoneNumber")
                     .HasMaxLength(20);
 
@@ -1657,13 +1566,9 @@ namespace Generic.Data.Context
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
-                entity.Property(e => e.SubConAddress)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.SubConAddress).HasMaxLength(500);
 
-                entity.Property(e => e.SubConName)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.SubConName).HasMaxLength(200);
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
 
@@ -1723,6 +1628,10 @@ namespace Generic.Data.Context
                 entity.Property(e => e.BankReference).HasMaxLength(100);
 
                 entity.Property(e => e.BusinessExCompanyWorkedWith).HasMaxLength(100);
+
+                entity.Property(e => e.BusinessExContinuityPolicy).HasMaxLength(100);
+
+                entity.Property(e => e.BusinessExHasContinuityPolicy).HasMaxLength(10);
 
                 entity.Property(e => e.BusinessExRegistrationDate).HasColumnType("datetime");
 
@@ -1839,6 +1748,8 @@ namespace Generic.Data.Context
                 entity.Property(e => e.HseworkPhoneNumber)
                     .HasColumnName("HSEWorkPhoneNumber")
                     .HasMaxLength(20);
+
+                entity.Property(e => e.IsListedStockMarket).HasMaxLength(10);
 
                 entity.Property(e => e.KnowledgeofDgssystemsContractNo)
                     .HasColumnName("KnowledgeofDGSSystemsContractNo")

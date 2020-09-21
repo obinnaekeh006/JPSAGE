@@ -138,7 +138,7 @@ namespace DGSWeb
             // Authorization Middleware
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireLoggedIn", policy => policy.RequireRole("Default", "Admin").RequireAuthenticatedUser());
+                options.AddPolicy("RequireLoggedIn", policy => policy.RequireRole("Default", "Admin", "Moderator").RequireAuthenticatedUser());
 
                 options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin").RequireAuthenticatedUser());
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DGSWeb.Email;
 using DGSWeb.ViewModels;
 using Generic.Dapper.Interfaces;
 using Generic.Data.Models;
@@ -22,16 +23,19 @@ namespace DGSWeb.Controllers
         private readonly IRepository<TblVendorRegFormApproval> _vendorRegFormApprovalRepository;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
         public AdminController(
             IRepository<TblVendorRegFormApproval> vendorRegFormApprovalRepository,
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender
             )
         {
             _vendorRegFormApprovalRepository = vendorRegFormApprovalRepository;
             _signInManager = signInManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
 
@@ -155,5 +159,35 @@ namespace DGSWeb.Controllers
         }
 
 
+
+        public async Task<IActionResult> QueryVendor(string email, string query)
+        {
+            if(email != null && query != null)
+            {
+                await _emailSender.SendEmailAsync(email, "Vendor Form Query", query);
+
+                return RedirectToAction("VendorFormList");
+            }
+
+            return RedirectToAction("VendorFormList");
+        }
+
+
+        public async Task<IActionResult> MakeAdmin(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            await _userManager.AddToRoleAsync(user, "Admin");
+            return RedirectToAction("Registered");
+        }
+
+
+        public async Task<IActionResult> MakeModerator(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            await _userManager.AddToRoleAsync(user, "Moderator");
+            return RedirectToAction("Registered");
+        }
     }
 }

@@ -62,7 +62,20 @@ namespace Generic.Dapper.Repository
 
         public T GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+
+            if (id == 0)
+            {
+                return null;
+            }
+
+            try
+            {
+                return _context.Set<T>().Find(id);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public void Update(T entity)

@@ -80,7 +80,7 @@ namespace Generic.Data.Models
         public string FinancialAuditorName { get; set; }
         public string FinancialAuditorAddress { get; set; }
         public string FinancialAuditorContactNumber { get; set; }
-        public bool? IsListedStockMarket { get; set; }
+        public string IsListedStockMarket { get; set; }
         public string QualityPolicy { get; set; }
         public string ProductQualityManagement { get; set; }
         public string QualityManagement { get; set; }
@@ -124,5 +124,7 @@ namespace Generic.Data.Models
         public string BusinessExTimeFrame { get; set; }
         public string BusinessExTransactionReference { get; set; }
         public string BusinessExScopeCovered { get; set; }
+        public string BusinessExHasContinuityPolicy { get; set; }
+        public string BusinessExContinuityPolicy { get; set; }
     }
 }

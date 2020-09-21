@@ -16,7 +16,6 @@ namespace Generic.Data.Models
             TblForeignCompany = new HashSet<TblForeignCompany>();
             TblHealthSafetyEnvironment = new HashSet<TblHealthSafetyEnvironment>();
             TblHseCertification = new HashSet<TblHseCertification>();
-            TblKnowledgeDgssysytems = new HashSet<TblKnowledgeDgssysytems>();
             TblMainCustomers = new HashSet<TblMainCustomers>();
             TblOfficeServiceCl = new HashSet<TblOfficeServiceCl>();
             TblPaymentRequestMaster = new HashSet<TblPaymentRequestMaster>();
@@ -60,7 +59,6 @@ namespace Generic.Data.Models
         public virtual ICollection<TblForeignCompany> TblForeignCompany { get; set; }
         public virtual ICollection<TblHealthSafetyEnvironment> TblHealthSafetyEnvironment { get; set; }
         public virtual ICollection<TblHseCertification> TblHseCertification { get; set; }
-        public virtual ICollection<TblKnowledgeDgssysytems> TblKnowledgeDgssysytems { get; set; }
         public virtual ICollection<TblMainCustomers> TblMainCustomers { get; set; }
         public virtual ICollection<TblOfficeServiceCl> TblOfficeServiceCl { get; set; }
         public virtual ICollection<TblPaymentRequestMaster> TblPaymentRequestMaster { get; set; }

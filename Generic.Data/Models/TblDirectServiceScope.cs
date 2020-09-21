@@ -7,7 +7,7 @@ namespace Generic.Data.Models
     {
         public int ServiceScopeId { get; set; }
         public string MaterialsName { get; set; }
-        public int SubCategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
 
         public virtual TblSubCategory SubCategory { get; set; }
     }

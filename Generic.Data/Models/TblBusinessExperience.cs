@@ -13,6 +13,8 @@ namespace Generic.Data.Models
         public string TimeFrame { get; set; }
         public string TransactionReference { get; set; }
         public string ScopeCovered { get; set; }
+        public string HasContinuityPolicy { get; set; }
+        public string ContinuityPolicy { get; set; }
 
         public virtual TblSupplierIdentification Supplier { get; set; }
     }

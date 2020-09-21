@@ -7,7 +7,7 @@ namespace Generic.Data.Models
     {
         public int CyMfgFfId { get; set; }
         public string Location { get; set; }
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
         public string PlantsEquipmentType { get; set; }
         public int? PlantsEquipmentNumber { get; set; }
         public string Utilization { get; set; }

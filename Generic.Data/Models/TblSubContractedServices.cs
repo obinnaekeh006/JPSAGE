@@ -12,7 +12,7 @@ namespace Generic.Data.Models
 
         public int SubServId { get; set; }
         public int ServiceId { get; set; }
-        public decimal PercentageOutsourced { get; set; }
+        public decimal? PercentageOutsourced { get; set; }
         public int SupplierId { get; set; }
 
         public virtual TblServices Service { get; set; }

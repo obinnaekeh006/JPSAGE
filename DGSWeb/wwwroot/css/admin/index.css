@@ -538,3 +538,19 @@ to {
 }
 
 /*</style >*/
+
+
+/*Added*/
+
+.queryTextarea {
+    padding: 1rem;
+    border: 1px solid #777;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.3rem;
+    transition: all .3s;
+}

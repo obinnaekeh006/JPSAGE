@@ -174,7 +174,7 @@ namespace DGSWeb.Controllers
         /// This gets the Register page and returns its view to the user
         /// </summary>
         /// <returns></returns>
-        [Authorize("RequireAdministratorRole")]
+        //[Authorize("RequireAdministratorRole")]
         [HttpGet]
         public IActionResult Register()
         {

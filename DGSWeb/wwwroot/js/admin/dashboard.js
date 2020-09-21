@@ -188,3 +188,114 @@ $(document).ready(function () {
     });
 })(jQuery); // End of use strict
 //# sourceURL=pen.js
+
+
+/*To show modal*/
+$(document).ready(function () {
+    $('#confirmDisapproval').click(function (e) {
+        e.preventDefault();
+        $('#disapprovalModal').modal('show');
+
+        target = e.target;
+        var VendorId = $(target).data('id');
+
+        $("#disapprovalHiddenVendorId").val(VendorId);
+
+
+        //console.log(VendorId);
+
+    });
+})
+
+$('#Disapprove').click(function () {
+    var venId = $("#disapprovalHiddenVendorId").val();
+    var actionLink = "/Admin/DisapproveVendor?id=" + venId
+
+    window.location.href = actionLink;
+
+    //$.get(actionLink).done((result) => {
+    //    window.location.href = 'https://localhost:44366/admin/vendorlist';
+    //    $("#disapprovalModal").modal('hide');
+    //});
+})
+
+
+
+
+$(document).ready(function () {
+    $('#confirmApproval').click(function (e) {
+        e.preventDefault();
+        $('#approvalModal').modal('show');
+
+        target = e.target;
+        var VendorId = $(target).data('id');
+
+        $("#approvalHiddenVendorId").val(VendorId);
+
+
+        //console.log(VendorId);
+
+    });
+})
+
+$('#Approve').click(function () {
+    var venId = $("#approvalHiddenVendorId").val();
+    var actionLink = "/Admin/ApproveVendor?id=" + venId
+
+    //console.log(actionLink);
+
+    window.location.href = actionLink;
+
+    //$.get(actionLink).done((result) => {
+    //    window.location.href = 'https://localhost:44366/admin/vendorlist';
+    //    $("#approvalModal").modal('hide');
+    //});
+})
+
+
+
+$(document).ready(function () {
+    $('#query').click(function (e) {
+        e.preventDefault();
+        $('#queryModal').modal('show');
+
+        target = e.target;
+        var VendorEmail = $(target).data('id');
+
+        $("#queryVendorEmail").val(VendorEmail);
+
+
+        console.log(VendorEmail);
+
+    });
+})
+
+
+$('#SendQuery').click(function () {
+    var VendorEmail = $("#queryVendorEmail").val();
+    var queryString = $(".queryTextarea").val();
+
+    //console.log(VendorEmail);
+    //console.log(queryString);
+
+
+    if (VendorEmail != null && queryString != "") {
+        var actionLink = "/Admin/QueryVendor" +
+            '?email=' + VendorEmail +
+            '&query=' + queryString;
+
+        //console.log(actionLink);
+
+        window.location.href = actionLink;
+
+    }
+
+    else {
+        alert("invalid process")
+    }
+   
+    //$.get(actionLink).done((result) => {
+    //    window.location.href = 'https://localhost:44366/admin/vendorlist';
+    //    $("#approvalModal").modal('hide');
+    //});
+})

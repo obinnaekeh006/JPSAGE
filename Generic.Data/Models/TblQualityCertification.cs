@@ -10,7 +10,7 @@ namespace Generic.Data.Models
         public string Details { get; set; }
         public string NameofCertificate { get; set; }
         public int CertOrgId { get; set; }
-        public DateTime ValidityDate { get; set; }
+        public DateTime? ValidityDate { get; set; }
         public string CertificateCopy { get; set; }
 
         public virtual TblCertifyingOrg CertOrg { get; set; }

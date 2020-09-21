@@ -14,7 +14,7 @@ namespace Generic.Data.Models
         public string AuditorName { get; set; }
         public string AuditorAddress { get; set; }
         public string ContactNumber { get; set; }
-        public bool? IsListed { get; set; }
+        public string IsListed { get; set; }
         public string StockMarketInfo { get; set; }
 
         public virtual TblSupplierIdentification Supplier { get; set; }

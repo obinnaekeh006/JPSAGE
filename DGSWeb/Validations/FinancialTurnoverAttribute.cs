@@ -10,7 +10,7 @@ namespace DGSWeb.Validations
     public class FinancialTurnoverAttribute : ValidationAttribute
     {
         public string GetErrorMessage() =>
-       "Required for Companies with Turnover of over Ten million.";
+       "Required for Turnover Value";
 
         protected override ValidationResult IsValid(object value,
             ValidationContext validationContext)
@@ -18,8 +18,17 @@ namespace DGSWeb.Validations
             var model = (VendorFormViewModel)validationContext.ObjectInstance;
             //var releaseYear = ((DateTime)value).Year;
 
-            if (model.FinancialTurnOver != 1 && model.FinancialStatement1 == null && model.FinancialStatement2 == null && model.FinancialStatement3 == null)
+            if (
+                model.FinancialTurnOver != "1"
+                && model.FinancialTurnOver == null
+                && model.FinancialStatement1 == null 
+                && model.FinancialStatement2 == null 
+                && model.FinancialStatement3 == null
+                && model.AuditorName == null 
+                && model.AuditorAddress == null 
+                && model.AuditorContactNumber == null)
             {
+                //model.FinancialStatementError = "";
                 return new ValidationResult(GetErrorMessage());
             }
 

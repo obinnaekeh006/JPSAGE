@@ -9,7 +9,7 @@ namespace Generic.Data.Models
         public int SubServId { get; set; }
         public string SubConName { get; set; }
         public string SubConAddress { get; set; }
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public bool? IsLocal { get; set; }
 
         public virtual TblCountry Country { get; set; }

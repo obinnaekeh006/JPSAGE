@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,7 +73,8 @@ namespace DGSWeb.ViewModels
         [Required]
         public string FormIdentificationEmailAddress { get; set; }
         [Required]
-        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+        ErrorMessage = "Date out of Range")]
         public DateTime? FormIdentificationDate { get; set; }
 
 
@@ -135,8 +137,8 @@ namespace DGSWeb.ViewModels
         [BindProperty]
         public IFormFile SupplierIdentificationCompanyProfile { get; set; }
         //[Required]
-        [BindProperty]
-        public IFormFile SupplierIdentificationCAC { get; set; }
+        [MaxLength(20)]
+        public string SupplierIdentificationCAC { get; set; }
         //[Required]
         public string SupplierIdentificationCompanyWebsiteUrl { get; set; }
 
@@ -144,10 +146,12 @@ namespace DGSWeb.ViewModels
         /*Supplier Profile*/
         //public int SupplierProfileId { get; set; }
         //public int SupplierId { get; set; }
-        //[Required]
+        [Required]
         public string NatureOfBusiness { get; set; }
         [Required]
-        public DateTime DateofCreation { get; set; }
+        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+        ErrorMessage = "Date out of Range")]
+        public DateTime? DateofCreation { get; set; }
         [BindProperty]
         //[Required]
         public IFormFile CodeOfConduct { get; set; }
@@ -159,37 +163,37 @@ namespace DGSWeb.ViewModels
         //[Required]
         public decimal Shareholding1 { get; set; }
         //[Required]
-        public int SupplierOwnershipCountryId1 { get; set; }
+        public int? SupplierOwnershipCountryId1 { get; set; }
         //[Required]
         public string MainShareholder2 { get; set; }
         //[Required]
         public decimal Shareholding2 { get; set; }
         //[Required]
-        public int SupplierOwnershipCountryId2 { get; set; }
+        public int? SupplierOwnershipCountryId2 { get; set; }
         //[Required]
         public string MainShareholder3 { get; set; }
         //[Required]
         public decimal Shareholding3 { get; set; }
         //[Required]
-        public int SupplierOwnershipCountryId3 { get; set; }
+        public int? SupplierOwnershipCountryId3 { get; set; }
         //[Required]
         public string MainShareholder4 { get; set; }
         //[Required]
         public decimal Shareholding4 { get; set; }
         //[Required]
-        public int SupplierOwnershipCountryId4 { get; set; }
+        public int? SupplierOwnershipCountryId4 { get; set; }
         //[Required]
         public string MainShareholder5 { get; set; }
         //[Required]
         public decimal Shareholding5 { get; set; }
         //[Required]
-        public int SupplierOwnershipCountryId5 { get; set; }
+        public int? SupplierOwnershipCountryId5 { get; set; }
         //[Required]
         public string MainShareholder6 { get; set; }
         //[Required]
         public decimal Shareholding6 { get; set; }
         //[Required]
-        public int SupplierOwnershipCountryId6 { get; set; }
+        public int? SupplierOwnershipCountryId6 { get; set; }
         //public int ServiceScopeId { get; set; }
         //[Required]
         public string MaterialsName1 { get; set; }
@@ -227,7 +231,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string TypicalSubConAddress1 { get; set; }
         //[Required]
-        public int TypicalSubConCountryId1 { get; set; }
+        public int? TypicalSubConCountryId1 { get; set; }
 
         public bool TypicalSubConIsLocal1 { get; set; }
         //[Required]
@@ -235,7 +239,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string TypicalSubConAddress2 { get; set; }
         //[Required]
-        public int TypicalSubConCountryId2 { get; set; }
+        public int? TypicalSubConCountryId2 { get; set; }
 
         public bool TypicalSubConIsLocal2 { get; set; }
         //[Required]
@@ -243,7 +247,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string TypicalSubConAddress3 { get; set; }
         //[Required]
-        public int TypicalSubConCountryId3 { get; set; }
+        public int? TypicalSubConCountryId3 { get; set; }
 
         public bool TypicalSubConIsLocal3 { get; set; }
 
@@ -262,7 +266,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string CyMfgFfLocation1 { get; set; }
         //[Required]
-        public int CyMfgFfCityId1 { get; set; }
+        public int? CyMfgFfCityId1 { get; set; }
         //[Required]
         public string CyMfgFfPlantsEquipmentType1 { get; set; }
         //[Required]
@@ -274,7 +278,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string CyMfgFfLocation2 { get; set; }
         //[Required]
-        public int CyMfgFfCityId2 { get; set; }
+        public int? CyMfgFfCityId2 { get; set; }
         //[Required]
         public string CyMfgFfPlantsEquipmentType2 { get; set; }
         //[Required]
@@ -286,7 +290,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string CyMfgFfLocation3 { get; set; }
         //[Required]
-        public int CyMfgFfCityId3 { get; set; }
+        public int? CyMfgFfCityId3 { get; set; }
         //[Required]
         public string CyMfgFfPlantsEquipmentType3 { get; set; }
         //[Required]
@@ -298,7 +302,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string CyMfgFfLocation4 { get; set; }
         //[Required]
-        public int CyMfgFfCityId4 { get; set; }
+        public int? CyMfgFfCityId4 { get; set; }
         //[Required]
         public string CyMfgFfPlantsEquipmentType4 { get; set; }
         //[Required]
@@ -328,27 +332,27 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string OfficeServClLocation1 { get; set; }
         //[Required]
-        public int OfficeServClCityId1 { get; set; }
+        public int? OfficeServClCityId1 { get; set; }
         //[Required]
-        public int OfficeServClCountryId1 { get; set; }
+        public int? OfficeServClCountryId1 { get; set; }
         //[Required]
         public string OfficeServClLocation2 { get; set; }
         //[Required]
-        public int OfficeServClCityId2 { get; set; }
+        public int? OfficeServClCityId2 { get; set; }
         //[Required]
-        public int OfficeServClCountryId2 { get; set; }
+        public int? OfficeServClCountryId2 { get; set; }
         //[Required]
         public string OfficeServClLocation3 { get; set; }
         //[Required]
-        public int OfficeServClCityId3 { get; set; }
+        public int? OfficeServClCityId3 { get; set; }
         //[Required]
-        public int OfficeServClCountryId3 { get; set; }
+        public int? OfficeServClCountryId3 { get; set; }
         //[Required]
         public string OfficeServClLocation4 { get; set; }
         //[Required]
-        public int OfficeServClCityId4 { get; set; }
+        public int? OfficeServClCityId4 { get; set; }
         //[Required]
-        public int OfficeServClCountryId4 { get; set; }
+        public int? OfficeServClCountryId4 { get; set; }
         //[Required]
         public int OfficeServClSupplierId { get; set; }
         public int SubServId { get; set; }
@@ -366,7 +370,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string SubConAddress { get; set; }
         //[Required]
-        public int SubConCountryId { get; set; }
+        public int? SubConCountryId { get; set; }
 
         public bool IsLocal { get; set; }
         public int ForComId { get; set; }
@@ -375,7 +379,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string ProductSupplied { get; set; }
         //[Required]
-        public int Status { get; set; }
+        public int? Status { get; set; }
         public string Others { get; set; }
         //[Required]
         [BindProperty]
@@ -399,8 +403,9 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string KDGSContractNumber { get; set; }
         public int KDGSProdEquSerId { get; set; }
-        [Required]
-        public DateTime KDGSStartDate { get; set; }
+        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+         ErrorMessage = "Date out of Range")]
+        public DateTime? KDGSStartDate { get; set; }
         //[Required]
         public string Dgsref { get; set; }
 
@@ -420,8 +425,9 @@ namespace DGSWeb.ViewModels
         //[Required]
         public int ValueId { get; set; }
         //public int SupplierId { get; set; }
+        [Required]
         [FinancialTurnover]
-        public int FinancialTurnOver { get; set; }
+        public string FinancialTurnOver { get; set; }
 
 
 
@@ -520,12 +526,12 @@ namespace DGSWeb.ViewModels
         public int FinStatId { get; set; }
         //public int SupplierId { get; set; }
         //[Required]
-        [BindProperty]
-        public IFormFile FinancialStatement { get; set; }
+        
+        public string FinancialStatement { get; set; }
         
         public string FinancialStatementError { get; set; }
 
-        [Required]
+        //[Required]
         [BindProperty]
         public IFormFile FinancialStatement1 { get; set; }
 
@@ -560,24 +566,12 @@ namespace DGSWeb.ViewModels
         public IFormFile StockMktInfo { get; set; }
 
         [BindProperty]
-        public string Listed { get; set; }
+        public string IsListed { get; set; }
         public string[] InStockMarket = new[] { "True", "False" };
 
-        public bool IsListed { get; set; }
+        //public string IsListed { get; set; }
 
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-
-        //    List<ValidationResult> errors = new List<ValidationResult>();
-        //    if (FinancialTurnOver != 1 && FinancialStatement1 == null && FinancialStatement2 == null && FinancialStatement3 == null)
-        //    {
-        //        ValidationResult error = new ValidationResult("Financial Statements Required");
-        //        FinancialStatementError = "Financial Statements Upload Required";
-        //        errors.Add(error);
-
-        //    }
-        //    return errors;
-        //}
+        
 
 
 
@@ -613,7 +607,10 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string CertOrgName { get; set; }
         //[Required]
-        public DateTime ValidityDate { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+         ErrorMessage = "Date out of Range")]
+        public DateTime? ValidityDate { get; set; }
         //[Required]
         [BindProperty]
         public IFormFile CertificateCopy { get; set; }
@@ -656,7 +653,9 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string HseCertOrgName { get; set; }
         //[Required]
-        public DateTime HseValidityDate { get; set; }
+        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+         ErrorMessage = "Date out of Range")]
+        public DateTime? HseValidityDate { get; set; }
         //[Required]
         [BindProperty]
         public IFormFile HseCertificateCopy { get; set; }

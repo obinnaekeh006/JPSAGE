@@ -26,6 +26,7 @@ namespace DGSWeb.Controllers
         private readonly IRepository<TblDepartments> _departmentsRepository;
         private readonly IRepository<TblFormIdentification> _formIdentificationRepository;
         private readonly IRepository<TblSupplierIdentification> _supplierIdentificationRepository;
+        private readonly IRepository<TblSubsidiaryCompany> _subsidiaryCompanyRepository;
         private readonly IRepository<TblSupplierTaxCertificate> _supplierTaxCertificateRepository;
         private readonly IRepository<TblContactPersons> _contactPersonsRepository;
         private readonly IRepository<TblThirdPartyReference> _thirdPartyReferenceRepository;
@@ -42,7 +43,7 @@ namespace DGSWeb.Controllers
         private readonly IRepository<TblSubContractedDetails> _subContractedDetailsRepository;
         private readonly IRepository<TblForeignCompany> _foreignCompanyRepository;
         //private readonly IRepository<TblBusinessContinuityPolicy> _businessContinuityPolicyRepository;
-        private readonly IRepository<TblKnowledgeDgssysytems> _knowledgeDgssystemsRepository;
+        //private readonly IRepository<TblKnowledgeDgssysytems> _knowledgeDgssystemsRepository;
         private readonly IRepository<TblProductEquipmentService> _productEquipmentServiceRepository;
         private readonly IRepository<TblMainCustomers> _mainCustomersRepository;
         private readonly IRepository<TblNumberofEmployees> _numberOfEmployeesRepository;
@@ -70,6 +71,7 @@ namespace DGSWeb.Controllers
             IRepository<TblDepartments> departmentsRepository,
             IRepository<TblFormIdentification> formIdentificationRepository,
             IRepository<TblSupplierIdentification> supplierIdentificationRepository,
+            IRepository<TblSubsidiaryCompany> subsidiaryCompanyRepository,
             IRepository<TblSupplierTaxCertificate> supplierTaxCertificateRepository,
             IRepository<TblContactPersons> contactPersonsRepository,
             IRepository<TblThirdPartyReference> thirdPartyReferenceRepository,
@@ -86,7 +88,7 @@ namespace DGSWeb.Controllers
             IRepository<TblSubContractedDetails> subContractedDetailsRepository,
             IRepository<TblForeignCompany> foreignCompanyRepository,
             //IRepository<TblBusinessContinuityPolicy> businessContinuityPolicyRepository,
-            IRepository<TblKnowledgeDgssysytems> knowledgeDgssystemsRepository,
+            //IRepository<TblKnowledgeDgssysytems> knowledgeDgssystemsRepository,
             IRepository<TblProductEquipmentService> productEquipmentServiceRepository,
             IRepository<TblMainCustomers> mainCustomersRepository,
             IRepository<TblNumberofEmployees> numberOfEmployeesRepository,
@@ -114,6 +116,7 @@ namespace DGSWeb.Controllers
             _departmentsRepository = departmentsRepository;
             _formIdentificationRepository = formIdentificationRepository;
             _supplierIdentificationRepository = supplierIdentificationRepository;
+            _subsidiaryCompanyRepository = subsidiaryCompanyRepository;
             _supplierTaxCertificateRepository = supplierTaxCertificateRepository;
             _contactPersonsRepository = contactPersonsRepository;
             _thirdPartyReferenceRepository = thirdPartyReferenceRepository;
@@ -130,7 +133,7 @@ namespace DGSWeb.Controllers
             _subContractedDetailsRepository = subContractedDetailsRepository;
             _foreignCompanyRepository = foreignCompanyRepository;
             //_businessContinuityPolicyRepository = businessContinuityPolicyRepository;
-            _knowledgeDgssystemsRepository = knowledgeDgssystemsRepository;
+            //_knowledgeDgssystemsRepository = knowledgeDgssystemsRepository;
             _productEquipmentServiceRepository = productEquipmentServiceRepository;
             _mainCustomersRepository = mainCustomersRepository;
             _numberOfEmployeesRepository = numberOfEmployeesRepository;
@@ -222,6 +225,8 @@ namespace DGSWeb.Controllers
 
             // creating instances of table classes needed, assigning there properties to them
 
+            
+
             var contactPersons = new TblContactPersons
             {
                 ContactPersonName = model.MainContactPersonName,
@@ -255,7 +260,7 @@ namespace DGSWeb.Controllers
             {
                 FormId = _formIdentificationRepository.GetById(formIdentification.FormId).FormId,
                 CompanyName = model.SupplierIdentificationCompanyName,
-                CorporateAffairsCommisionNo = UploadFile(model.SupplierIdentificationCAC),
+                CorporateAffairsCommisionNo = model.SupplierIdentificationCAC,
                 HeadOfficeAddress = model.SupplierIdentificationHeadOfficeAddress,
                 CompanyRegNumber = model.SupplierIdentificationCompanyRegNumber,
                 ContactPersonId = _contactPersonsRepository.GetById(contactPersons.ContactPersonId).ContactPersonId,
@@ -271,6 +276,30 @@ namespace DGSWeb.Controllers
             var SupplierId = _supplierIdentificationRepository.GetById(supplierIdentification.SupplierId).SupplierId;
 
 
+            var subsidiaryCompany1 = new TblSubsidiaryCompany
+            {
+                SupplierId = SupplierId,
+                SubsidiaryCompanyName = model.SupplierIdentificationSubsidiaryCompanyName1
+            };
+
+            _subsidiaryCompanyRepository.Create(subsidiaryCompany1);
+
+            var subsidiaryCompany2 = new TblSubsidiaryCompany
+            {
+                SupplierId = SupplierId,
+                SubsidiaryCompanyName = model.SupplierIdentificationSubsidiaryCompanyName2
+            };
+
+            _subsidiaryCompanyRepository.Create(subsidiaryCompany2);
+
+            var subsidiaryCompany3 = new TblSubsidiaryCompany
+            {
+                SupplierId = SupplierId,
+                SubsidiaryCompanyName = model.SupplierIdentificationSubsidiaryCompanyName3
+            };
+
+            _subsidiaryCompanyRepository.Create(subsidiaryCompany3);
+
             var supplierTaxCertificate = new TblSupplierTaxCertificate
             {
                 SupplierId = SupplierId,
@@ -285,7 +314,7 @@ namespace DGSWeb.Controllers
                 NatureOfBusiness = model.NatureOfBusiness,
                 OrganizationCharts = UploadFile(model.SupplierProfileOrganizationCharts),
                 MissionVisionStatement = UploadFile(model.SupplierProfileMissionVisionStatement),
-                DateofCreation = model.DateofCreation,
+                DateofCreation = model.DateofCreation.GetValueOrDefault(),
                 CodeofConduct = UploadFile(model.CodeOfConduct),
             };
 
@@ -352,7 +381,7 @@ namespace DGSWeb.Controllers
             };
             supplierOwnershipList.Add(supplierOwnership6);
 
-
+            // use unit of work
             foreach (var supplierOwnership in supplierOwnershipList)
             {
                 _supplierOwnershipRepository.Create(supplierOwnership);
@@ -361,128 +390,128 @@ namespace DGSWeb.Controllers
 
             var directServiceScopeList = new List<TblDirectServiceScope>();
 
-            var subCategory1 = new TblSubCategory
-            {
-                Name = model.SubCategoryId1,
-                SupplierId = SupplierId,
-            };
+            //var subCategory1 = new TblSubCategory
+            //{
+            //    Name = model.SubCategoryId1,
+            //    SupplierId = SupplierId,
+            //};
 
-            _subCategoryRepository.Create(subCategory1);
+            //_subCategoryRepository.Create(subCategory1);
 
             var directServiceScope1 = new TblDirectServiceScope
             {
                 MaterialsName = model.MaterialsName1,
-                SubCategoryId = _subCategoryRepository.GetById(subCategory1.SubCategoryId).SubCategoryId,
+                //SubCategoryId = _subCategoryRepository.GetById(subCategory1.SubCategoryId).SubCategoryId,
             };
 
             directServiceScopeList.Add(directServiceScope1);
 
-            var subCategory2 = new TblSubCategory
-            {
-                Name = model.SubCategoryId2,
-                SupplierId = SupplierId,
-            };
+            //var subCategory2 = new TblSubCategory
+            //{
+            //    Name = model.SubCategoryId2,
+            //    SupplierId = SupplierId,
+            //};
 
-            _subCategoryRepository.Create(subCategory2);
+            //_subCategoryRepository.Create(subCategory2);
 
 
             var directServiceScope2 = new TblDirectServiceScope
             {
                 MaterialsName = model.MaterialsName2,
-                SubCategoryId = _subCategoryRepository.GetById(subCategory2.SubCategoryId).SubCategoryId,
+                //SubCategoryId = _subCategoryRepository.GetById(subCategory2.SubCategoryId).SubCategoryId,
             };
             directServiceScopeList.Add(directServiceScope2);
 
 
-            var subCategory3 = new TblSubCategory
-            {
-                Name = model.SubCategoryId3,
-                SupplierId = SupplierId,
-            };
+            //var subCategory3 = new TblSubCategory
+            //{
+            //    Name = model.SubCategoryId3,
+            //    SupplierId = SupplierId,
+            //};
 
-            _subCategoryRepository.Create(subCategory3);
+            //_subCategoryRepository.Create(subCategory3);
 
 
 
             var directServiceScope3 = new TblDirectServiceScope
             {
                 MaterialsName = model.MaterialsName3,
-                SubCategoryId = _subCategoryRepository.GetById(subCategory3.SubCategoryId).SubCategoryId,
+                //SubCategoryId = _subCategoryRepository.GetById(subCategory3.SubCategoryId).SubCategoryId,
             };
             directServiceScopeList.Add(directServiceScope3);
 
 
 
-            var subCategory4 = new TblSubCategory
-            {
-                Name = model.SubCategoryId4,
-                SupplierId = SupplierId,
-            };
+            //var subCategory4 = new TblSubCategory
+            //{
+            //    Name = model.SubCategoryId4,
+            //    SupplierId = SupplierId,
+            //};
 
-            _subCategoryRepository.Create(subCategory4);
+            //_subCategoryRepository.Create(subCategory4);
 
 
 
             var directServiceScope4 = new TblDirectServiceScope
             {
                 MaterialsName = model.MaterialsName4,
-                SubCategoryId = _subCategoryRepository.GetById(subCategory4.SubCategoryId).SubCategoryId,
+                //SubCategoryId = _subCategoryRepository.GetById(subCategory4.SubCategoryId).SubCategoryId,
             };
             directServiceScopeList.Add(directServiceScope4);
 
 
 
-            var subCategory5 = new TblSubCategory
-            {
-                Name = model.SubCategoryId5,
-                SupplierId = SupplierId,
-            };
+            //var subCategory5 = new TblSubCategory
+            //{
+            //    Name = model.SubCategoryId5,
+            //    SupplierId = SupplierId,
+            //};
 
-            _subCategoryRepository.Create(subCategory5);
+            //_subCategoryRepository.Create(subCategory5);
 
 
 
             var directServiceScope5 = new TblDirectServiceScope
             {
                 MaterialsName = model.MaterialsName5,
-                SubCategoryId = _subCategoryRepository.GetById(subCategory5.SubCategoryId).SubCategoryId,
+                //SubCategoryId = _subCategoryRepository.GetById(subCategory5.SubCategoryId).SubCategoryId,
             };
 
             directServiceScopeList.Add(directServiceScope5);
 
 
 
-            var subCategory6 = new TblSubCategory
-            {
-                Name = model.SubCategoryId6,
-                SupplierId = SupplierId,
-            };
+            //var subCategory6 = new TblSubCategory
+            //{
+            //    Name = model.SubCategoryId6,
+            //    SupplierId = SupplierId,
+            //};
 
-            _subCategoryRepository.Create(subCategory6);
+            //_subCategoryRepository.Create(subCategory6);
 
 
 
             var directServiceScope6 = new TblDirectServiceScope
             {
                 MaterialsName = model.MaterialsName6,
-                SubCategoryId = _subCategoryRepository.GetById(subCategory6.SubCategoryId).SubCategoryId,
+                //SubCategoryId = _subCategoryRepository.GetById(subCategory6.SubCategoryId).SubCategoryId,
             };
             directServiceScopeList.Add(directServiceScope6);
 
 
-            var subCategory7 = new TblSubCategory
-            {
-                Name = model.SubCategoryId7,
-                SupplierId = SupplierId,
-            };
+            //var subCategory7 = new TblSubCategory
+            //{
+            //    Name = model.SubCategoryId7,
+            //    SupplierId = SupplierId,
+            //};
 
-            _subCategoryRepository.Create(subCategory7);
+            //_subCategoryRepository.Create(subCategory7);
 
 
             var directServiceScope7 = new TblDirectServiceScope
             {
                 MaterialsName = model.MaterialsName7,
-                SubCategoryId = _subCategoryRepository.GetById(subCategory7.SubCategoryId).SubCategoryId,
+                //SubCategoryId = _subCategoryRepository.GetById(subCategory7.SubCategoryId).SubCategoryId,
             };
             directServiceScopeList.Add(directServiceScope7);
 
@@ -841,13 +870,14 @@ namespace DGSWeb.Controllers
             var businessExperience = new TblBusinessExperience
             {
                 SupplierId = SupplierId,
-                FinancialTurnover = model.FinancialTurnOver,
+                FinancialTurnover = int.Parse(model.FinancialTurnOver),
                 RegistrationDate = model.KDGSStartDate,
                 CompanyWorkedWith = model.CompanyWorkedWith1,
                 TimeFrame = model.TimeFrame1,
                 TransactionReference = UploadFile(model.TransactionReference1),
                 ScopeCovered = model.ScopeCovered1,
-                //
+                HasContinuityPolicy = model.HasBusinessConPolicy,
+                ContinuityPolicy = UploadFile(model.BizConPolicy)
                 //
             };
 
@@ -870,31 +900,31 @@ namespace DGSWeb.Controllers
 
 
 
-            var knowledgeDgssystems = new TblKnowledgeDgssysytems
-            {
-                ContractNumber = model.KDGSContractNumber,
-                ProdEquSerId  = model.ProdEquSerType,
-                StartDate = model.KDGSStartDate,
-                Dgsref = model.Dgsref,
-                SupplierId = SupplierId,
-            };
+            //var knowledgeDgssystems = new TblKnowledgeDgssysytems
+            //{
+            //    ContractNumber = model.KDGSContractNumber,
+            //    ProdEquSerId  = model.ProdEquSerType,
+            //    StartDate = model.KDGSStartDate,
+            //    Dgsref = model.Dgsref,
+            //    SupplierId = SupplierId,
+            //};
 
 
-            _knowledgeDgssystemsRepository.Create(knowledgeDgssystems);
+            //_knowledgeDgssystemsRepository.Create(knowledgeDgssystems);
 
             // main customers
 
-            var mainCustomers = new TblMainCustomers
-            {
-                CustomerName = model.CustomerName,
-                CountryId = model.CustomerCountryId,
-                //ProdEquSerId = model.CustomerProdEquSerId,
-                ValueId = model.ValueId,
-                SupplierId = SupplierId
+            //var mainCustomers = new TblMainCustomers
+            //{
+            //    CustomerName = model.CustomerName,
+            //    CountryId = model.CustomerCountryId,
+            //    //ProdEquSerId = model.CustomerProdEquSerId,
+            //    ValueId = model.ValueId,
+            //    SupplierId = SupplierId
 
-            };
+            //};
 
-            _mainCustomersRepository.Create(mainCustomers);
+            //_mainCustomersRepository.Create(mainCustomers);
 
 
 
@@ -1097,7 +1127,7 @@ namespace DGSWeb.Controllers
                 NameofCertificate = model.NameofCertificate,
                 CertificateCopy = UploadFile(model.CertificateCopy),
                 CertOrgId = _certifyingOrgRepository.GetById(certifyingOrg.CertOrgId).CertOrgId,
-                ValidityDate = model.ValidityDate,
+                ValidityDate = model.ValidityDate??null,
 
             };
 
@@ -1140,7 +1170,7 @@ namespace DGSWeb.Controllers
                 SupplierId = SupplierId,
                 NameofCertificate  = model.HseNameofCertificate,
                 CertOrgId = _certifyingOrgRepository.GetById(hseCertifyingOrg.CertOrgId).CertOrgId,
-                ValidityDate = model.ValidityDate,
+                ValidityDate = model.ValidityDate ?? null,
                 CertificateCopy = UploadFile(model.CertificateCopy)
             };
 
@@ -1192,17 +1222,20 @@ namespace DGSWeb.Controllers
 
             /*Corporate social Responsibility*/
 
-            foreach(var srehll in model.SrethHumanLaborLaws)
+           if(model.SrethHumanLaborLaws != null)
             {
-                var corpSocialResponsibility = new TblCorpSocialResponsibility
+                foreach (var srehll in model.SrethHumanLaborLaws)
                 {
-                    SupplierId = SupplierId,
-                    SrethHumanLaborLaws = UploadFile(srehll),
-                    ThirdPartySocAudit = UploadFile(model.ThirdPartySocAudit),
-                    FraudMalpracticePolicy = UploadFile(model.FraudMalpracticePolicy)
-                };
+                    var corpSocialResponsibility = new TblCorpSocialResponsibility
+                    {
+                        SupplierId = SupplierId,
+                        SrethHumanLaborLaws = UploadFile(srehll),
+                        ThirdPartySocAudit = UploadFile(model.ThirdPartySocAudit),
+                        FraudMalpracticePolicy = UploadFile(model.FraudMalpracticePolicy)
+                    };
 
-                _corpSocialResponsiblityRepository.Create(corpSocialResponsibility);
+                    _corpSocialResponsiblityRepository.Create(corpSocialResponsibility);
+                }
             }
 
             // Vendor Reg Form Approval
@@ -1237,48 +1270,61 @@ namespace DGSWeb.Controllers
                 VendorCompanyDateofCreation = model.DateofCreation,
                 OwnershipMainShareholders = model.MainShareholder1,
                 PercentageShareholding = model.Shareholding1,
-                OwnershipNationality = _countryRepository.GetById(model.SupplierOwnershipCountryId1).CountryName,
+                //OwnershipNationality = _countryRepository.GetById(model.SupplierOwnershipCountryId1.GetValueOrDefault(0)).CountryName ?? "none",
+                OwnershipNationality = model.SupplierOwnershipCountryId1.GetValueOrDefault(0).ToString(),
                 DirectServiceScopeMaterials = model.MaterialsName1,
                 DirectServiceScopeSubCategories = model.SubCategoryId1,
                 TypicalSubContractedScopeProducts = model.ProductName1,
                 TypicalSubContractedScopeName = model.TypicalSubConName1,
                 TypicalSubContractedScopeAddress = model.TypicalSubConAddress1,
-                TypicalSubContractedScopeNationality = _countryRepository.GetById(model.TypicalSubConCountryId1).CountryName,
+                TypicalSubContractedScopeNationality = model.TypicalSubConCountryId1.GetValueOrDefault(0).ToString(),
+                //TypicalSubContractedScopeNationality = _countryRepository.GetById(model.TypicalSubConCountryId1.GetValueOrDefault(0)).CountryName ?? "none",
                 TypicalSubContractedScopeIsLocal = model.TypicalSubConIsLocal1,
-                Cymfgffcity = _cityRepository.GetById(model.CyMfgFfCityId1).CityName,
+                Cymfgffcity = model.CyMfgFfCityId1.ToString(),
+                //Cymfgffcity = _cityRepository.GetById(model.CyMfgFfCityId1.GetValueOrDefault(0)).CityName ?? null,
                 CymfgffplantEquipmentType = model.CyMfgFfPlantsEquipmentType1,
                 CymfgffplantEquipmentNumber = model.CyMfgFfPlantsEquipmentNumber1,
                 Cymfgffutilization = model.CyMfgFfUtilization1,
                 CymfgfffactoryArea = model.CyMfgFfFactoryArea1,
                 SpdirectServiceScopeService = model.SpServices1,
                 SpdirectServiceScopeServiceDetails = model.SpDssDescription1,
-                SpofficeServiceCenterCity = _cityRepository.GetById(model.OfficeServClCityId1).CityName,
-                SpofficeServiceCenterCountry = _countryRepository.GetById(model.OfficeServClCountryId1).CountryName,
+                SpofficeServiceCenterCity = model.OfficeServClCityId1.GetValueOrDefault(0).ToString(),
+                //SpofficeServiceCenterCity = _cityRepository.GetById(model.OfficeServClCityId1.GetValueOrDefault(0)).CityName ?? null,
+                SpofficeServiceCenterCountry = model.OfficeServClCountryId1.GetValueOrDefault(0).ToString(),
+                //SpofficeServiceCenterCountry = _countryRepository.GetById(model.OfficeServClCountryId1.GetValueOrDefault(0)).CountryName ?? null,
                 SpsubContractedServices = model.SubConServiceName,
                 SpsubContractedServicesPercOutsourced = model.SubConPercentageOutsourced,
                 SpsubContractorName = model.SubConName,
                 SpsubContractorAddress = model.SubConAddress,
-                SpsubContractorNationality = _countryRepository.GetById(model.SubConCountryId).CountryName,
+                SpsubContractorNationality = model.SubConCountryId.GetValueOrDefault(0).ToString(),
+                //SpsubContractorNationality = _countryRepository.GetById(model.SubConCountryId.GetValueOrDefault(0)).CountryName ?? null,
                 SpsubContractorIsLocal = model.IsLocal,
                 AdforeignCompanyName = model.ForeignCompanyName,
                 AdforeignCompanyProductSupplied = model.ProductSupplied,
-                AdforeignCompanyStatus = model.StatusList.Where(x => x.Value == model.Status.ToString()).FirstOrDefault().Text,
+                //AdforeignCompanyStatus = model.StatusList.Where(x => x.Value == model.Status.ToString()).FirstOrDefault().Text,
                 AdforeignCompanyOther = model.Others,
                 VendorOrganizationChart = ApprovalUploadFile(model.SupplierProfileOrganizationCharts),
                 VendorMissionVisionStatement = ApprovalUploadFile(model.SupplierProfileMissionVisionStatement),
                 //BusinessContinuityPolicy = ApprovalUploadFile(model.BizConPolicy),
-                //
-                //
+                BusinessExFinancialTurnover = int.Parse(model.FinancialTurnOver),
+                BusinessExContinuityPolicy = ApprovalUploadFile(model.BizConPolicy),
+                BusinessExHasContinuityPolicy = model.HasBusinessConPolicy,
+                BusinessExCompanyWorkedWith = model.CompanyWorkedWith1,
+                BusinessExTimeFrame = model.TimeFrame1,
+                BusinessExScopeCovered = model.ScopeCovered1,
+                BusinessExRegistrationDate = model.KDGSStartDate,
+                BusinessExTransactionReference = ApprovalUploadFile(model.TransactionReference1),
                 KnowledgeofDgssystemsContractNo = model.KDGSContractNumber,
                 KnowledgeofDgssystemsProdEquServ = model.ProdEquSerDescription,
                 KnowledgeofDgssystemsStartDate = model.KDGSStartDate,
                 KnowledgeofDgssystemsDgsref = model.Dgsref,
                 VendorMainCustomerName = model.CustomerName,
-                VendorMainCustomerCountry = _countryRepository.GetById(model.CustomerCountryId).CountryName,
+                VendorMainCustomerCountry = model.CustomerCountryId.ToString(),
+                //VendorMainCustomerCountry = _countryRepository.GetById(model.CustomerCountryId).CountryName,
                 //VendorMainCustomerProductService = model.KDGSSType.Where(x => x.Value == model.KDGSProdEquSerId.ToString()).FirstOrDefault().Text,
                 //VendorMainCustomerProductService = _productEquipmentServiceRepository.GetById(model.ProdEquSerType).Description,
-                VendorMainCustomerValueYear = int.Parse((model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text).Split("-")[1]),
-                VendorMainCustomerValue = model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text,
+                //VendorMainCustomerValueYear = int.Parse((model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text).Split("-")[1]),
+                //VendorMainCustomerValue = model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text,
                 VendorCompanyDepartment = _departmentsRepository.GetAll().ToList()[0].DepartmentName,
                 VendorCompanyNoofStaff = model.NoOfEmployees1,
                 VendorCompanyNoofContractStaff = model.NoOfContractEmp1,
@@ -1286,9 +1332,9 @@ namespace DGSWeb.Controllers
                 CodeofConduct = ApprovalUploadFile(model.CodeOfConduct),
                 StaffTrainingPolicy = ApprovalUploadFile(model.StaffPolicy),
                 StaffTrainingPolicyThirdPartyAudit = ApprovalUploadFile(model.ThirdPartySocAudit),
-                FinancialStatementYear1 = ApprovalUploadFile(model.FinancialStatement),
-                FinancialStatementYear2 = ApprovalUploadFile(model.AnnualReport),
-                FinancialStatementYear3 = ApprovalUploadFile(model.FinancialAudit),
+                FinancialStatementYear1 = ApprovalUploadFile(model.FinancialStatement1),
+                FinancialStatementYear2 = ApprovalUploadFile(model.FinancialStatement2),
+                FinancialStatementYear3 = ApprovalUploadFile(model.FinancialStatement3),
                 FinancialAuditorName = model.AuditorName,
                 FinancialAuditorAddress = model.AuditorAddress,
                 FinancialAuditorContactNumber = model.AuditorContactNumber,
@@ -1303,7 +1349,7 @@ namespace DGSWeb.Controllers
                 QualityManagerFaxNumber = model.QualManagerFax,
                 QualityCertificationName = model.NameofCertificate,
                 QualityCertificationCertOrganization = model.CertOrgName,
-                QualityCertficationValidityDate = model.ValidityDate,
+                QualityCertficationValidityDate = model.ValidityDate ?? null,
                 HealthSafetyEnvironmentPolicy = ApprovalUploadFile(model.Hsepolicy),
                 HsethirdPartyAudit = ApprovalUploadFile(model.HseThirdPartyAudit),
                 HsemanagerName = model.HseManagerName,
@@ -1316,9 +1362,9 @@ namespace DGSWeb.Controllers
                 HsestaffTrainingPolicy = ApprovalUploadFile(model.HseStaffTraining),
                 HsecertificationName = model.HseNameofCertificate,
                 HsecertificationCertAuthority = model.HseCertOrgName,
-                HsecertficationValidityDate = model.HseValidityDate,
+                HsecertficationValidityDate = model.HseValidityDate ?? null,
                 CorporateDistinctives = model.Details1,
-                CsrsocRespEthHumanLaborLaws = ApprovalUploadFile(model.SrethHumanLaborLaws[0]),
+                CsrsocRespEthHumanLaborLaws = ApprovalUploadFile(model.SrethHumanLaborLaws?? null),
                 VendorThirdPartySocialAudit = ApprovalUploadFile(model.ThirdPartySocAudit),
                 VendorFraudMalpracticePolicy = ApprovalUploadFile(model.FraudMalpracticePolicy),
                 ApprovalStatus = 0
@@ -1350,7 +1396,7 @@ namespace DGSWeb.Controllers
                 string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
                 // To make sure the file name is unique we are appending a new
                 // GUID value and and an underscore to the file name
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + formFile;
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 // Use CopyTo() method provided by IFormFile interface to
                 // copy the file to wwwroot/images folder
@@ -1382,7 +1428,7 @@ namespace DGSWeb.Controllers
                 string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "approvaluploads");
                 // To make sure the file name is unique we are appending a new
                 // GUID value and and an underscore to the file name
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + formFile;
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 // Use CopyTo() method provided by IFormFile interface to
                 // copy the file to wwwroot/images folder
@@ -1399,7 +1445,40 @@ namespace DGSWeb.Controllers
             return returnUrl;
         }
 
+        public string ApprovalUploadFile(IEnumerable<IFormFile> formFiles)
+        {
+            if (formFiles != null)
+            {
+                foreach(var formFile in formFiles)
+                {
+                    // If the FormFile property on the incoming model object is not null, then the user
+                    // has selected an image to upload.
 
-       
+
+                    // The image must be uploaded to the images folder in wwwroot
+                    // To get the path of the wwwroot folder we are using the inject
+                    // HostingEnvironment service provided by ASP.NET Core
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "approvaluploads");
+                    // To make sure the file name is unique we are appending a new
+                    // GUID value and and an underscore to the file name
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    // Use CopyTo() method provided by IFormFile interface to
+                    // copy the file to wwwroot/images folder
+                    formFile.CopyTo(new FileStream(filePath, FileMode.Create));
+
+                    //assign vessel photo URL
+                    return uniqueFileName;
+
+                }
+
+
+            }
+
+            var returnUrl = "invalidfileUpload";
+            return returnUrl;
+        }
+
+
     }
 }

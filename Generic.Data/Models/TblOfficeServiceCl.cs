@@ -7,8 +7,8 @@ namespace Generic.Data.Models
     {
         public int OfficeServClId { get; set; }
         public string Location { get; set; }
-        public int CityId { get; set; }
-        public int CountryId { get; set; }
+        public int? CityId { get; set; }
+        public int? CountryId { get; set; }
         public int SupplierId { get; set; }
 
         public virtual TblCity City { get; set; }
