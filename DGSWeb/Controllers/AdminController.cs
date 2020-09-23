@@ -131,15 +131,15 @@ namespace DGSWeb.Controllers
         //[HttpPost]
         public IActionResult ApproveVendor(int id)
         {
-            var vendor = _vendorRegFormApprovalRepository.GetById(id);
+            var vendorForm = _vendorRegFormApprovalRepository.GetById(id);
             //var formIdentification = _formIdentificationRepository.GetById(vendor.id)
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
             var userId = claim.Value;
-            vendor.ApprovalStatus = 1;
-            vendor.ApprovedBy = userId;
-            vendor.ApprovedDate = DateTime.Now;
-            _vendorRegFormApprovalRepository.Update(vendor);
+            vendorForm.ApprovalStatus = 1;
+            vendorForm.ApprovedBy = userId;
+            vendorForm.ApprovedDate = DateTime.Now;
+            _vendorRegFormApprovalRepository.Update(vendorForm);
 
             return RedirectToAction("VendorFormList");
         }
@@ -149,21 +149,36 @@ namespace DGSWeb.Controllers
         public IActionResult DisapproveVendor(int id)
         {
 
-            var vendor = _vendorRegFormApprovalRepository.GetById(id);
+            var vendorForm = _vendorRegFormApprovalRepository.GetById(id);
             //var formIdentification = _formIdentificationRepository.GetById(vendor.id)
-            vendor.ApprovalStatus = 2;
-            _vendorRegFormApprovalRepository.Sp_VendorRegAdminDisapproved(vendor.FormId, vendor.SupplierId);
-            _vendorRegFormApprovalRepository.Update(vendor);
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            var userId = claim.Value;
+            vendorForm.ApprovedBy = userId;
+            vendorForm.ApprovedDate = DateTime.Now;
+            vendorForm.ApprovalStatus = 2;
+            _vendorRegFormApprovalRepository.Sp_VendorRegAdminDisapproved(vendorForm.FormId, vendorForm.SupplierId);
+            _vendorRegFormApprovalRepository.Update(vendorForm);
 
             return RedirectToAction("VendorFormList");
         }
 
 
 
-        public async Task<IActionResult> QueryVendor(string email, string query)
+        public async Task<IActionResult> QueryVendor(string email, string query, int id)
         {
-            if(email != null && query != null)
+            if(email != null && query != null )
             {
+
+                var vendorForm = _vendorRegFormApprovalRepository.GetById(id);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+                var userId = claim.Value;
+                vendorForm.ApprovedBy = userId;
+                vendorForm.ApprovedDate = DateTime.Now;
+                vendorForm.ApprovalStatus = 3;
+                _vendorRegFormApprovalRepository.Update(vendorForm);
+
                 await _emailSender.SendEmailAsync(email, "Vendor Form Query", query);
 
                 return RedirectToAction("VendorFormList");

@@ -126,5 +126,6 @@ namespace Generic.Data.Models
         public string BusinessExScopeCovered { get; set; }
         public string BusinessExHasContinuityPolicy { get; set; }
         public string BusinessExContinuityPolicy { get; set; }
+        public string VendorUsername { get; set; }
     }
 }

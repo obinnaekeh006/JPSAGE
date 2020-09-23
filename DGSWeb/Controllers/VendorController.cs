@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DGSWeb.ViewModels;
 using Generic.Dapper.Interfaces;
@@ -159,6 +160,39 @@ namespace DGSWeb.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult VendorFormList()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            var userEmail = claim.Value;
+
+            var vendorListModel = _vendorRegFormApprovalRepository.Find(f => f.VendorUsername == userEmail );
+
+            return View(vendorListModel);
+        }
+
+
+
+        public IActionResult VendorFormView(int id)
+        {
+            var vendor = _vendorRegFormApprovalRepository.GetById(id);
+            //var formIdentification = _formIdentificationRepository.GetById(vendor.id)
+            var model = new VendorFormViewModel
+            {
+                Countries = _countryRepository.GetAll().ToList(),
+                //SubCategories = _subCategoryRepository.GetAll().ToList(),
+                //Products = _productsRepository.GetAll().ToList(),
+                Cities = _cityRepository.GetAll().ToList(),
+                Services = _servicesRepository.GetAll().ToList(),
+                Departments = _departmentsRepository.GetAll().ToList()
+            };
+
+            return View(model);
+        }
+
+
 
         [HttpGet]
         public IActionResult Form()
@@ -1240,11 +1274,17 @@ namespace DGSWeb.Controllers
 
             // Vendor Reg Form Approval
 
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            var userEmail = claim.Value;
+
+
             var vendorRegApprovalForm = new TblVendorRegFormApproval
             {
                 SupplierId = SupplierId,
                 // fill in form identification details
                 FormId = FormId,
+                VendorUsername = userEmail,
                 FormIdentificationName = model.FormIdentificationName,
                 FormIdentificationPosition = model.FormIdentificationPosition,
                 FormIdentificationPhoneNumber = model.FormIdentificationPhoneNumber,

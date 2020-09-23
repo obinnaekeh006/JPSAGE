@@ -274,15 +274,18 @@ $(document).ready(function () {
 $('#SendQuery').click(function () {
     var VendorEmail = $("#queryVendorEmail").val();
     var queryString = $(".queryTextarea").val();
+    var vendorFormID = $("#queryVendorFormID").val();
 
     //console.log(VendorEmail);
     //console.log(queryString);
 
 
-    if (VendorEmail != null && queryString != "") {
+    if (VendorEmail != null && queryString != "" && vendorFormID != null)
+    {
         var actionLink = "/Admin/QueryVendor" +
             '?email=' + VendorEmail +
-            '&query=' + queryString;
+            '&query=' + queryString +
+            '&id=' + vendorFormID;
 
         //console.log(actionLink);
 

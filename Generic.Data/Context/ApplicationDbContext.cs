@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Generic.Data.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Generic.Data.Context
 {
@@ -78,10 +78,12 @@ namespace Generic.Data.Context
         public virtual DbSet<TblValueDetails> TblValueDetails { get; set; }
         public virtual DbSet<TblVendorRegFormApproval> TblVendorRegFormApproval { get; set; }
 
-       
+   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
 
             base.OnModelCreating(modelBuilder);
 
@@ -91,6 +93,8 @@ namespace Generic.Data.Context
                 new { Id = "3", Name = "Moderator", NormalizedName = "MODERATOR" }
 
                 );
+
+
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
             {
@@ -1898,6 +1902,8 @@ namespace Generic.Data.Context
                 entity.Property(e => e.VendorOrganizationChart).HasMaxLength(100);
 
                 entity.Property(e => e.VendorThirdPartySocialAudit).HasMaxLength(100);
+
+                entity.Property(e => e.VendorUsername).HasMaxLength(100);
             });
 
             OnModelCreatingPartial(modelBuilder);

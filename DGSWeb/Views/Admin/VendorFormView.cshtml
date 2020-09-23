@@ -1098,7 +1098,7 @@
 
             <center style="margin-bottom:100px; margin-top:100px;">
                 <div class="row">
-                    @if (Model.VendorForm.ApprovalStatus == 0)
+                    @if (Model.VendorForm.ApprovalStatus == 0 || Model.VendorForm.ApprovalStatus == 3 )
                     {
                         <div class="col-md-4">
                             <a id="confirmApproval" class="btn btn-success text-white" data-id="@Model.VendorForm.VendorApprovalId" data-target="approvalModal" data-toggle="modal"> Approve Vendor</a>
@@ -1219,6 +1219,7 @@
 
                         <div>
                             <input type="hidden" id="queryVendorEmail" />
+                            <input type="hidden" id="queryVendorFormID" value="@Model.VendorForm.VendorApprovalId" />
 
                         </div>
                         <textarea class="queryTextarea"></textarea>

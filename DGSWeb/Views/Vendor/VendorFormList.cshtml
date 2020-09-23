@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Admin Vendor List Page";
-    Layout = "_AdminLayout";
+    ViewBag.Title = "Vendor Form List Page";
+    Layout = "_VendorDashboard";
 }
 
 
@@ -55,7 +55,7 @@
                         <th>Contact Person Name</th>
                         <th>Contact Person Phone</th>
                         <th>Approval Status</th>
-                        <th><a class="btn btn-sm btn-warning text-white" asp-controller="Admin" asp-action="Index">Return </a></th>
+                        <th><a class="btn btn-sm btn-warning text-white" asp-controller="Vendor" asp-action="Index">Return </a></th>
                         @*<th></th>
                             <th></th>*@
                     </tr>
@@ -87,7 +87,7 @@
                         {
                             <td><div class="btn-danger pl-2">Queried</div></td>
                         }
-                        <td><a class="btn btn-sm btn-info" asp-controller="Admin" asp-action="VendorFormView" asp-route-id="@vendor.VendorApprovalId">Details </a></td>
+                        <td><a class="btn btn-sm btn-info" asp-controller="Vendor" asp-action="VendorFormView" asp-route-id="@vendor.VendorApprovalId">Details </a></td>
                         @*<td><a class="btn btn-secondary" asp-area="" asp-controller="Admin" asp-action="Update" asp-route-id="@vendor.VendorApprovalId">Edit</a></td>
         <td><a id="confirm" class="text-white element btn btn-danger" data-id="@vendor.VendorApprovalId" data-target="deleteModal" data-toggle="modal"> Delete</a></td>*@
                     </tr>
