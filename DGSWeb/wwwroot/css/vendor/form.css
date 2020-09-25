@@ -320,3 +320,11 @@ body {
             background: #27AE60;
             color: white;
         }
+
+.dashboardButton {
+    appearance: push-button;
+    user-select: none;
+    white-space: pre;
+    align-items: flex-start;
+    text-align: center;
+}

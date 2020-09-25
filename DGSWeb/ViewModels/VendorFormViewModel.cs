@@ -59,6 +59,12 @@ namespace DGSWeb.ViewModels
             new SelectListItem("25 million and above", "3")
         };
 
+        public int VendorApprovalId { get; set; }
+        public int SupplierId { get; set; }
+        public int FormId { get; set; }
+        public string VendorUsername { get; set; }
+        public string ApprovedBy { get; set; }
+
         /*Form Identification*/
 
         //public int FormId { get; set; }
@@ -73,7 +79,7 @@ namespace DGSWeb.ViewModels
         [Required]
         public string FormIdentificationEmailAddress { get; set; }
         [Required]
-        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+        [Range(typeof(DateTime), "1/1/1754", "1/1/9999",
         ErrorMessage = "Date out of Range")]
         public DateTime? FormIdentificationDate { get; set; }
 
@@ -149,7 +155,7 @@ namespace DGSWeb.ViewModels
         [Required]
         public string NatureOfBusiness { get; set; }
         [Required]
-        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+        [Range(typeof(DateTime), "1/1/1754", "1/1/9999",
         ErrorMessage = "Date out of Range")]
         public DateTime? DateofCreation { get; set; }
         [BindProperty]
@@ -403,7 +409,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string KDGSContractNumber { get; set; }
         public int KDGSProdEquSerId { get; set; }
-        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+        [Range(typeof(DateTime), "1/1/1754", "1/1/9999",
          ErrorMessage = "Date out of Range")]
         public DateTime? KDGSStartDate { get; set; }
         //[Required]
@@ -608,7 +614,7 @@ namespace DGSWeb.ViewModels
         public string CertOrgName { get; set; }
         //[Required]
         //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+        [Range(typeof(DateTime), "1/1/1754", "1/1/9999",
          ErrorMessage = "Date out of Range")]
         public DateTime? ValidityDate { get; set; }
         //[Required]
@@ -653,7 +659,7 @@ namespace DGSWeb.ViewModels
         //[Required]
         public string HseCertOrgName { get; set; }
         //[Required]
-        [Range(typeof(DateTime), "1/1/1754", "12/31/9999",
+        [Range(typeof(DateTime), "1/1/1754", "1/1/9999",
          ErrorMessage = "Date out of Range")]
         public DateTime? HseValidityDate { get; set; }
         //[Required]

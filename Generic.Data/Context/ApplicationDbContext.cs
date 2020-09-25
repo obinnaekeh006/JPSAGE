@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Generic.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Generic.Data.Context
 {
@@ -78,12 +78,9 @@ namespace Generic.Data.Context
         public virtual DbSet<TblValueDetails> TblValueDetails { get; set; }
         public virtual DbSet<TblVendorRegFormApproval> TblVendorRegFormApproval { get; set; }
 
-   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
 
             base.OnModelCreating(modelBuilder);
 
@@ -93,7 +90,6 @@ namespace Generic.Data.Context
                 new { Id = "3", Name = "Moderator", NormalizedName = "MODERATOR" }
 
                 );
-
 
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
@@ -1692,6 +1688,8 @@ namespace Generic.Data.Context
                 entity.Property(e => e.FinancialStatementYear3).HasMaxLength(100);
 
                 entity.Property(e => e.FormId).HasColumnName("FormID");
+
+                entity.Property(e => e.FormIdentificationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.FormIdentificationEmailAddress).HasMaxLength(100);
 

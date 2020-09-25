@@ -127,5 +127,7 @@ namespace Generic.Data.Models
         public string BusinessExHasContinuityPolicy { get; set; }
         public string BusinessExContinuityPolicy { get; set; }
         public string VendorUsername { get; set; }
+        public DateTime? FormIdentificationDate { get; set; }
+        public bool? VendorIsForeign { get; set; }
     }
 }

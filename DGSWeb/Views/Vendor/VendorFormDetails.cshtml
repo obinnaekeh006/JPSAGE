@@ -1,0 +1,1119 @@
+﻿@{
+    ViewBag.Title = "Vendor Form Details Page";
+    Layout = "_VendorDashboard";
+}
+
+
+@using DGSWeb.ViewModels
+@using Generic.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model FormViewVendorModel
+
+
+<!DOCTYPE html>
+
+<div>
+
+    <div style="display:none;">
+        <div class="card-body">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myAreaChart" width="1080" height="323" style="display: block; height: 259px; width: 864px;" class="chartjs-render-monitor"></canvas>
+        </div>
+
+        <div class="col-sm-8 my-auto">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myBarChart" width="447" height="223" class="chartjs-render-monitor" style="display: block; height: 179px; width: 358px;"></canvas>
+        </div>
+        <div class="card-body">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myPieChart" width="300" height="300" class="chartjs-render-monitor" style="display: block; height: 240px; width: 240px;"></canvas>
+        </div>
+    </div>
+
+    <div class="">
+        @if (Model == null)
+        {
+            <!--Content-->
+            <div class="main-panel" style="padding-top:100px; padding-bottom:500px;">
+                <div class="d-flex justify-content-center ">
+
+                    <center>
+
+                        <h2>Not found</h2>
+                        <a class="btn btn-secondary mt-5" asp-controller="Vendor" asp-action="Index">Return </a>
+                    </center>
+                </div>
+            </div>
+        }
+        else
+        {
+    <div class="row" style="padding-left:150px;">
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FormIdentificationName" class="control-label">Form Identification Name</label>
+                    <div>@Model.VendorForm.FormIdentificationName</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FormIdentificationPosition" class="control-label">Form Identification Position</label>
+                    <div>@Model.VendorForm.FormIdentificationPosition</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FormIdentificationPhoneNumber" class="control-label">Form Identification Phone Number</label>
+                    <div>@Model.VendorForm.FormIdentificationPhoneNumber</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FormIdentificationWorkPhoneNumber" class="control-label">Form Identification Work Phone Number</label>
+                    <div>@Model.VendorForm.FormIdentificationWorkPhoneNumber</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FormIdentificationEmailAddress" class="control-label">Form Identification Email Address</label>
+                    <div>@Model.VendorForm.FormIdentificationEmailAddress</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyName" class="control-label">Vendor Company Name</label>
+                    <div>@Model.VendorForm.VendorCompanyName</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SubsidiaryCompanyName" class="control-label">Subsidiary Company Name</label>
+                    <div>@Model.VendorForm.SubsidiaryCompanyName</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorHeadOfficeAddress" class="control-label">Vendor Head Office Address</label>
+                    <div>@Model.VendorForm.VendorHeadOfficeAddress</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyRegistrationNumber" class="control-label">Vendor Company Registration Number</label>
+                    <div>@Model.VendorForm.VendorCompanyRegistrationNumber</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyRegistrationNumber" class="control-label">Vendor Company Registration Number</label>
+                    <div>@Model.VendorForm.VendorCompanyRegistrationNumber</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.MainContactPersonName" class="control-label">Main Contact Person Name</label>
+                    <div>@Model.VendorForm.MainContactPersonName</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.MainContactPersonPhone" class="control-label">Main Contact Person Phone</label>
+                    <div>@Model.VendorForm.MainContactPersonPhone</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.MainContactPersonPosition" class="control-label">Main Contact Person Position</label>
+                    <div>@Model.VendorForm.MainContactPersonPosition</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.MainContactPersonWorkPhone" class="control-label">Main Contact Person Work Phone</label>
+                    <div>@Model.VendorForm.MainContactPersonWorkPhone</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.MainContactPersonEmail" class="control-label">Main Contact Person Email</label>
+                    <div>@Model.VendorForm.MainContactPersonEmail</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.BankReference" class="control-label">Bank Reference</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.BankReference">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.ThirdPartyRefName" class="control-label">Third Party Reference Name</label>
+                    <div>@Model.VendorForm.ThirdPartyRefName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.ThirdPartyRefOrgAddress" class="control-label">Third Party Reference Organization Address</label>
+                    <div>@Model.VendorForm.ThirdPartyRefOrgAddress</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- -->
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.ThirdPartyRefContactNo" class="control-label">Third Party Reference Contact Number</label>
+                    <div>@Model.VendorForm.ThirdPartyRefContactNo</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.ThirdPartyRefEmail" class="control-label">Third Party Reference Email</label>
+                    <div>@Model.VendorForm.ThirdPartyRefEmail</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyProfile" class="control-label">Vendor Company Profile</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.VendorCompanyProfile">download</a></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyWebsiteAddress" class="control-label">Vendor Company Website Address</label>
+                    <div>@Model.VendorForm.VendorCompanyWebsiteAddress</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorNatureofBusiness" class="control-label">Vendor Company Nature of business</label>
+                    <div>@Model.VendorForm.VendorNatureofBusiness</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyDateofCreation" class="control-label">Vendor Company Date Of Creation</label>
+                    <div>@Model.VendorForm.VendorCompanyDateofCreation</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.OwnershipMainShareholders" class="control-label">Ownership Main Share Holders</label>
+                    <div>@Model.VendorForm.OwnershipMainShareholders</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.PercentageShareholding" class="control-label">Ownership Share holding</label>
+                    <div>@Model.VendorForm.PercentageShareholding</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.OwnershipNationality" class="control-label">Ownership Nationality</label>
+                    <div>@Model.VendorForm.OwnershipNationality</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.DirectServiceScopeMaterials" class="control-label">Direct Service Scope Materials</label>
+                    <div>@Model.VendorForm.DirectServiceScopeMaterials</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.DirectServiceScopeSubCategories" class="control-label">Direct Service Scope SubCategories</label>
+                    <div>@Model.VendorForm.DirectServiceScopeSubCategories</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.TypicalSubContractedScopeProducts" class="control-label">Typical SubContracted Scope Products</label>
+                    <div>@Model.VendorForm.TypicalSubContractedScopeProducts</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.TypicalSubContractedScopeName" class="control-label">Typical SubContracted Scope Name</label>
+                    <div>@Model.VendorForm.TypicalSubContractedScopeName</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.TypicalSubContractedScopeAddress" class="control-label">Typical SubContracted Scope Address</label>
+                    <div>@Model.VendorForm.TypicalSubContractedScopeAddress</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.TypicalSubContractedScopeNationality" class="control-label">Typical SubContracted Scope Nationality</label>
+                    <div>@Model.VendorForm.TypicalSubContractedScopeNationality</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.TypicalSubContractedScopeIsLocal" class="control-label">Typical SubContracted Scope IsLocal</label>
+                    <div>@Model.VendorForm.TypicalSubContractedScopeIsLocal</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.Cymfgffcity" class="control-label">Construction Yard City</label>
+                    <div>@Model.VendorForm.Cymfgffcity</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.CymfgffplantEquipmentType" class="control-label">Construction Yard Equipment Type</label>
+                    <div>@Model.VendorForm.CymfgffplantEquipmentType</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.CymfgffplantEquipmentNumber" class="control-label">Construction Yard Equipment Number</label>
+                    <div>@Model.VendorForm.CymfgffplantEquipmentNumber</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.Cymfgffutilization" class="control-label">Construction Yard Equipment Utilization</label>
+                    <div>@Model.VendorForm.Cymfgffutilization</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.CymfgfffactoryArea" class="control-label">Construction Yard Equipment Factory Area</label>
+                    <div>@Model.VendorForm.CymfgfffactoryArea</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpdirectServiceScopeService" class="control-label">Service Provider Direct Service Scope</label>
+                    <div>@Model.VendorForm.SpdirectServiceScopeService</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpdirectServiceScopeServiceDetails" class="control-label">Service Provider Direct Service Scope Service Details</label>
+                    <div>@Model.VendorForm.SpdirectServiceScopeServiceDetails</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpofficeServiceCenterCity" class="control-label">Service Provider Direct Service Scope Service Center City</label>
+                    <div>@Model.VendorForm.SpofficeServiceCenterCity</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpofficeServiceCenterCountry" class="control-label">Service Provider Direct Service Scope Service Center Country</label>
+                    <div>@Model.VendorForm.SpofficeServiceCenterCountry</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpsubContractedServicesPercOutsourced" class="control-label">Service Provider Direct Service Scope Service Percentage Outsourced</label>
+                    <div>@Model.VendorForm.SpsubContractedServicesPercOutsourced</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpsubContractorName" class="control-label">Service Provider Sub Contractor Name</label>
+                    <div>@Model.VendorForm.SpsubContractorName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpsubContractorAddress" class="control-label">Service Provider Sub Contractor Address</label>
+                    <div>@Model.VendorForm.SpsubContractorAddress</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpsubContractorNationality" class="control-label">Service Provider Sub Contractor Nationality</label>
+                    <div>@Model.VendorForm.SpsubContractorNationality</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.SpsubContractorIsLocal" class="control-label">Service Provider Sub Contractor Is Local?</label>
+                    <div>@Model.VendorForm.SpsubContractorIsLocal</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.AdforeignCompanyName" class="control-label">Foreign Company Name</label>
+                    <div>@Model.VendorForm.AdforeignCompanyName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.AdforeignCompanyProductSupplied" class="control-label">Foreign Company Product Supplied</label>
+                    <div>@Model.VendorForm.AdforeignCompanyProductSupplied</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.AdforeignCompanyStatus" class="control-label">Foreign Company Product Status</label>
+                    <div>@Model.VendorForm.AdforeignCompanyStatus</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.AdforeignCompanyOther" class="control-label">Foreign Company Others</label>
+                    <div>@Model.VendorForm.AdforeignCompanyOther</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorOrganizationChart" class="control-label">Vendor Organization Chart</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.VendorOrganizationChart">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorMissionVisionStatement" class="control-label">Vendor Mission and Vission Statement</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.VendorMissionVisionStatement">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.BusinessContinuityPolicy" class="control-label">Business Continuity Policy</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.BusinessContinuityPolicy">download</a></div>
+                </div>
+
+            </div>
+        </div>*@
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.KnowledgeofDgssystemsProdEquServ" class="control-label">Knowledge of DGS System Product</label>
+                    <div>@Model.VendorForm.KnowledgeofDgssystemsProdEquServ</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.KnowledgeofDgssystemsStartDate" class="control-label">Knowledge of DGS Start Date</label>
+                    <div>@Model.VendorForm.KnowledgeofDgssystemsStartDate</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.KnowledgeofDgssystemsDgsref" class="control-label">Knowledge of DGS Ref</label>
+                    <div>@Model.VendorForm.KnowledgeofDgssystemsDgsref</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorMainCustomerName" class="control-label">Vendor Main Customer Name</label>
+                    <div>@Model.VendorForm.VendorMainCustomerName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorMainCustomerCountry" class="control-label">Vendor Main Customer Country</label>
+                    <div>@Model.VendorForm.VendorMainCustomerCountry</div>
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorMainCustomerProductService" class="control-label">Vendor Main Customer Product Service</label>
+                    <div>@Model.VendorForm.VendorMainCustomerProductService</div>
+                </div>
+
+            </div>
+        </div>*@
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorMainCustomerValueYear" class="control-label">Vendor Main Customer Value Year</label>
+                    <div>@Model.VendorForm.VendorMainCustomerValueYear</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorMainCustomerValue" class="control-label">Vendor Main Customer Value </label>
+                    <div>@Model.VendorForm.VendorMainCustomerValue</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyDepartment" class="control-label">Vendor Company Department </label>
+                    <div>@Model.VendorForm.VendorCompanyDepartment</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyNoofStaff" class="control-label">Vendor Company No of Staff </label>
+                    <div>@Model.VendorForm.VendorCompanyNoofStaff</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyNoofContractStaff" class="control-label">Vendor Company No of Contract Staff </label>
+                    <div>@Model.VendorForm.VendorCompanyNoofContractStaff</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorCompanyNoofExpatriates" class="control-label">Vendor Company No of Expatriates </label>
+                    <div>@Model.VendorForm.VendorCompanyNoofExpatriates</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.CodeofConduct" class="control-label">Vendor Company Code of Conduct </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.CodeofConduct">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.StaffTrainingPolicy" class="control-label">Vendor Company Staff Traning Policy </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.StaffTrainingPolicy">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.StaffTrainingPolicyThirdPartyAudit" class="control-label">Vendor Company Third Party Audit </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.StaffTrainingPolicyThirdPartyAudit">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FinancialStatements" class="control-label">Vendor Company Financial Statements </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.FinancialStatements">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FinancialStatementAnnualReport" class="control-label">Vendor Company Financial Statements Annual Report  </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.FinancialStatementAnnualReport">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FinancialAudits" class="control-label">Vendor Company Financial Audits </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.FinancialAudits">download</a></div>
+                </div>
+
+            </div>
+        </div>*@
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FinancialAuditorName" class="control-label">Vendor Company Financial Auditor Name </label>
+                    <div>@Model.VendorForm.FinancialAuditorName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FinancialAuditorAddress" class="control-label">Vendor Company Financial Auditor Address </label>
+                    <div>@Model.VendorForm.FinancialAuditorAddress</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.FinancialAuditorContactNumber" class="control-label">Vendor Company Financial Auditor Contact Number </label>
+                    <div>@Model.VendorForm.FinancialAuditorContactNumber</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.IsListedStockMarket" class="control-label">Vendor Company Is Listed Stock Market? </label>
+                    <div>@Model.VendorForm.IsListedStockMarket</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityPolicy" class="control-label">Quality Policy </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.QualityPolicy">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.ProductQualityManagement" class="control-label">Product Quality Management </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.ProductQualityManagement">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityManagement" class="control-label">Quality Management </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.QualityManagement">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityManagerName" class="control-label">Quality Manager Name </label>
+                    <div>@Model.VendorForm.QualityManagerName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityManagerEmail" class="control-label">Quality Manager Email </label>
+                    <div>@Model.VendorForm.QualityManagerEmail</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityManagerPhoneNumber" class="control-label">Quality Manager Phone Number </label>
+                    <div>@Model.VendorForm.QualityManagerPhoneNumber</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityManagerFaxNumber" class="control-label">Quality Manager Fax Number </label>
+                    <div>@Model.VendorForm.QualityManagerFaxNumber</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityCertificationName" class="control-label">Quality Certification Name </label>
+                    <div>@Model.VendorForm.QualityCertificationName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityCertificationCertOrganization" class="control-label">Quality Certification Organization </label>
+                    <div>@Model.VendorForm.QualityCertificationCertOrganization</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.QualityCertficationValidityDate" class="control-label">Quality Certification Validity Date </label>
+                    <div>@Model.VendorForm.QualityCertficationValidityDate</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HealthSafetyEnvironmentPolicy" class="control-label">Health Safety Environment Policy </label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.HealthSafetyEnvironmentPolicy">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsethirdPartyAudit" class="control-label">HSE Third Party Audit</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.HsethirdPartyAudit">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsemanagerName" class="control-label">HSE Manager Name</label>
+                    <div>@Model.VendorForm.HsemanagerName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsemanagerEmail" class="control-label">HSE Manager Email</label>
+                    <div>@Model.VendorForm.HsemanagerEmail</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsephoneNumber" class="control-label">HSE Manager Phone Number</label>
+                    <div>@Model.VendorForm.HsephoneNumber</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsephoneNumber" class="control-label">HSE Manager Phone Number</label>
+                    <div>@Model.VendorForm.HsephoneNumber</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HseworkPhoneNumber" class="control-label">HSE Manager Work Phone Number</label>
+                    <div>@Model.VendorForm.HseworkPhoneNumber</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsefaxNumber" class="control-label">HSE Manager Fax Number</label>
+                    <div>@Model.VendorForm.HsefaxNumber</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsecompanyKpi" class="control-label">HSE Company KPI</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.HsecompanyKpi">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsecompanyYearN1results" class="control-label">HSE Company Year N1 results</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.HsecompanyYearN1results">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsestaffTrainingPolicy" class="control-label">HSE Staff Training Policy</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.HsestaffTrainingPolicy">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsecertificationName" class="control-label">HSE Cerfification</label>
+                    <div>@Model.VendorForm.HsecertificationName</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsecertificationCertAuthority" class="control-label">HSE Certifying Authority</label>
+                    <div>@Model.VendorForm.HsecertificationCertAuthority</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.HsecertficationValidityDate" class="control-label">HSE Certification Validity Date</label>
+                    <div>@Model.VendorForm.HsecertficationValidityDate</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.CorporateDistinctives" class="control-label"> Corporate Distinctive</label>
+                    <div>@Model.VendorForm.CorporateDistinctives</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.CsrsocRespEthHumanLaborLaws" class="control-label">Corporate Social Responsiblity</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.CsrsocRespEthHumanLaborLaws">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorThirdPartySocialAudit" class="control-label">Third Party Social Audit</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.VendorThirdPartySocialAudit">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.VendorFraudMalpracticePolicy" class="control-label">Fraud Malpractice Policy</label>
+                    <div><a asp-controller="Vendor" asp-action="Download" asp-route-filename="@Model.VendorForm.VendorFraudMalpracticePolicy">download</a></div>
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.ApprovalStatus" class="control-label">Approval Status</label>
+                    <div>@Model.VendorForm.ApprovalStatus</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-4 col-md-4 my-5">
+            <div class="info">
+                <div>
+                    <label asp-for="VendorForm.ApprovalStatus" class="control-label">Approval Status</label>
+                    <div>@Model.VendorForm.ApprovalStatus</div>
+                </div>
+
+            </div>
+        </div>*@
+    </div>
+
+
+            <center style="margin-bottom:100px; margin-top:100px;">
+                <div class="row">
+                   
+                    <div class="col-md-4">
+                        <a id="" class="btn btn-success text-white" asp-controller="Vendor" asp-action="VendorFormList">Form List</a>
+                    </div>
+                        
+
+                </div>
+            </center>
+        }
+
+    </div>
+
+  
+
+
+</div>
+
+
+

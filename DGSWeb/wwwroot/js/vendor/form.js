@@ -97,6 +97,17 @@ jQuery(".previous").click(
 	}
 );
 
+
+jQuery("#dashboard").click(
+	function () {
+		var actionLink = "/Vendor/Index";
+		window.location.href = actionLink;
+	}
+);
+
+
+
+
 jQuery(".submit").click(
 	function () {
 		return false;

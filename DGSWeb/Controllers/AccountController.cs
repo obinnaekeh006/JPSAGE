@@ -56,38 +56,50 @@ namespace DGSWeb.Controllers
 
 
 
+        ///// <summary>
+        ///// This gets the default login page of the application and returns the login view
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public IActionResult Login(string returnUrl)
+        //{
+        //    return LocalRedirect(returnUrl);
+        //}
+
+
+
         /// <summary>
         /// Action that handles email verification when user clickes on the email verification link
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="code"></param>
         /// <returns></returns>
-        [AllowAnonymous]
-        public async Task<IActionResult> EmailLogin(string userId, string code)
-        {
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        //[AllowAnonymous]
+        //public async Task<IActionResult> EmailLogin(string userId, string code)
+        //{
+        //    if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var user = await userManager.FindByIdAsync(userId);
+        //    var user = await userManager.FindByIdAsync(userId);
 
-            if (user == null) return BadRequest();
+        //    if (user == null) return BadRequest();
 
-            if (user.EmailConfirmed)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        //    if (user.EmailConfirmed)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var result = await userManager.ConfirmEmailAsync(user, code);
+        //    var result = await userManager.ConfirmEmailAsync(user, code);
 
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        //    if (result.Succeeded)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            return BadRequest();
-        }
+        //    return BadRequest();
+        //}
 
 
 
@@ -109,26 +121,26 @@ namespace DGSWeb.Controllers
             {
 
                 // Get the User from The database
-                //var user = await userManager.FindByEmailAsync(model.Email);
+                var user = await userManager.FindByEmailAsync(model.Email);
 
-                // Then Check If Email Is confirmed
-                //if (user != null && !await userManager.IsEmailConfirmedAsync(user))
-                //{
-                //    // Sending Confirmation Email
+                //Then Check If Email Is confirmed
+                if (user != null && !await userManager.IsEmailConfirmedAsync(user))
+                {
+                    // Sending Confirmation Email
 
-                //    var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                //    var callbackUrl = Url.Action(nameof(VerifyEmail), "Account", new { UserId = user.Id, Code = code }, protocol: HttpContext.Request.Scheme);
+                    var callbackUrl = Url.Action(nameof(VerifyEmail), "Account", new { UserId = user.Id, Code = code }, protocol: HttpContext.Request.Scheme);
 
-                //    var response = await _emailSender.SendEmailAsync(user.Email, "DGS.com - Confirm Your Email", "Please confirm your e-mail by clicking this link: <a href=\"" + callbackUrl + "\">click here</a>");
+                    var response = await _emailSender.SendEmailAsync(user.Email, "DGS.com - Confirm Your Email", "Please confirm your e-mail by clicking this link: <a href=\"" + callbackUrl + "\">click here</a>");
 
-                //    ModelState.AddModelError(string.Empty, "Email not confirmed");
+                    ModelState.AddModelError(string.Empty, "Email not confirmed");
 
-                //    return RedirectToAction("EmailVerification");
+                    return RedirectToAction("EmailVerification");
 
-                //}
+                }
 
-                
+
 
                 // signing the user in using his email and password and also specifying if the user would
                 // like to remain signed in on closure of browser
@@ -138,7 +150,7 @@ namespace DGSWeb.Controllers
                 // if the sign in is successful, the user is redirected to the home page of the application
                 if (result.Succeeded)
                 {
-                    var user = userManager.FindByEmailAsync(model.Email).Result;
+                    //var user = userManager.FindByEmailAsync(model.Email).Result;
                     var userRoles = userManager.GetRolesAsync(user).Result;
 
                     foreach(var userRole in userRoles)
@@ -234,7 +246,7 @@ namespace DGSWeb.Controllers
                     // generation of the email token
                     var code = await userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
-                    var callbackUrl = Url.Action(nameof(EmailLogin), "Account", new { UserId = identityUser.Id, Code = code }, protocol: HttpContext.Request.Scheme);
+                    var callbackUrl = Url.Action(nameof(VerifyEmail), "Account", new { UserId = identityUser.Id, Code = code }, protocol: HttpContext.Request.Scheme);
                     //var callbackUrl = Url.Action(nameof(Login), "Account");
 
                     
@@ -278,7 +290,7 @@ namespace DGSWeb.Controllers
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Account");
             }
             var user = await userManager.FindByIdAsync(userId);
 
@@ -286,7 +298,7 @@ namespace DGSWeb.Controllers
 
             if (user.EmailConfirmed)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Account");
             }
 
             var result = await userManager.ConfirmEmailAsync(user, code);

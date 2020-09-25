@@ -46,6 +46,7 @@ namespace Generic.Data.Models
         public string CompanyProfile { get; set; }
         public string CompanyWebsiteUrl { get; set; }
         public string CorporateAffairsCommisionNo { get; set; }
+        public bool? SupplierIsForeign { get; set; }
 
         public virtual TblContactPersons ContactPerson { get; set; }
         public virtual TblFormIdentification Form { get; set; }

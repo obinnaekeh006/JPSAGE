@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = " Vendor Form Page";
-    Layout = "_VendorDashboard";
+    Layout = "";
 }
 
 
@@ -34,7 +34,7 @@
         </script>
     </head>
     
-    <div class="body">
+    <div class="body" >
 
         <div style="display:none;">
             <div class="card-body">
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <form asp-controller="Vendor" asp-action="Form" method="post" class="multistep-form" enctype="multipart/form-data">
+        <form asp-controller="Vendor" asp-action="VendorQueryUpdate" method="post" class="multistep-form" style="margin-bottom:0 !important;" enctype="multipart/form-data">
             <ul class="progressbar">
                 <li class="active">Form Identification</li>
                 <li class="">Supplier Identification</li>
@@ -71,7 +71,7 @@
                 <h3 class="fs-subtitle">This is step 1 of 9</h3>
                 @*<div asp-validation-summary="" class="text-danger mt-4">
 
-                </div>*@
+        </div>*@
                 @if (Model.ModelError != "")
                 {
                     <div class="" style="margin-bottom:20px;color:red;">
@@ -144,6 +144,7 @@
 
                     </div>
                 </div>
+                <input type="button" name="dashboard" id="dashboard" class="action-button" value="Return to Dashboard">
                 <input type="button" name="next" class="next action-button" value="Continue to Step 2">
             </fieldset>
             <!--===================================================Form Identification(end)=============================================================-->
@@ -2537,8 +2538,8 @@
                         </div>
                         <div class="custom-file" style="text-align:start !important;">
                             @*  asp-for tag helper is set to "Uplads" property. "Uploads" property type is IFormFile
-                            so at runtime asp.net core generates file upload control (input type=file). To
-                            support multiple files upload include multiple attribute on the input element
+                    so at runtime asp.net core generates file upload control (input type=file). To
+                    support multiple files upload include multiple attribute on the input element
                             *@
                             <input asp-for="SrethHumanLaborLaws" id="file" multiple class="custom-file-input form-control">
                             @*<label class="custom-file-label">Click here to add document file</label>*@
@@ -2551,8 +2552,13 @@
                 <textarea asp-for="Details1" placeholder="Corporate Distinctive Details"></textarea>
                 <div id="validation"><span asp-validation-for="Details1" class="text-danger"></span></div>
 
+                @Html.HiddenFor(m => m.VendorApprovalId)
+                @Html.HiddenFor(m => m.SupplierId)
+                @Html.HiddenFor(m => m.FormId)
+                @Html.HiddenFor(m => m.VendorUsername)
+                @Html.HiddenFor(m => m.ApprovedBy)
                 <input type="button" name="previous" class="previous action-button" value="HSE - Step 8">
-                <input type="submit" class=" action-button" value="Submit">
+                <input type="submit" class=" action-button" value="Update">
                 @*<input type="button" name="next" class="next action-button" value="Continue to step 10">*@
             </fieldset>
             <!--====================================================Corporate Distinctive(END)======================================================================-->
@@ -2573,15 +2579,6 @@
             <!--====================================================Corporate Social Responsibility======================================================================-->
         </form>
 
-        @section Scripts {
-
-            @*To render validation error*@
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-            @*Atrribute Compare validation*@
-            @*<script type="text/javascript" src="~/lib/aspnetcore-custom-validation/aspnetcore-custom-validation.min.js"></script>*@
-
-        }
 
 
         <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>

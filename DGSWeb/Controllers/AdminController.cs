@@ -81,7 +81,7 @@ namespace DGSWeb.Controllers
                            "wwwroot\\approvaluploads\\", filename);
 
             var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.OpenOrCreate))
+            using (var stream = new FileStream(path, FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
@@ -135,7 +135,17 @@ namespace DGSWeb.Controllers
             //var formIdentification = _formIdentificationRepository.GetById(vendor.id)
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+
+            if (claim == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var userId = claim.Value;
+
+            
+
+
             vendorForm.ApprovalStatus = 1;
             vendorForm.ApprovedBy = userId;
             vendorForm.ApprovedDate = DateTime.Now;
@@ -153,6 +163,12 @@ namespace DGSWeb.Controllers
             //var formIdentification = _formIdentificationRepository.GetById(vendor.id)
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+
+            if (claim == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var userId = claim.Value;
             vendorForm.ApprovedBy = userId;
             vendorForm.ApprovedDate = DateTime.Now;
@@ -173,6 +189,12 @@ namespace DGSWeb.Controllers
                 var vendorForm = _vendorRegFormApprovalRepository.GetById(id);
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+
+                if (claim == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 var userId = claim.Value;
                 vendorForm.ApprovedBy = userId;
                 vendorForm.ApprovedDate = DateTime.Now;
@@ -204,5 +226,24 @@ namespace DGSWeb.Controllers
             await _userManager.AddToRoleAsync(user, "Moderator");
             return RedirectToAction("Registered");
         }
+
+
+
+
+        #region Helpers
+
+        //private IActionResult RedirectToLocal(string returnUrl)
+        //{
+        //    if (Url.IsLocalUrl(returnUrl))
+        //    {
+        //        return Redirect(returnUrl);
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction(nameof(AccountController.Login), "Account");
+        //    }
+        //}
+
+        #endregion
     }
 }

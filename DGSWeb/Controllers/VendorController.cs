@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DGSWeb.Email;
 using DGSWeb.ViewModels;
 using Generic.Dapper.Interfaces;
 using Generic.Dapper.UnitOfWork;
@@ -43,6 +45,8 @@ namespace DGSWeb.Controllers
         private readonly IRepository<TblSubContractedServices> _subContractedServicesRepository;
         private readonly IRepository<TblSubContractedDetails> _subContractedDetailsRepository;
         private readonly IRepository<TblForeignCompany> _foreignCompanyRepository;
+        private readonly IRepository<TblBusinessExperience> _businessExperienceRepository;
+
         //private readonly IRepository<TblBusinessContinuityPolicy> _businessContinuityPolicyRepository;
         //private readonly IRepository<TblKnowledgeDgssysytems> _knowledgeDgssystemsRepository;
         private readonly IRepository<TblProductEquipmentService> _productEquipmentServiceRepository;
@@ -61,7 +65,8 @@ namespace DGSWeb.Controllers
         private readonly IRepository<TblCorpSocialResponsibility> _corpSocialResponsiblityRepository;
         private readonly IRepository<TblVendorRegFormApproval> _vendorRegFormApprovalRepository;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly IGeneralUnitOfWork generalUnitOfWork;
+        private readonly IGeneralUnitOfWork _generalUnitOfWork;
+        private readonly IEmailSender _emailSender;
 
         public VendorController(
             IRepository<TblCountry> countryRepository,
@@ -88,7 +93,7 @@ namespace DGSWeb.Controllers
             IRepository<TblSubContractedServices> subContractedServicesRepository,
             IRepository<TblSubContractedDetails> subContractedDetailsRepository,
             IRepository<TblForeignCompany> foreignCompanyRepository,
-            //IRepository<TblBusinessContinuityPolicy> businessContinuityPolicyRepository,
+            IRepository<TblBusinessExperience> businessExperienceRepository,
             //IRepository<TblKnowledgeDgssysytems> knowledgeDgssystemsRepository,
             IRepository<TblProductEquipmentService> productEquipmentServiceRepository,
             IRepository<TblMainCustomers> mainCustomersRepository,
@@ -106,7 +111,8 @@ namespace DGSWeb.Controllers
             IRepository<TblCorpSocialResponsibility> corpSocialResponsiblityRepository,
             IRepository<TblVendorRegFormApproval> vendorRegFormApprovalRepository,
             IWebHostEnvironment hostingEnvironment,
-            IGeneralUnitOfWork generalUnitOfWork
+            IGeneralUnitOfWork generalUnitOfWork,
+            IEmailSender emailSender
             )
         {
             _countryRepository = countryRepository;
@@ -133,6 +139,7 @@ namespace DGSWeb.Controllers
             _subContractedServicesRepository = subContractedServicesRepository;
             _subContractedDetailsRepository = subContractedDetailsRepository;
             _foreignCompanyRepository = foreignCompanyRepository;
+            _businessExperienceRepository = businessExperienceRepository;
             //_businessContinuityPolicyRepository = businessContinuityPolicyRepository;
             //_knowledgeDgssystemsRepository = knowledgeDgssystemsRepository;
             _productEquipmentServiceRepository = productEquipmentServiceRepository;
@@ -151,7 +158,8 @@ namespace DGSWeb.Controllers
             _corpSocialResponsiblityRepository = corpSocialResponsiblityRepository;
             _vendorRegFormApprovalRepository = vendorRegFormApprovalRepository;
             _hostingEnvironment = hostingEnvironment;
-            this.generalUnitOfWork = generalUnitOfWork;
+            _generalUnitOfWork = generalUnitOfWork;
+            _emailSender = emailSender;
         }
 
 
@@ -166,7 +174,16 @@ namespace DGSWeb.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            //var returnUrl = "/Vendor/VendorFormList";
+
+            if (claim == null)
+            {
+                return RedirectToAction("Login","Account");
+            }
+
             var userEmail = claim.Value;
+
+            
 
             var vendorListModel = _vendorRegFormApprovalRepository.Find(f => f.VendorUsername == userEmail );
 
@@ -175,7 +192,20 @@ namespace DGSWeb.Controllers
 
 
 
-        public IActionResult VendorFormView(int id)
+        //private IActionResult RedirectToLocal(string returnUrl)
+        //{
+        //    if (Url.IsLocalUrl(returnUrl))
+        //    {
+        //        return Redirect(returnUrl);
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction(nameof(AccountController.Login), "Account");
+        //    }
+        //}
+
+
+        public IActionResult VendorFormQuery(int id)
         {
             var vendor = _vendorRegFormApprovalRepository.GetById(id);
             //var formIdentification = _formIdentificationRepository.GetById(vendor.id)
@@ -186,10 +216,312 @@ namespace DGSWeb.Controllers
                 //Products = _productsRepository.GetAll().ToList(),
                 Cities = _cityRepository.GetAll().ToList(),
                 Services = _servicesRepository.GetAll().ToList(),
-                Departments = _departmentsRepository.GetAll().ToList()
+                Departments = _departmentsRepository.GetAll().ToList(),
+                VendorApprovalId = vendor.VendorApprovalId,
+                SupplierId = vendor.SupplierId,
+                ApprovedBy = vendor.ApprovedBy,
+                // fill in form identification details
+                FormId = vendor.FormId,
+                VendorUsername = vendor.VendorUsername,
+                FormIdentificationName = vendor.FormIdentificationName,
+                FormIdentificationPosition = vendor.FormIdentificationPosition,
+                FormIdentificationPhoneNumber = vendor.FormIdentificationPhoneNumber,
+                FormIdentificationWorkPhoneNumber = vendor.FormIdentificationWorkPhoneNumber,
+                FormIdentificationEmailAddress = vendor.FormIdentificationEmailAddress,
+                FormIdentificationDate = vendor.FormIdentificationDate,                
+                CompanyIsForeign = vendor.VendorIsForeign.GetValueOrDefault(),
+                SupplierIdentificationCAC = vendor.VendorCorporateAffairsCommisionNo,
+                SupplierIdentificationCompanyName = vendor.VendorCompanyName,
+                SupplierIdentificationSubsidiaryCompanyName1 = vendor.SubsidiaryCompanyName,
+                SupplierIdentificationHeadOfficeAddress = vendor.VendorHeadOfficeAddress,
+                SupplierIdentificationCompanyRegNumber = vendor.VendorCompanyRegistrationNumber,
+                MainContactPersonName = vendor.MainContactPersonName,
+                MainContactPosition = vendor.MainContactPersonPosition,
+                MainContactPhoneNumber = vendor.MainContactPersonPhone,
+                MainContactWorkPhoneNumber = vendor.MainContactPersonWorkPhone,
+                MainContactEmailAddress = vendor.MainContactPersonEmail,
+                //SupplierIdentificationBankReference = ApprovalUploadFile(vendor.BankReference),
+                TprName = vendor.ThirdPartyRefName,
+                TprAddress = vendor.ThirdPartyRefOrgAddress,
+                TprPhoneNumber = vendor.ThirdPartyRefContactNo,
+                TprEmailAddress = vendor.ThirdPartyRefEmail,
+                //VendorCompanyProfile = ApprovalUploadFile(vendor.SupplierIdentificationCompanyProfile),
+                SupplierIdentificationCompanyWebsiteUrl = vendor.VendorCompanyWebsiteAddress,
+                NatureOfBusiness = vendor.VendorNatureofBusiness,
+                DateofCreation = vendor.VendorCompanyDateofCreation,
+                MainShareholder1 = vendor.OwnershipMainShareholders,
+                Shareholding1 = vendor.PercentageShareholding.GetValueOrDefault(),
+                //OwnershipNationality = _countryRepository.GetById(model.SupplierOwnershipCountryId1.GetValueOrDefault(0)).CountryName ?? "none",
+                //SupplierOwnershipCountryId1= vendor.OwnershipNationality.GetValueOrDefault(0).ToString(),
+                MaterialsName1 = vendor.DirectServiceScopeMaterials,
+                SubCategoryId1 = vendor.DirectServiceScopeSubCategories,
+                ProductName1 = vendor.TypicalSubContractedScopeProducts,
+                TypicalSubConName1 = vendor.TypicalSubContractedScopeName,
+                TypicalSubConAddress1 = vendor.TypicalSubContractedScopeAddress,
+                //TypicalSubConCountryId1 = vendor.TypicalSubContractedScopeNationality.GetValueOrDefault(0).ToString(),
+                //TypicalSubContractedScopeNationality = _countryRepository.GetById(model.TypicalSubConCountryId1.GetValueOrDefault(0)).CountryName ?? "none",
+                TypicalSubConIsLocal1 = vendor.TypicalSubContractedScopeIsLocal.GetValueOrDefault(),
+                //CyMfgFfCityId1 = vendor.CyMfgFfCityId1.ToString(),
+                //Cymfgffcity = _cityRepository.GetById(model.CyMfgFfCityId1.GetValueOrDefault(0)).CityName ?? null,
+                CyMfgFfPlantsEquipmentType1 = vendor.CymfgffplantEquipmentType,
+                CyMfgFfPlantsEquipmentNumber1 = vendor.CymfgffplantEquipmentNumber.GetValueOrDefault(),
+                CyMfgFfUtilization1 = vendor.Cymfgffutilization,
+                CyMfgFfFactoryArea1 = vendor.CymfgfffactoryArea.GetValueOrDefault(),
+                SpServices1 = vendor.SpdirectServiceScopeService,
+                SpDssDescription1 = vendor.SpdirectServiceScopeServiceDetails,
+                //OfficeServClCityId1 = vendor.SpofficeServiceCenterCity.GetValueOrDefault(0).ToString(),
+                //SpofficeServiceCenterCity = _cityRepository.GetById(model.OfficeServClCityId1.GetValueOrDefault(0)).CityName ?? null,
+                //OfficeServClCountryId1 = vendor.SpofficeServiceCenterCountry.GetValueOrDefault(0).ToString(),
+                //SpofficeServiceCenterCountry = _countryRepository.GetById(model.OfficeServClCountryId1.GetValueOrDefault(0)).CountryName ?? null,
+                SubConServiceName = vendor.SpsubContractedServices,
+                SubConPercentageOutsourced = vendor.SpsubContractedServicesPercOutsourced.GetValueOrDefault(),
+                SubConName = vendor.SpsubContractorName,
+                SubConAddress = vendor.SpsubContractorAddress,
+                //SubConCountryId = vendor.SpsubContractorNationality.GetValueOrDefault(0).ToString(),
+                //SpsubContractorNationality = _countryRepository.GetById(model.SubConCountryId.GetValueOrDefault(0)).CountryName ?? null,
+                IsLocal = vendor.SpsubContractorIsLocal.GetValueOrDefault(),
+                ForeignCompanyName = vendor.AdforeignCompanyName,
+                ProductSupplied = vendor.AdforeignCompanyProductSupplied,
+                //AdforeignCompanyStatus = model.StatusList.Where(x => x.Value == model.Status.ToString()).FirstOrDefault().Text,
+                Others = vendor.AdforeignCompanyOther,
+                //VendorOrganizationChart = ApprovalUploadFile(vendor.SupplierProfileOrganizationCharts),
+                //VendorMissionVisionStatement = ApprovalUploadFile(vendor.SupplierProfileMissionVisionStatement),
+                //BusinessContinuityPolicy = ApprovalUploadFile(model.BizConPolicy),
+                //BusinessExFinancialTurnover = int.Parse(vendor.FinancialTurnOver),
+                //BusinessExContinuityPolicy = ApprovalUploadFile(vendor.BizConPolicy),
+                HasBusinessConPolicy = vendor.BusinessExHasContinuityPolicy,
+                CompanyWorkedWith1 = vendor.BusinessExCompanyWorkedWith,
+                TimeFrame1 = vendor.BusinessExTimeFrame,
+                ScopeCovered1 = vendor.BusinessExScopeCovered,
+                KDGSStartDate = vendor.BusinessExRegistrationDate,
+                //BusinessExTransactionReference = ApprovalUploadFile(vendor.TransactionReference1),
+                KDGSContractNumber = vendor.KnowledgeofDgssystemsContractNo,
+                ProdEquSerDescription = vendor.KnowledgeofDgssystemsProdEquServ,
+               // = vendor.KnowledgeofDgssystemsStartDate,
+                //KnowledgeofDgssystemsDgsref = vendor.Dgsref,
+                //VendorMainCustomerName = vendor.CustomerName,
+                //VendorMainCustomerCountry = vendor.CustomerCountryId.ToString(),
+                //VendorMainCustomerCountry = _countryRepository.GetById(model.CustomerCountryId).CountryName,
+                //VendorMainCustomerProductService = model.KDGSSType.Where(x => x.Value == model.KDGSProdEquSerId.ToString()).FirstOrDefault().Text,
+                //VendorMainCustomerProductService = _productEquipmentServiceRepository.GetById(model.ProdEquSerType).Description,
+                //VendorMainCustomerValueYear = int.Parse((model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text).Split("-")[1]),
+                //VendorMainCustomerValue = model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text,
+                //VendorCompanyDepartment = _departmentsRepository.GetAll().ToList()[0].DepartmentName,
+                //VendorCompanyNoofStaff = vendor.NoOfEmployees1,
+                //VendorCompanyNoofContractStaff = vendor.NoOfContractEmp1,
+                //VendorCompanyNoofExpatriates = vendor.NoOfExpatriates1,
+                //CodeofConduct = ApprovalUploadFile(vendor.CodeOfConduct),
+                //StaffTrainingPolicy = ApprovalUploadFile(vendor.StaffPolicy),
+                //StaffTrainingPolicyThirdPartyAudit = ApprovalUploadFile(vendor.ThirdPartySocAudit),
+                //FinancialStatementYear1 = ApprovalUploadFile(vendor.FinancialStatement1),
+                //FinancialStatementYear2 = ApprovalUploadFile(vendor.FinancialStatement2),
+                //FinancialStatementYear3 = ApprovalUploadFile(vendor.FinancialStatement3),
+                AuditorName = vendor.FinancialAuditorName,
+                AuditorAddress = vendor.FinancialAuditorAddress,
+                AuditorContactNumber = vendor.FinancialAuditorContactNumber,
+                IsListed = vendor.IsListedStockMarket,
+                //QualityPolicy = ApprovalUploadFile(vendor.QualityPolicy),
+                //ProductQualityManagement = ApprovalUploadFile(vendor.ProductQualMgt),
+                //QualityManagement = ApprovalUploadFile(vendor.QualityMgt),
+                QualManagerName = vendor.QualityManagerName,
+                QualManagerEmail = vendor.QualityManagerEmail,
+                QualManagerPhoneNumber = vendor.QualityManagerPhoneNumber,
+                QualManagerWorkPhoneNumber = vendor.QualityManagerWorkPhoneNo,
+                QualManagerFax = vendor.QualityManagerFaxNumber,
+                NameofCertificate = vendor.QualityCertificationName,
+                CertOrgName = vendor.QualityCertificationCertOrganization,
+                ValidityDate = vendor.QualityCertficationValidityDate?? null,
+                //HealthSafetyEnvironmentPolicy = ApprovalUploadFile(vendor.Hsepolicy),
+                //HsethirdPartyAudit = ApprovalUploadFile(vendor.HseThirdPartyAudit),
+                HseManagerName = vendor.HsemanagerName,
+                HseManagerEmail = vendor.HsemanagerEmail,
+                HsePhoneNumber = vendor.HsephoneNumber,
+                HseWorkPhoneNumber = vendor.HseworkPhoneNumber,
+                HseFax = vendor.HsefaxNumber,
+                //HsecompanyKpi = ApprovalUploadFile(vendor.HseCompanyKpi),
+                //HsecompanyYearN1results = ApprovalUploadFile(vendor.HseYearN1results),
+                //HsestaffTrainingPolicy = ApprovalUploadFile(vendor.HseStaffTraining),
+                HseNameofCertificate = vendor.HsecertificationName,
+                HseCertOrgName = vendor.HsecertificationCertAuthority,
+                HseValidityDate = vendor.HsecertficationValidityDate ?? null,
+                Details1 = vendor.CorporateDistinctives,
+                //CsrsocRespEthHumanLaborLaws = ApprovalUploadFile(vendor.SrethHumanLaborLaws ?? null),
+                //VendorThirdPartySocialAudit = ApprovalUploadFile(vendor.ThirdPartySocAudit),
+                //VendorFraudMalpracticePolicy = ApprovalUploadFile(vendor.FraudMalpracticePolicy),
+                //ApprovalStatus = 0
+
+
+
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult VendorQueryUpdate (VendorFormViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                model.Countries = _countryRepository.GetAll().ToList();
+                model.Cities = _cityRepository.GetAll().ToList();
+                model.Services = _servicesRepository.GetAll().ToList();
+                model.Departments = _departmentsRepository.GetAll().ToList();
+
+                model.ModelError = "Form details need to be supplied Correctly";
+
+
+                return View(model);
+            }
+
+            //var vendor = _vendorRegFormApprovalRepository.GetById(model.VendorApprovalId);
+            //vendor.VendorApprovalId = model.VendorApprovalId;
+
+            var vendor = new TblVendorRegFormApproval
+            {
+                VendorApprovalId = model.VendorApprovalId,
+                SupplierId = model.SupplierId,
+                // fill in form identification details
+                FormId = model.FormId,
+                VendorUsername = model.VendorUsername,
+                ApprovedBy = model.ApprovedBy,
+                FormIdentificationName = model.FormIdentificationName,
+                FormIdentificationPosition = model.FormIdentificationPosition,
+                FormIdentificationPhoneNumber = model.FormIdentificationPhoneNumber,
+                FormIdentificationWorkPhoneNumber = model.FormIdentificationWorkPhoneNumber,
+                FormIdentificationEmailAddress = model.FormIdentificationEmailAddress,
+                FormIdentificationDate = model.FormIdentificationDate,
+                VendorIsForeign = model.CompanyIsForeign,
+                VendorCompanyName = model.SupplierIdentificationCompanyName,
+                SubsidiaryCompanyName = model.SupplierIdentificationSubsidiaryCompanyName1,
+                VendorHeadOfficeAddress = model.SupplierIdentificationHeadOfficeAddress,
+                VendorCompanyRegistrationNumber = model.SupplierIdentificationCompanyRegNumber,
+                MainContactPersonName = model.MainContactPersonName,
+                MainContactPersonPosition = model.MainContactPosition,
+                MainContactPersonPhone = model.MainContactPhoneNumber,
+                MainContactPersonWorkPhone = model.MainContactWorkPhoneNumber,
+                MainContactPersonEmail = model.MainContactEmailAddress,
+                BankReference = ApprovalUploadFile(model.SupplierIdentificationBankReference),
+                ThirdPartyRefName = model.TprName,
+                ThirdPartyRefOrgAddress = model.TprAddress,
+                ThirdPartyRefContactNo = model.TprPhoneNumber,
+                ThirdPartyRefEmail = model.TprEmailAddress,
+                VendorCompanyProfile = ApprovalUploadFile(model.SupplierIdentificationCompanyProfile),
+                VendorCompanyWebsiteAddress = model.SupplierIdentificationCompanyWebsiteUrl,
+                VendorNatureofBusiness = model.NatureOfBusiness,
+                VendorCompanyDateofCreation = model.DateofCreation,
+                OwnershipMainShareholders = model.MainShareholder1,
+                PercentageShareholding = model.Shareholding1,
+                //OwnershipNationality = _countryRepository.GetById(model.SupplierOwnershipCountryId1.GetValueOrDefault(0)).CountryName ?? "none",
+                OwnershipNationality = model.SupplierOwnershipCountryId1.GetValueOrDefault(0).ToString(),
+                DirectServiceScopeMaterials = model.MaterialsName1,
+                DirectServiceScopeSubCategories = model.SubCategoryId1,
+                TypicalSubContractedScopeProducts = model.ProductName1,
+                TypicalSubContractedScopeName = model.TypicalSubConName1,
+                TypicalSubContractedScopeAddress = model.TypicalSubConAddress1,
+                TypicalSubContractedScopeNationality = model.TypicalSubConCountryId1.GetValueOrDefault(0).ToString(),
+                //TypicalSubContractedScopeNationality = _countryRepository.GetById(model.TypicalSubConCountryId1.GetValueOrDefault(0)).CountryName ?? "none",
+                TypicalSubContractedScopeIsLocal = model.TypicalSubConIsLocal1,
+                Cymfgffcity = model.CyMfgFfCityId1.ToString(),
+                //Cymfgffcity = _cityRepository.GetById(model.CyMfgFfCityId1.GetValueOrDefault(0)).CityName ?? null,
+                CymfgffplantEquipmentType = model.CyMfgFfPlantsEquipmentType1,
+                CymfgffplantEquipmentNumber = model.CyMfgFfPlantsEquipmentNumber1,
+                Cymfgffutilization = model.CyMfgFfUtilization1,
+                CymfgfffactoryArea = model.CyMfgFfFactoryArea1,
+                SpdirectServiceScopeService = model.SpServices1,
+                SpdirectServiceScopeServiceDetails = model.SpDssDescription1,
+                SpofficeServiceCenterCity = model.OfficeServClCityId1.GetValueOrDefault(0).ToString(),
+                //SpofficeServiceCenterCity = _cityRepository.GetById(model.OfficeServClCityId1.GetValueOrDefault(0)).CityName ?? null,
+                SpofficeServiceCenterCountry = model.OfficeServClCountryId1.GetValueOrDefault(0).ToString(),
+                //SpofficeServiceCenterCountry = _countryRepository.GetById(model.OfficeServClCountryId1.GetValueOrDefault(0)).CountryName ?? null,
+                SpsubContractedServices = model.SubConServiceName,
+                SpsubContractedServicesPercOutsourced = model.SubConPercentageOutsourced,
+                SpsubContractorName = model.SubConName,
+                SpsubContractorAddress = model.SubConAddress,
+                SpsubContractorNationality = model.SubConCountryId.GetValueOrDefault(0).ToString(),
+                //SpsubContractorNationality = _countryRepository.GetById(model.SubConCountryId.GetValueOrDefault(0)).CountryName ?? null,
+                SpsubContractorIsLocal = model.IsLocal,
+                AdforeignCompanyName = model.ForeignCompanyName,
+                AdforeignCompanyProductSupplied = model.ProductSupplied,
+                //AdforeignCompanyStatus = model.StatusList.Where(x => x.Value == model.Status.ToString()).FirstOrDefault().Text,
+                AdforeignCompanyOther = model.Others,
+                VendorOrganizationChart = ApprovalUploadFile(model.SupplierProfileOrganizationCharts),
+                VendorMissionVisionStatement = ApprovalUploadFile(model.SupplierProfileMissionVisionStatement),
+                //BusinessContinuityPolicy = ApprovalUploadFile(model.BizConPolicy),
+                BusinessExFinancialTurnover = int.Parse(model.FinancialTurnOver),
+                BusinessExContinuityPolicy = ApprovalUploadFile(model.BizConPolicy),
+                BusinessExHasContinuityPolicy = model.HasBusinessConPolicy,
+                BusinessExCompanyWorkedWith = model.CompanyWorkedWith1,
+                BusinessExTimeFrame = model.TimeFrame1,
+                BusinessExScopeCovered = model.ScopeCovered1,
+                BusinessExRegistrationDate = model.KDGSStartDate,
+                BusinessExTransactionReference = ApprovalUploadFile(model.TransactionReference1),
+                KnowledgeofDgssystemsContractNo = model.KDGSContractNumber,
+                KnowledgeofDgssystemsProdEquServ = model.ProdEquSerDescription,
+                KnowledgeofDgssystemsStartDate = model.KDGSStartDate,
+                KnowledgeofDgssystemsDgsref = model.Dgsref,
+                VendorMainCustomerName = model.CustomerName,
+                VendorMainCustomerCountry = model.CustomerCountryId.ToString(),
+                //VendorMainCustomerCountry = _countryRepository.GetById(model.CustomerCountryId).CountryName,
+                //VendorMainCustomerProductService = model.KDGSSType.Where(x => x.Value == model.KDGSProdEquSerId.ToString()).FirstOrDefault().Text,
+                //VendorMainCustomerProductService = _productEquipmentServiceRepository.GetById(model.ProdEquSerType).Description,
+                //VendorMainCustomerValueYear = int.Parse((model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text).Split("-")[1]),
+                //VendorMainCustomerValue = model.MainCustomersValue.Where(x => x.Value == model.ValueId.ToString()).FirstOrDefault().Text,
+                VendorCompanyDepartment = _departmentsRepository.GetAll().ToList()[0].DepartmentName,
+                VendorCompanyNoofStaff = model.NoOfEmployees1,
+                VendorCompanyNoofContractStaff = model.NoOfContractEmp1,
+                VendorCompanyNoofExpatriates = model.NoOfExpatriates1,
+                CodeofConduct = ApprovalUploadFile(model.CodeOfConduct),
+                StaffTrainingPolicy = ApprovalUploadFile(model.StaffPolicy),
+                StaffTrainingPolicyThirdPartyAudit = ApprovalUploadFile(model.ThirdPartySocAudit),
+                FinancialStatementYear1 = ApprovalUploadFile(model.FinancialStatement1),
+                FinancialStatementYear2 = ApprovalUploadFile(model.FinancialStatement2),
+                FinancialStatementYear3 = ApprovalUploadFile(model.FinancialStatement3),
+                FinancialAuditorName = model.AuditorName,
+                FinancialAuditorAddress = model.AuditorAddress,
+                FinancialAuditorContactNumber = model.AuditorContactNumber,
+                IsListedStockMarket = model.IsListed,
+                QualityPolicy = ApprovalUploadFile(model.QualityPolicy),
+                ProductQualityManagement = ApprovalUploadFile(model.ProductQualMgt),
+                QualityManagement = ApprovalUploadFile(model.QualityMgt),
+                QualityManagerName = model.QualManagerName,
+                QualityManagerEmail = model.QualManagerEmail,
+                QualityManagerPhoneNumber = model.QualManagerPhoneNumber,
+                QualityManagerWorkPhoneNo = model.QualManagerWorkPhoneNumber,
+                QualityManagerFaxNumber = model.QualManagerFax,
+                QualityCertificationName = model.NameofCertificate,
+                QualityCertificationCertOrganization = model.CertOrgName,
+                QualityCertficationValidityDate = model.ValidityDate ?? null,
+                HealthSafetyEnvironmentPolicy = ApprovalUploadFile(model.Hsepolicy),
+                HsethirdPartyAudit = ApprovalUploadFile(model.HseThirdPartyAudit),
+                HsemanagerName = model.HseManagerName,
+                HsemanagerEmail = model.HseManagerEmail,
+                HsephoneNumber = model.HsePhoneNumber,
+                HseworkPhoneNumber = model.HseWorkPhoneNumber,
+                HsefaxNumber = model.HseFax,
+                HsecompanyKpi = ApprovalUploadFile(model.HseCompanyKpi),
+                HsecompanyYearN1results = ApprovalUploadFile(model.HseYearN1results),
+                HsestaffTrainingPolicy = ApprovalUploadFile(model.HseStaffTraining),
+                HsecertificationName = model.HseNameofCertificate,
+                HsecertificationCertAuthority = model.HseCertOrgName,
+                HsecertficationValidityDate = model.HseValidityDate ?? null,
+                CorporateDistinctives = model.Details1,
+                CsrsocRespEthHumanLaborLaws = ApprovalUploadFile(model.SrethHumanLaborLaws ?? null),
+                VendorThirdPartySocialAudit = ApprovalUploadFile(model.ThirdPartySocAudit),
+                VendorFraudMalpracticePolicy = ApprovalUploadFile(model.FraudMalpracticePolicy),
+                ApprovalStatus = 3,
+                
+            };
+
+            
+
+            _vendorRegFormApprovalRepository.Update(vendor);
+
+            string adminUpdateEmail = "Queried Vendor Form with id " +model.VendorApprovalId + " has been updated";
+
+            _emailSender.SendEmailAsync(model.ApprovedBy, "Vendor Form Query Update", adminUpdateEmail);
+
+            return RedirectToAction("VendorFormList");
         }
 
 
@@ -214,7 +546,17 @@ namespace DGSWeb.Controllers
         [HttpPost]
         public IActionResult Form(VendorFormViewModel model)
         {
-            if(!ModelState.IsValid)
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            if (claim == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var userEmail = claim.Value;
+
+
+            if (!ModelState.IsValid)
             {
                 model.Countries = _countryRepository.GetAll().ToList();
                 model.Cities = _cityRepository.GetAll().ToList();
@@ -296,6 +638,7 @@ namespace DGSWeb.Controllers
                 CompanyName = model.SupplierIdentificationCompanyName,
                 CorporateAffairsCommisionNo = model.SupplierIdentificationCAC,
                 HeadOfficeAddress = model.SupplierIdentificationHeadOfficeAddress,
+                SupplierIsForeign = model.CompanyIsForeign,
                 CompanyRegNumber = model.SupplierIdentificationCompanyRegNumber,
                 ContactPersonId = _contactPersonsRepository.GetById(contactPersons.ContactPersonId).ContactPersonId,
                 BankReference = UploadFile(model.SupplierIdentificationBankReference),
@@ -915,6 +1258,8 @@ namespace DGSWeb.Controllers
                 //
             };
 
+            _businessExperienceRepository.Create(businessExperience);
+
             //var businessContinuityPolicy = new TblBusinessContinuityPolicy
             //{
             //    HasBizConPolicy = model.HasBizConPolicy,
@@ -1274,9 +1619,7 @@ namespace DGSWeb.Controllers
 
             // Vendor Reg Form Approval
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
-            var userEmail = claim.Value;
+           
 
 
             var vendorRegApprovalForm = new TblVendorRegFormApproval
@@ -1290,6 +1633,8 @@ namespace DGSWeb.Controllers
                 FormIdentificationPhoneNumber = model.FormIdentificationPhoneNumber,
                 FormIdentificationWorkPhoneNumber = model.FormIdentificationWorkPhoneNumber,
                 FormIdentificationEmailAddress = model.FormIdentificationEmailAddress,
+                FormIdentificationDate = model.FormIdentificationDate,
+                VendorIsForeign = model.CompanyIsForeign,
                 VendorCompanyName = model.SupplierIdentificationCompanyName,
                 SubsidiaryCompanyName = model.SupplierIdentificationSubsidiaryCompanyName1,
                 VendorHeadOfficeAddress = model.SupplierIdentificationHeadOfficeAddress,
@@ -1519,6 +1864,36 @@ namespace DGSWeb.Controllers
             return returnUrl;
         }
 
+        public IActionResult VendorFormDetails(int id)
+        {
+            var vendor = _vendorRegFormApprovalRepository.GetById(id);
+            //var formIdentification = _formIdentificationRepository.GetById(vendor.id)
+            var model = new FormViewVendorModel
+            {
+                VendorForm = vendor
+            };
+
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Download(string filename)
+        {
+            if (filename == null)
+                return Content("filename not present");
+
+            var path = Path.Combine(
+                           Directory.GetCurrentDirectory(),
+                           "wwwroot\\approvaluploads\\", filename);
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, MediaTypeNames.Application.Octet, Path.GetFileName(path));
+        }
 
     }
 }

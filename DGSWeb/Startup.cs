@@ -44,7 +44,7 @@ namespace DGSWeb
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
                 options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             services.AddControllersWithViews();

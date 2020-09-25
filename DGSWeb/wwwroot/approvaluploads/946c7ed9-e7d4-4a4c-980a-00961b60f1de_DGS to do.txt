@@ -1,0 +1,7 @@
+DGS Application
+
+Work To be done
+consume stored procedure for disapproval,
+format email template,
+improve pages UI(admin)
+fix javascript page navigation glitch

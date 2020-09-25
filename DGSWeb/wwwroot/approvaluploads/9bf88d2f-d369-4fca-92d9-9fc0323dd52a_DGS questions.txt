@@ -1,0 +1,12 @@
+Add UserEmail property to TblVendorRegFormApproval
+Add All countries in coutry table
+Make country and city properties in TblVendorRegFormApproval integers
+
+
+1. Is there a list of Subcategory known for it to be a drop down
+1.2 Shoould the CAC be number or file upload
+2. Quality Policy(should quality personnel info be mandatory as well)
+3.Hse policy(should HSE personnel info be mandatory as well)
+
+
+// write code for creating subsidiary companies

@@ -1,15 +1,17 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Generic.Data.Models
-@using DGSWeb.ViewModels
-@model VendorFormViewModel
-
-@{
-    ViewBag.Title = "Vendor Registration Page";
+﻿@{
+    ViewBag.Title = " Vendor Form Page";
     Layout = "";
 }
 
 
-<html lang="en">
+@using DGSWeb.ViewModels
+@using Generic.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model VendorFormViewModel
+
+
+
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="~/css/vendor/form.css">
@@ -31,10 +33,26 @@
         }
     </script>
 </head>
-<body translate="no">
 
+<div class="body">
 
-    <form asp-controller="Vendor" asp-action="Form"  method="post" class="multistep-form" enctype="multipart/form-data">
+    <div style="display:none;">
+        <div class="card-body">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myAreaChart" width="1080" height="323" style="display: block; height: 259px; width: 864px;" class="chartjs-render-monitor"></canvas>
+        </div>
+
+        <div class="col-sm-8 my-auto">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myBarChart" width="447" height="223" class="chartjs-render-monitor" style="display: block; height: 179px; width: 358px;"></canvas>
+        </div>
+        <div class="card-body">
+            <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+            <canvas id="myPieChart" width="300" height="300" class="chartjs-render-monitor" style="display: block; height: 240px; width: 240px;"></canvas>
+        </div>
+    </div>
+
+    <form asp-controller="Vendor" asp-action="VendorQueryUpdate" method="post" class="multistep-form" style="margin-bottom:0 !important;" enctype="multipart/form-data">
         <ul class="progressbar">
             <li class="active">Form Identification</li>
             <li class="">Supplier Identification</li>
@@ -53,7 +71,7 @@
             <h3 class="fs-subtitle">This is step 1 of 9</h3>
             @*<div asp-validation-summary="" class="text-danger mt-4">
 
-        </div>*@
+                </div>*@
             @if (Model.ModelError != "")
             {
                 <div class="" style="margin-bottom:20px;color:red;">
@@ -176,15 +194,15 @@
                     </div>
                     @*<label for="applicationEmail" class="form-label">Email</label>*@
                     @*<div id="validation">
-                    <span asp-validation-for="CompanyIsForeign" class="text-danger" style="color:red; font-size:small;"></span>
-                </div>*@
+                            <span asp-validation-for="CompanyIsForeign" class="text-danger" style="color:red; font-size:small;"></span>
+                        </div>*@
                 </div>
                 <div class=" col-1-of-2 custom-file">
                     <!--asp-for tag helper is set to "SupplierIdentificationTaxClearanceCertificate" property.
-                   "SupplierIdentificationTaxClearanceCertificate" property type is IFormFile
-                   so at runtime asp.net core generates file upload control (input type=file). To
-                   support multiple files upload include multiple attribute on the input element
-            -->
+                           "SupplierIdentificationTaxClearanceCertificate" property type is IFormFile
+                           so at runtime asp.net core generates file upload control (input type=file). To
+                           support multiple files upload include multiple attribute on the input element
+                    -->
                     <div>
                         <div style="text-align:start !important;">
                             <label class="custom-file-label" style="">Tax Clearance Certificate*</label>
@@ -1558,12 +1576,12 @@
                 </div>
 
                 @*<div class="col-1-of-2">
-                <div class="" style="text-align:start !important;margin-bottom:5px;">
-                    <label asp-for="KDGSContractNumber" class="form-label">Contract Number</label>
-                </div>
-                <input asp-for="KDGSContractNumber" class="form-input" placeholder=" Contract Number">
-                <div id="validation"><span asp-validation-for="KDGSContractNumber" class="text-danger"></span></div>
-            </div>*@
+                        <div class="" style="text-align:start !important;margin-bottom:5px;">
+                            <label asp-for="KDGSContractNumber" class="form-label">Contract Number</label>
+                        </div>
+                        <input asp-for="KDGSContractNumber" class="form-input" placeholder=" Contract Number">
+                        <div id="validation"><span asp-validation-for="KDGSContractNumber" class="text-danger"></span></div>
+                    </div>*@
                 <div class="col-1-of-2">
                     <div style="text-align:start !important;">
                         <label style="font-size:small;" asp-for="FinancialTurnOver">Financial Turnover*</label>
@@ -1585,21 +1603,21 @@
 
 
                 @*<div class="col-1-of-2">
-                <div style="text-align:start !important;">
-                    <label style="font-size:medium;" asp-for="ProdEquSerType">Product/Equipment/Service</label>
-                </div>
+                        <div style="text-align:start !important;">
+                            <label style="font-size:medium;" asp-for="ProdEquSerType">Product/Equipment/Service</label>
+                        </div>
 
-                @if (Model != null)
-                {
-                    <div style="text-align:start !important;">
-                        <select asp-for="ProdEquSerType" asp-items="Model.KDGSSType.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
-                            <option value="">-Select-</option>
-                        </select>
-                    </div>
+                        @if (Model != null)
+                        {
+                            <div style="text-align:start !important;">
+                                <select asp-for="ProdEquSerType" asp-items="Model.KDGSSType.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                                    <option value="">-Select-</option>
+                                </select>
+                            </div>
 
-                }
-                <div id="validation"><span asp-validation-for="ProdEquSerType" class="text-danger"></span></div>
-            </div>*@
+                        }
+                        <div id="validation"><span asp-validation-for="ProdEquSerType" class="text-danger"></span></div>
+                    </div>*@
 
             </div>
             <div id="genericBusinessExperience">
@@ -1645,74 +1663,74 @@
 
             </div>
             @*<div style="justify-content:end;">
-            <button class="btn-warning btn-block addExperience" style="background-color:royalblue;" >Add Experience</button><br><br>
-        </div>*@
+                    <button class="btn-warning btn-block addExperience" style="background-color:royalblue;" >Add Experience</button><br><br>
+                </div>*@
             @*<div style="text-align:start !important;">
-            <label class="custom-file-label m-0 p-0" style="font-size:small;">Product/Equipment/Service description</label>
-        </div>
-        <textarea asp-for="ProdEquSerDescription" placeholder="Description"></textarea>
-        <div id="validation"><span asp-validation-for="ProdEquSerDescription" class="text-danger"></span></div>
-        <div class="row-form">
-            <div class="col-1-of-2">
-                <div style="text-align:start !important;">
-                    <label class="custom-file-label m-0 p-0" style="font-size:small;">Customer Name</label>
+                    <label class="custom-file-label m-0 p-0" style="font-size:small;">Product/Equipment/Service description</label>
                 </div>
-                <input asp-for="CustomerName" class="form-input"  placeholder="Customer Name">
-                <div id="validation"><span asp-validation-for="CustomerName" class="text-danger"></span></div>
-            </div>
-            <div class="col-1-of-2">
-                <div style="text-align:start !important;">
-                    <label style="font-size:small;" asp-for="CustomerCountryId">Customer Country</label>
-                </div>
+                <textarea asp-for="ProdEquSerDescription" placeholder="Description"></textarea>
+                <div id="validation"><span asp-validation-for="ProdEquSerDescription" class="text-danger"></span></div>
+                <div class="row-form">
+                    <div class="col-1-of-2">
+                        <div style="text-align:start !important;">
+                            <label class="custom-file-label m-0 p-0" style="font-size:small;">Customer Name</label>
+                        </div>
+                        <input asp-for="CustomerName" class="form-input"  placeholder="Customer Name">
+                        <div id="validation"><span asp-validation-for="CustomerName" class="text-danger"></span></div>
+                    </div>
+                    <div class="col-1-of-2">
+                        <div style="text-align:start !important;">
+                            <label style="font-size:small;" asp-for="CustomerCountryId">Customer Country</label>
+                        </div>
 
-                @if (Model != null)
-                {
-                    <div style="text-align:start !important;">
-                        <select asp-for="CustomerCountryId" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
-                            <option value="">-Select-</option>
-                        </select>
+                        @if (Model != null)
+                        {
+                            <div style="text-align:start !important;">
+                                <select asp-for="CustomerCountryId" asp-items="Model.Countries.Select(x => new SelectListItem() { Value = x.CountryId.ToString(), Text = x.CountryName });">
+                                    <option value="">-Select-</option>
+                                </select>
+                            </div>
+
+                        }
+                    <div id="validation"><span asp-validation-for="CustomerCountryId" class="text-danger"></span></div>
                     </div>
 
-                }
-            <div id="validation"><span asp-validation-for="CustomerCountryId" class="text-danger"></span></div>
-            </div>
-
-        </div>*@
+                </div>*@
             @*<div class="row-form">
-            <div class="col-1-of-2">
-                <div style="text-align:start !important;">
-                    <label style="font-size:small;" asp-for="CustomerProdEquSerId">Customer Product/Service</label>
-                </div>
+                    <div class="col-1-of-2">
+                        <div style="text-align:start !important;">
+                            <label style="font-size:small;" asp-for="CustomerProdEquSerId">Customer Product/Service</label>
+                        </div>
 
-                @if (Model != null)
-                {
-                    <div style="text-align:start !important;">
-                        <select asp-for="CustomerProdEquSerId" asp-items="Model.MainCustomersType.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
-                            <option value="">-Select-</option>
-                        </select>
+                        @if (Model != null)
+                        {
+                            <div style="text-align:start !important;">
+                                <select asp-for="CustomerProdEquSerId" asp-items="Model.MainCustomersType.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                                    <option value="">-Select-</option>
+                                </select>
+                            </div>
+
+                        }
+                    <div id="validation"><span asp-validation-for="CustomerProdEquSerId" class="text-danger"></span></div>
+                    </div>
+                    <div class="col-1-of-2">
+                        <div style="text-align:start !important;">
+                            <label style="font-size:small;" asp-for="ValueId">Product/Equipment/Service</label>
+                        </div>
+
+                        @if (Model != null)
+                        {
+                            <div style="text-align:start !important;">
+                                <select asp-for="ValueId" asp-items="Model.MainCustomersValue.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
+                                    <option value="">-Select-</option>
+                                </select>
+                            </div>
+
+                        }
+                    <div id="validation"><span asp-validation-for="ValueId" class="text-danger"></span></div>
                     </div>
 
-                }
-            <div id="validation"><span asp-validation-for="CustomerProdEquSerId" class="text-danger"></span></div>
-            </div>
-            <div class="col-1-of-2">
-                <div style="text-align:start !important;">
-                    <label style="font-size:small;" asp-for="ValueId">Product/Equipment/Service</label>
-                </div>
-
-                @if (Model != null)
-                {
-                    <div style="text-align:start !important;">
-                        <select asp-for="ValueId" asp-items="Model.MainCustomersValue.Select(x => new SelectListItem() { Value = x.Value, Text = x.Text });">
-                            <option value="">-Select-</option>
-                        </select>
-                    </div>
-
-                }
-            <div id="validation"><span asp-validation-for="ValueId" class="text-danger"></span></div>
-            </div>
-
-        </div>*@
+                </div>*@
 
             <input type="button" name="previous" class="previous action-button" value="Supplier Profile - Step 3">
             <input type="button" name="next" class="next action-button" value="Continue to step 5">
@@ -1730,11 +1748,11 @@
                 </div>
             }
             @*@{
-            var departmentList = new List<TblDepartments>();
-            Model.Departments = departmentList;
+                    var departmentList = new List<TblDepartments>();
+                    Model.Departments = departmentList;
 
 
-        }*@
+                }*@
 
 
 
@@ -2173,14 +2191,14 @@
             <div class="row-form">
                 @*<div class="col-1-of-2">
 
-                <div class="" style="text-align:start !important;margin-bottom:5px;">
-                    <label asp-for="IsListed" class="form-label">Is the company Listed in a stock Market</label>
-                </div>
-                <div class="" style="text-align:start !important; margin-left:15px;">
-                    <input asp-for="IsListed" class="form-input" style="height:25px;width:25px;" id="applicationMiddleInitial" placeholder=" SubContractor Address">
-                </div>
+                        <div class="" style="text-align:start !important;margin-bottom:5px;">
+                            <label asp-for="IsListed" class="form-label">Is the company Listed in a stock Market</label>
+                        </div>
+                        <div class="" style="text-align:start !important; margin-left:15px;">
+                            <input asp-for="IsListed" class="form-input" style="height:25px;width:25px;" id="applicationMiddleInitial" placeholder=" SubContractor Address">
+                        </div>
 
-            </div>*@
+                    </div>*@
                 <div class="col-1-of-2">
                     <div class="" style="text-align:start !important;margin-bottom:5px;">
                         <label class="custom-file-label" asp-for="IsListed">Is the company Listed in a stock Market ?</label>
@@ -2520,8 +2538,8 @@
                     </div>
                     <div class="custom-file" style="text-align:start !important;">
                         @*  asp-for tag helper is set to "Uplads" property. "Uploads" property type is IFormFile
-                    so at runtime asp.net core generates file upload control (input type=file). To
-                    support multiple files upload include multiple attribute on the input element
+                            so at runtime asp.net core generates file upload control (input type=file). To
+                            support multiple files upload include multiple attribute on the input element
                         *@
                         <input asp-for="SrethHumanLaborLaws" id="file" multiple class="custom-file-input form-control">
                         @*<label class="custom-file-label">Click here to add document file</label>*@
@@ -2534,8 +2552,13 @@
             <textarea asp-for="Details1" placeholder="Corporate Distinctive Details"></textarea>
             <div id="validation"><span asp-validation-for="Details1" class="text-danger"></span></div>
 
+            @Html.HiddenFor(m => m.VendorApprovalId)
+            @Html.HiddenFor(m => m.SupplierId)
+            @Html.HiddenFor(m => m.FormId)
+            @Html.HiddenFor(m => m.VendorUsername)
+            @Html.HiddenFor(m => m.ApprovedBy)
             <input type="button" name="previous" class="previous action-button" value="HSE - Step 8">
-            <input type="submit" class=" action-button" value="Submit">
+            <input type="submit" class=" action-button" value="Update">
             @*<input type="button" name="next" class="next action-button" value="Continue to step 10">*@
         </fieldset>
         <!--====================================================Corporate Distinctive(END)======================================================================-->
@@ -2556,15 +2579,6 @@
         <!--====================================================Corporate Social Responsibility======================================================================-->
     </form>
 
-    @section Scripts {
-
-        @*To render validation error*@
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-        @*Atrribute Compare validation*@
-        @*<script type="text/javascript" src="~/lib/aspnetcore-custom-validation/aspnetcore-custom-validation.min.js"></script>*@
-
-    }
 
 
     <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
@@ -2573,6 +2587,7 @@
     <script src="~/js/vendor/form.js"></script>
 
 
+</div>
 
-</body>
-</html>
+
+
